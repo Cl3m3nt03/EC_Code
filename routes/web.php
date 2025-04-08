@@ -12,6 +12,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\MistralController;
 use App\Services\MistralService;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GroupeController;
 
 // Redirect the root path to /dashboard
 Route::redirect('/', 'dashboard');
@@ -57,5 +58,6 @@ Route::get('/mistral-test', function (MistralService $mistral) {
     $result = $mistral->generateText($prompt);
     return nl2br(e($result));
 });
+Route::post('/groupes', [GroupeController::class, 'store'])->name('groupes.store');
 
 require __DIR__.'/auth.php';

@@ -35,25 +35,40 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="POST" action="{{ route('groupes.store') }}">
+                    @csrf
                     <label class="label">Nom du Groupe</label>
-                    <input class="input" placeholder="Text input" type="text" value="" />
-                    <label class="label">Selectionnez Promotion</label>
-                    <select class="select" name="select">
-                        <option value="1">
-                            Option 1
-                        </option>
-                        <option value="2">
-                            Option 2
-                        </option>
-                        <option value="3">
-                            Option 3
-                        </option>
+                    <input class="input" name="nom" placeholder="Nom du groupe" type="text" required />
+
+                    <label class="label">Sélectionnez Promotion</label>
+                    <select class="select" name="promotion" required>
+                        <option value="TP A">TP A</option>
+                        <option value="TP B">TP B</option>
+                        <option value="TP C">TP C</option>
                     </select>
 
-                    <button type="submit" class="btn btn-primary">Créer le Groupe</button>
+                    <button type="submit" class="btn btn-primary mt-4">Créer le Groupe</button>
                 </form>
             </div>
         </div>
+    </div>
+    @if (session('success'))
+    <div class="alert alert-success mt-4">
+        {{ session('success') }}
+    </div>
+    @endif
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+        @foreach (\App\Models\Groupe::all() as $groupe)
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title text-lg font-bold">{{ $groupe->nom }}</h4>
+            </div>
+            <div class="card-body">
+                <p class="text-sm text-gray-700">Promotion : {{ $groupe->promotion }}</p>
+                <p class="text-xs text-gray-500">Créé le {{ $groupe->created_at->format('d/m/Y') }}</p>
+            </div>
+        </div>
+        @endforeach
     </div>
 </x-app-layout>
