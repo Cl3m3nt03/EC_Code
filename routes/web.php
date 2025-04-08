@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
 });
 // Mistral API
 Route::get('/mistral-test', function (MistralService $mistral) {
-    $prompt = "Pourquoi j'aime beacoup le PHP ?\n";
+    $prompt = "Dit moi le president de la France";
     $result = $mistral->generateText($prompt);
     return nl2br(e($result));
 });
