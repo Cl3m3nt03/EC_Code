@@ -9,6 +9,8 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\MistralController;
+use App\Services\MistralService;
 use Illuminate\Support\Facades\Route;
 
 // Redirect the root path to /dashboard
@@ -45,8 +47,15 @@ Route::middleware('auth')->group(function () {
 
         // Common life
         Route::get('common-life', [CommonLifeController::class, 'index'])->name('common-life.index');
-    });
 
+    });
+    
+});
+// Mistral API
+Route::get('/mistral-test', function (MistralService $mistral) {
+    $prompt = "Pourquoi j'aime beacoup le PHP ?\n";
+    $result = $mistral->generateText($prompt);
+    return nl2br(e($result));
 });
 
 require __DIR__.'/auth.php';
