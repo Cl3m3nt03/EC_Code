@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Promotion;
 use Illuminate\Database\Eloquent\Model;
 
 class Promotion extends Model
@@ -13,5 +13,4 @@ class Promotion extends Model
     public function users() {
         return $this->hasMany(User::class);
     }
-    
 }

@@ -15,7 +15,7 @@ class GroupeController extends Controller
     {
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
-            'promotion' => 'required|string|max:255',
+            'promotion_id' => 'required|exists:promotions,id',
         ]);
     
         Groupe::create($validated);
@@ -55,7 +55,7 @@ class GroupeController extends Controller
 {
     $groupe = Groupe::findOrFail($id);
     $groupe->nom = $request->nom;
-    $groupe->promotion = $request->promotion;
+    $groupe->promotion_id = $request->promotion_id;
     $groupe->save();
 
     return redirect()->back()->with('success', 'Groupe modifié avec succès.');

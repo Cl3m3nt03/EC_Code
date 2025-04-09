@@ -35,20 +35,20 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('groupes.store') }}">
-                    @csrf
-                    <label class="label">Nom du Groupe</label>
-                    <input class="input" name="nom" placeholder="Nom du groupe" type="text" required />
+            <form method="POST" action="{{ route('groupes.store') }}">
+                @csrf
+                <label class="label">Nom du Groupe</label>
+                <input class="input" name="nom" placeholder="Nom du groupe" type="text" required />
 
-                    <label class="label">Sélectionnez Promotion</label>
-                    <select class="select" name="promotion" required>
-                        <option value="TP A">TP A</option>
-                        <option value="TP B">TP B</option>
-                        <option value="TP C">TP C</option>
-                    </select>
+                <label class="label">Sélectionnez Promotion</label>
+                <select class="select" name="promotion_id" required>
+                    @foreach (\App\Models\Promotion::all() as $promotion)
+                        <option value="{{ $promotion->id }}">{{ $promotion->nom }}</option>
+                    @endforeach
+                </select>
 
-                    <button type="submit" class="btn btn-primary mt-4">Créer le Groupe</button>
-                </form>
+                <button type="submit" class="btn btn-primary mt-4">Créer le Groupe</button>
+            </form>
             </div>
         </div>
     </div>
@@ -95,10 +95,10 @@
                                 <input class="input" name="nom" value="{{ $groupe->nom }}" placeholder="Nom du groupe" type="text" required />
 
                                 <label class="label">Sélectionnez Promotion</label>
-                                <select class="select" name="promotion" required>
-                                    <option value="TP A" @selected($groupe->promotion == 'TP A')>TP A</option>
-                                    <option value="TP B" @selected($groupe->promotion == 'TP B')>TP B</option>
-                                    <option value="TP C" @selected($groupe->promotion == 'TP C')>TP C</option>
+                                <select class="select" name="promotion_id" required>
+                                    @foreach (\App\Models\Promotion::all() as $promotion)
+                                        <option value="{{ $promotion->id }}">{{ $promotion->nom }}</option>
+                                    @endforeach
                                 </select>
 
                                 <button type="submit" class="btn btn-primary mt-4">Modifier</button>
