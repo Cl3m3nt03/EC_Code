@@ -15,15 +15,15 @@ return new class extends Migration
             $table->engine = 'InnoDB';
 
             $table->id();
+            $table->foreignId('promotion_id')->nullable()->constrained('promotions')->onDelete('set null');
+            $table->foreignId('groupe_id')->nullable()->constrained('groupes')->onDelete('set null');
             $table->string('last_name');
             $table->string('first_name');
             $table->string('birth_date')->nullable()->default(null);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('rules')->default(0);
             $table->integer('skill_assessment')->default(0);
-            $table->string('promotion')->default('none');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -84,4 +84,13 @@ class User extends Authenticatable
             ->withPivot('role')
             ->first();
     }
+    
+
+    public function promotion() {
+        return $this->belongsTo(Promotion::class);
+    }
+
+    public function groupe() {
+        return $this->belongsTo(Groupe::class);
+    }
 }

@@ -22,8 +22,6 @@ class DatabaseSeeder extends Seeder
             'first_name'    => 'Admin',
             'email'         => 'admin@codingfactory.com',
             'password'      => Hash::make('123456'),
-            'rules'        => 1,
-            'promotion'     => 'none',
         ]);
 
         $teacher = User::create([
@@ -31,8 +29,6 @@ class DatabaseSeeder extends Seeder
             'first_name'    => 'Teacher',
             'email'         => 'teacher@codingfactory.com',
             'password'      => Hash::make('123456'),
-            'rules'        => 2,
-            'promotion'     => 'none',
         ]);
 
         $user = User::create([
@@ -40,9 +36,6 @@ class DatabaseSeeder extends Seeder
             'first_name'    => 'Student',
             'email'         => 'student@codingfactory.com',
             'password'      => Hash::make('123456'),
-            'rules'        => 3,
-            'skill_assessment' => 14,
-            'promotion'     => 'B1 2027',
         ]);
 
         // Create the default school

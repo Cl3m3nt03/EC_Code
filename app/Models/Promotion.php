@@ -4,15 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Groupe extends Model
+class Promotion extends Model
 {
-    protected $fillable = ['nom', 'promotion'];
-
-    public function promotion() {
-        return $this->belongsTo(Promotion::class);
+    public function groupes() {
+        return $this->hasMany(Groupe::class);
     }
     
     public function users() {
         return $this->hasMany(User::class);
     }
+    
 }
