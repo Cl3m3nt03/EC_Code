@@ -63,6 +63,9 @@ Route::get('/mistral-test', function (MistralService $mistral) {
 Route::group(['middleware' => ['web']], function () {
     Route::delete('/groupes/{id}', [GroupeController::class, 'destroy'])->name('groupes.destroy');
     Route::post('/groupes', [GroupeController::class, 'store'])->name('groupes.store');
+    Route::get('/groupes/{id}', [GroupeController::class, 'edit'])->name('groupes.edit');
+    Route::put('/groupes/{id}', [GroupeController::class, 'update'])->name('groupes.update');
+
 });
 
 require __DIR__.'/auth.php';

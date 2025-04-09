@@ -68,16 +68,45 @@
                 <p class="text-sm text-gray-700">Promotion : {{ $groupe->promotion }}</p>
                 <p class="text-xs text-gray-500">Créé le {{ $groupe->created_at->format('d/m/Y') }}</p>
             </div>
-            <form method="POST" action="{{ route('groupes.destroy', $groupe->id) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce groupe ?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-outline btn-danger">Supprimer</button>
-            </form>
-            <form method="POST">
-                @csrf
-                @method('PUT')
-                <button type="submit" class="btn btn-outline btn-warning">Modifier</button>
-            </form>
+            <div>
+                <form method="POST" action="{{ route('groupes.destroy', $groupe->id) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce groupe ?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-outline btn-danger">Supprimer</button>
+                </form>
+                <button class="btn btn-outline btn-warning" data-modal-toggle="#modal_2_2">Modifier</button>
+                <div class="modal" data-modal="true" id="modal_2_2">
+                    <div class="modal-content max-w-[600px] top-[20%]">
+                        <div class="modal-header">
+                            <h3 class="modal-title">
+                                Modifier Groupe
+                            </h3>
+                            <button class="btn btn-xs btn-icon btn-light" data-modal-dismiss="true">
+                                <i class="ki-outline ki-cross">
+                                </i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <<form method="POST" action="{{ route('groupes.update', $groupe->id) }}">
+                                @csrf
+                                @method('PUT')
+
+                                <label class="label">Nom du Groupe</label>
+                                <input class="input" name="nom" value="{{ $groupe->nom }}" placeholder="Nom du groupe" type="text" required />
+
+                                <label class="label">Sélectionnez Promotion</label>
+                                <select class="select" name="promotion" required>
+                                    <option value="TP A" @selected($groupe->promotion == 'TP A')>TP A</option>
+                                    <option value="TP B" @selected($groupe->promotion == 'TP B')>TP B</option>
+                                    <option value="TP C" @selected($groupe->promotion == 'TP C')>TP C</option>
+                                </select>
+
+                                <button type="submit" class="btn btn-primary mt-4">Modifier</button>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         @endforeach
     </div>

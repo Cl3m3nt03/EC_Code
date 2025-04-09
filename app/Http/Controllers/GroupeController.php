@@ -35,4 +35,29 @@ class GroupeController extends Controller
     
         return redirect()->back()->with('success', 'Groupe supprimé avec succès.');
     }
+
+    /**
+     * Function for editing a group
+     * @param int $id
+     */
+    public function edit($id)
+    {
+        $groupe = Groupe::findOrFail($id);
+        return view('groupes.edit', compact('groupe'));
+    }
+
+    /**
+     * Function to update a group
+     * @param Request $request
+     * @param int $id
+     */
+    public function update(Request $request, $id)
+{
+    $groupe = Groupe::findOrFail($id);
+    $groupe->nom = $request->nom;
+    $groupe->promotion = $request->promotion;
+    $groupe->save();
+
+    return redirect()->back()->with('success', 'Groupe modifié avec succès.');
+}
 }
