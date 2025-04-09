@@ -22,4 +22,17 @@ class GroupeController extends Controller
     
         return redirect()->back()->with('success', 'Groupe créé avec succès.');
     }
+
+    /**
+     * Function to delete a group
+     * @param Request $request
+     * @param int $id
+     */
+    public function destroy($id)
+    {
+        $groupe = Groupe::findOrFail($id);
+        $groupe->delete();
+    
+        return redirect()->back()->with('success', 'Groupe supprimé avec succès.');
+    }
 }

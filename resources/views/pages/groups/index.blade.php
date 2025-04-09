@@ -68,6 +68,16 @@
                 <p class="text-sm text-gray-700">Promotion : {{ $groupe->promotion }}</p>
                 <p class="text-xs text-gray-500">Créé le {{ $groupe->created_at->format('d/m/Y') }}</p>
             </div>
+            <form method="POST" action="{{ route('groupes.destroy', $groupe->id) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce groupe ?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-outline btn-danger">Supprimer</button>
+            </form>
+            <form method="POST">
+                @csrf
+                @method('PUT')
+                <button type="submit" class="btn btn-outline btn-warning">Modifier</button>
+            </form>
         </div>
         @endforeach
     </div>

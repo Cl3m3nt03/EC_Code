@@ -58,6 +58,11 @@ Route::get('/mistral-test', function (MistralService $mistral) {
     $result = $mistral->generateText($prompt);
     return nl2br(e($result));
 });
-Route::post('/groupes', [GroupeController::class, 'store'])->name('groupes.store');
+
+//groups
+Route::group(['middleware' => ['web']], function () {
+    Route::delete('/groupes/{id}', [GroupeController::class, 'destroy'])->name('groupes.destroy');
+    Route::post('/groupes', [GroupeController::class, 'store'])->name('groupes.store');
+});
 
 require __DIR__.'/auth.php';
