@@ -76,44 +76,50 @@ class GroupeController extends Controller
                  throw new \Exception("Erreur JSON après extraction : " . json_last_error_msg());
              }
      
-             // Check if not double group
              $groups = [];
-             $addedStudents = [];  // Tableau pour suivre les étudiants déjà ajoutés
+             $addedStudents = [];  
      
              foreach ($decoded as $group) {
                  $groupMembers = [];
                  foreach (explode(', ', $group['membres'][0]) as $member) {
-                     $studentName = explode(' ', $member)[0]; // Extraire le nom de l'étudiant
-                     // Vérifie si l'étudiant n'est pas déjà dans le tableau des étudiants ajoutés
+                     $studentName = explode(' ', $member)[0]; 
+                     // Checks that the student is not already in the table of added students
                      if (!in_array($studentName, $addedStudents)) {
                          $groupMembers[] = $member;
                          $addedStudents[] = $studentName;
                      }
                  }
      
-                 // On ajoute le groupe à la liste uniquement si des membres ont été ajoutés
                  if (!empty($groupMembers)) {
-                     $group['membres'] = $groupMembers;  // Supprimer le tableau imbriqué et mettre directement les membres
+                     $group['membres'] = $groupMembers;
                      $groups[] = $group;
                  }
              }
      
              // Insert group into database
              foreach ($groups as $group) {
-                 $groupRecord = Groupe::create([
-                     'nom' => $group['groupe'],
-                     'promotion_id' => $validated['promotion_id'],
-                 ]);
-     
-                 foreach ($group['membres'] as $member) {
-                     $studentName = explode(' ', $member)[0];
-                     $student = User::where('last_name', $studentName)->first();
-     
-                     if ($student) {
-                         $groupRecord->users()->save($student);
-                     }
-                 }
-             }
+                $groupRecord = Groupe::create([
+                    'nom' => $group['groupe'],
+                    'promotion_id' => $validated['promotion_id'],
+                ]);
+            
+                foreach ($group['membres'] as $member) {
+                    $studentName = explode(' ', $member)[0];
+                    $student = User::where('last_name', $studentName)->first();
+            
+                    if ($student) {
+                        $alreadyInGroup = $student->groupes()
+                            ->wherePivot('promotion_id', $validated['promotion_id'])
+                            ->exists();
+            
+                        if (!$alreadyInGroup) {
+                            $groupRecord->users()->attach($student->id, [
+                                'promotion_id' => $validated['promotion_id']
+                            ]);
+                        }
+                    }
+                }
+            }
      
              return response()->json($groups);
      

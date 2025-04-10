@@ -90,7 +90,10 @@ class User extends Authenticatable
         return $this->belongsTo(Promotion::class);
     }
 
-    public function groupe() {
-        return $this->belongsTo(Groupe::class);
+    public function groupes()
+    {
+        return $this->belongsToMany(Groupe::class)
+            ->withPivot('promotion_id')
+            ->withTimestamps();
     }
 }
