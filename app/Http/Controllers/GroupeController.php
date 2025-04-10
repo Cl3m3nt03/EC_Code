@@ -33,18 +33,16 @@ class GroupeController extends Controller
              return "{$student->last_name} (Skill: {$student->skill_assessment}, Promotion ID: {$validated['promotion_id']}, Tentacles: {$validated['tentacles']})";
          })->join(', ');
      
-         //Build the prompt
+         // Build the prompt
          $prompt = "Here is the list of students from the selected promotion: {$studentList}. Each student has a skill level represented by the attribute skill_assessment (a number between 1 and 20, where 1 is the lowest and 20 is the highest). 
-     
          Your task is to create homogeneous groups of students by following these steps:
-         
          1. Shuffle the students based on their skill level (skill_assessment).
          2. Divide the students into multiple groups, strictly respecting the maximum size of {$validated['tentacles']} students per group.
          3. Ensure that each group contains a balance between skill levels:
-            - Strong: Students with a skill_assessment greater than or equal to 10.
-            - Weak: Students with a skill_assessment less than 10.
-            - For example, in a group of {$validated['tentacles']} students, there should be a balanced distribution of strong and weak students (e.g., 2 strong and 1 weak for a group of 3).
-         4. If the total number of students does not allow for complete groups, create a final group with the remaining students. This group must also respect a balanced distribution (e.g., 1 strong and 1 weak for a group of 2).
+             - Strong: Students with a skill_assessment greater than or equal to 10.
+             - Weak: Students with a skill_assessment less than 10.
+             - For example, in a group of {$validated['tentacles']} students, there should be a balanced distribution of strong and weak students (e.g., 2 strong and 1 weak for a group of 3).
+         4. If the total number of students does not allow for complete groups (i.e., not a multiple of {$validated['tentacles']}), create groups with the maximum possible size. If you can't divide them evenly, create smaller groups to ensure the balance remains.
          5. Maintain this balance to ensure diversity in all groups.
          
          IMPORTANT:
@@ -64,7 +62,7 @@ class GroupeController extends Controller
          ]";
      
          try {
-                // Call the Mistral API
+             // Call the Mistral API
              $result = $mistral->generateText($prompt);
              preg_match('/\[\s*{.*}\s*]/s', $result, $matches);
      
@@ -77,29 +75,41 @@ class GroupeController extends Controller
              if (json_last_error() !== JSON_ERROR_NONE) {
                  throw new \Exception("Erreur JSON après extraction : " . json_last_error_msg());
              }
+     
              // Check if not double group
              $groups = [];
+             $addedStudents = [];  // Tableau pour suivre les étudiants déjà ajoutés
+     
              foreach ($decoded as $group) {
-                 if (!in_array($group, $groups)) {
-                     $group['membres'] = [implode(', ', $group['membres'])];
+                 $groupMembers = [];
+                 foreach (explode(', ', $group['membres'][0]) as $member) {
+                     $studentName = explode(' ', $member)[0]; // Extraire le nom de l'étudiant
+                     // Vérifie si l'étudiant n'est pas déjà dans le tableau des étudiants ajoutés
+                     if (!in_array($studentName, $addedStudents)) {
+                         $groupMembers[] = $member;
+                         $addedStudents[] = $studentName;
+                     }
+                 }
+     
+                 // On ajoute le groupe à la liste uniquement si des membres ont été ajoutés
+                 if (!empty($groupMembers)) {
+                     $group['membres'] = $groupMembers;  // Supprimer le tableau imbriqué et mettre directement les membres
                      $groups[] = $group;
                  }
              }
      
-                // Inset group into database
+             // Insert group into database
              foreach ($groups as $group) {
-
                  $groupRecord = Groupe::create([
                      'nom' => $group['groupe'],
                      'promotion_id' => $validated['promotion_id'],
                  ]);
      
-                 foreach (explode(', ', $group['membres'][0]) as $member) {
-                     $studentName = explode(' ', $member)[0]; // Extraire le nom de l'étudiant
-                     $student = User::where('last_name', $studentName)->first(); // Trouver l'étudiant par son nom
+                 foreach ($group['membres'] as $member) {
+                     $studentName = explode(' ', $member)[0];
+                     $student = User::where('last_name', $studentName)->first();
      
                      if ($student) {
-                        //add student to group
                          $groupRecord->users()->save($student);
                      }
                  }
@@ -111,6 +121,7 @@ class GroupeController extends Controller
              return redirect()->back()->with('error', "Erreur lors de l'appel à l'API : " . $e->getMessage());
          }
      }
+     
 
     /**
      * Function to delete a group
