@@ -46,7 +46,9 @@
                         <option value="{{ $promotion->id }}">{{ $promotion->nom }}</option>
                     @endforeach
                 </select>
-
+                <label class="label">Sélectionnez Le nombre d'élèves</label>
+                <div>
+                <input type="number" id="tentacles" name="tentacles" min="1" max="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Entre 1 et 4" required/></div>
                 <button type="submit" class="btn btn-primary mt-4">Créer le Groupe</button>
             </form>
             </div>
@@ -100,7 +102,6 @@
                                         <option value="{{ $promotion->id }}">{{ $promotion->nom }}</option>
                                     @endforeach
                                 </select>
-
                                 <button type="submit" class="btn btn-primary mt-4">Modifier</button>
                                 </form>
                         </div>

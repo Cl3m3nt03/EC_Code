@@ -12,11 +12,11 @@ class MistralService
     {
         $response = Http::withToken(env('MISTRAL_API_KEY'))
             ->post($this->endpoint, [
-                'model' => 'mistral-tiny', // ou mistral-small, mistral-medium
+                'model' => 'mistral-tiny',
                 'messages' => [
                     ['role' => 'user', 'content' => $prompt],
                 ],
-                'temperature' => 0.7,
+                'temperature' => 0.4,
             ]);
 
         if ($response->successful()) {

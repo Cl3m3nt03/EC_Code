@@ -52,12 +52,7 @@ Route::middleware('auth')->group(function () {
     });
     
 });
-// Mistral API
-Route::get('/mistral-test', function (MistralService $mistral) {
-    $prompt = "Dit moi le president de la France";
-    $result = $mistral->generateText($prompt);
-    return nl2br(e($result));
-});
+
 
 //groups
 Route::group(['middleware' => ['web']], function () {
