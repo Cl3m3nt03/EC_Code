@@ -159,6 +159,22 @@ class GroupeController extends Controller
     }
 
     /**
+    * Function to destroy all groups
+    * @param Request $request
+    */
+    function destroyAll(Request $request)
+    {
+        $groupe = Groupe::where('promotion_id', $request->promotion_id)->get();
+        foreach ($groupe as $g) {
+            $g->delete();
+            // delete usee in the pivot table
+            $g->users()->detach();
+        }
+
+        return redirect()->back()->with('success', 'Tous les groupes ont été supprimés avec succès.');
+    }
+
+    /**
      * Function for editing a group
      * @param int $id
      */

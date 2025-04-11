@@ -72,7 +72,7 @@
                 <p class="text-sm text-gray-700">Membres :</p>
                 <ul class="text-sm text-gray-700">
                     @foreach ($groupe->users as $user)
-                    <li>{{ $user->first_name }} {{ $user->last_name }}</li>
+                    <li>{{ $user->first_name }} {{ $user->last_name }} {{ $user->skill_assessment }}</li>
                     @endforeach
                 </ul>
 
@@ -111,5 +111,10 @@
             </div>
         </div>
         @endforeach
+        <form method="POST" action="{{ route('groupes.destroyAll', $groupe->id) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce groupe ?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-outline btn-danger">Supprimer tout</button>
+        </form>
     </div>
 </x-app-layout>
