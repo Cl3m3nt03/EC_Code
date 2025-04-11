@@ -13,9 +13,10 @@ class Groupe extends Model
     }
     
     public function users()
-    {
-        return $this->belongsToMany(User::class)
-            ->withPivot('promotion_id')
-            ->withTimestamps();
-    }
+{
+    return $this->belongsToMany(User::class)
+                ->withPivot('promotion_id')
+                ->withTimestamps();
+}
+
 }

@@ -93,7 +93,8 @@ class User extends Authenticatable
     public function groupes()
     {
         return $this->belongsToMany(Groupe::class)
-            ->withPivot('promotion_id')
-            ->withTimestamps();
+                    ->withPivot('promotion_id') // Si tu utilises un champ supplémentaire dans la table pivot
+                    ->withTimestamps();
     }
+    
 }
