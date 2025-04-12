@@ -158,15 +158,6 @@ class GroupeController extends Controller
         return redirect()->back()->with('success', 'Groupe supprimé avec succès.');
     }
 
-    /**
-     * Function for editing a group
-     * @param int $id
-     */
-    public function edit($id)
-    {
-        $groupe = Groupe::findOrFail($id);
-        return view('groupes.edit', compact('groupe'));
-    }
 
     /**
      * Function to update a group

@@ -1,9 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-        <h1 class="flex items-center gap-1 text-sm font-normal">
-            <span class="text-gray-700">
+        <h1 class="flex items-center gap-5 text-sm font-normal">
+            <span class="text-gray-700 gap-5">
                 {{ __('Groupes') }}
             </span>
+            <span>Total des groupes : {{ \App\Models\Groupe::count() }}<i class="ki-outline ki-users"></i></span>
         </h1>
     </x-slot>
     <div class="card">
@@ -59,57 +60,55 @@
     @endif
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-        @foreach (\App\Models\Groupe::all() as $groupe)
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title text-lg font-bold">{{ $groupe->nom }}</h4>
+    @foreach (\App\Models\Groupe::all() as $groupe)
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title text-lg font-bold">{{ $groupe->nom }}</h4>
+        </div>
+        <div class="card-body">
+            <p class="text-sm text-gray-700">Promotion : {{ $groupe->promotion->nom }}</p>
+            <p class="text-sm text-gray-700 font-semibold mt-2">Membres :</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                @foreach ($groupe->users as $user)
+                <div class="bg-gray-100 rounded-lg p-2 text-sm text-gray-800 shadow-sm">
+                    {{ $user->first_name }} {{ $user->last_name }}
+                </div>
+                @endforeach
             </div>
-            <div class="card-body">
-                <!-- Affichage du nom de la promotion -->
-                <p class="text-sm text-gray-700">Promotion : {{ $groupe->promotion->nom }}</p>
+            <p class="text-xs text-gray-500 mt-4">Créé le {{ $groupe->created_at->format('d/m/Y') }}</p>
+        </div>
+        <div class="card-footer mt-4 flex justify-center gap-4">
+            <form method="POST" action="{{ route('groupes.destroy', $groupe->id) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce groupe ?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-outline btn-danger">Supprimer</button>
+            </form>
 
-                <!-- Affichage des utilisateurs liés au groupe -->
-                <p class="text-sm text-gray-700">Membres :</p>
-                <ul class="text-sm text-gray-700">
-                    @foreach ($groupe->users as $user)
-                    <li>{{ $user->first_name }} {{ $user->last_name }}</li>
-                    @endforeach
-                </ul>
+            <button class="btn btn-outline btn-warning" data-modal-toggle="#modal_{{ $groupe->id }}">Modifier</button>
+        </div>
 
-                <p class="text-xs text-gray-500">Créé le {{ $groupe->created_at->format('d/m/Y') }}</p>
-            </div>
-            <div>
-                <form method="POST" action="{{ route('groupes.destroy', $groupe->id) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce groupe ?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-outline btn-danger">Supprimer</button>
-                </form>
-                <button class="btn btn-outline btn-warning" data-modal-toggle="#modal_2_2">Modifier</button>
-                <div class="modal" data-modal="true" id="modal_2_2">
-                    <div class="modal-content max-w-[600px] top-[20%]">
-                        <div class="modal-header">
-                            <h3 class="modal-title">
-                                Modifier Groupe
-                            </h3>
-                            <button class="btn btn-xs btn-icon btn-light" data-modal-dismiss="true">
-                                <i class="ki-outline ki-cross">
-                                </i>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form method="POST" action="{{ route('groupes.update', $groupe->id) }}">
-                                @csrf
-                                @method('PUT')
+        <!-- Modal -->
+        <div class="modal" data-modal="true" id="modal_{{ $groupe->id }}">
+            <div class="modal-content max-w-[600px] top-[20%]">
+                <div class="modal-header">
+                    <h3 class="modal-title">Modifier Groupe</h3>
+                    <button class="btn btn-xs btn-icon btn-light" data-modal-dismiss="true">
+                        <i class="ki-outline ki-cross"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('groupes.update', $groupe->id) }}">
+                        @csrf
+                        @method('PUT')
 
-                                <label class="label">Nom du Groupe</label>
-                                <input class="input" name="nom" value="{{ $groupe->nom }}" placeholder="Nom du groupe" type="text" required />
-                                <button type="submit" class="btn btn-primary mt-4">Modifier</button>
-                            </form>
-                        </div>
-                    </div>
+                        <label class="label">Nom du Groupe</label>
+                        <input class="input" name="nom" value="{{ $groupe->nom }}" placeholder="Nom du groupe" type="text" required />
+                        <button type="submit" class="btn btn-primary mt-4">Modifier</button>
+                    </form>
                 </div>
             </div>
         </div>
-        @endforeach
     </div>
+    @endforeach
+</div>
 </x-app-layout>

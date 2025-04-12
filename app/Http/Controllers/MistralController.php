@@ -23,5 +23,7 @@ class MistralController extends Controller
 
         return response()->json($response);
     }
+
+    
 }
 
