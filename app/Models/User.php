@@ -84,6 +84,10 @@ class User extends Authenticatable
             ->withPivot('role')
             ->first();
     }
+
+    public function schoolRoles(){
+        return $this -> hasMany(UserSchool::class);
+    }
     
 
     public function promotion() {

@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
 
 
 //groups
-Route::group(['middleware' => ['web']], function () {
+Route::group(['middleware' => ['web', 'groups']], function () {
     Route::delete('/groupes/{id}', [GroupeController::class, 'destroy'])->name('groupes.destroy');
     Route::post('/groupes', [GroupeController::class, 'store'])->name('groupes.store');
     Route::get('/groupes/{id}', [GroupeController::class, 'edit'])->name('groupes.edit');
