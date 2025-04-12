@@ -7,7 +7,7 @@
             <span>Total des groupes : {{ \App\Models\Groupe::count() }}<i class="ki-outline ki-users"></i></span>
         </h1>
     </x-slot>
-    <div class="card">
+    <div class="card mb-10">
         <div class="card-header">
             <h3 class="card-title">
                 Création de Groupes
