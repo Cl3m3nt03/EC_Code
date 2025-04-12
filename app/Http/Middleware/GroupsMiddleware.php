@@ -27,6 +27,6 @@ class GroupsMiddleware
             }
         }
 
-        abort(403, 'Accès refusé : vous devez être administrateur.');
+        abort(403, 'Accès refusé : vous devez être administrateur ou bien enseignant pour accéder à cette page.');
     }
 }

@@ -72,9 +72,18 @@
                 @foreach ($groupe->users as $user)
                 <div class="bg-gray-100 rounded-lg p-2 text-sm text-gray-800 shadow-sm">
                     {{ $user->first_name }} {{ $user->last_name }}
+                    <span class="text-xs text-gray-500">({{ $user->skill_assessment }})</span>
                 </div>
                 @endforeach
             </div>
+            <!-- make Average users -->
+            <p class="text-sm text-gray-700 font-semibold mt-2">
+                Moyenne des utilisateurs : 
+                @php
+                    $averageSkill = $groupe->users->avg('skill_assessment');
+                @endphp
+                {{ number_format($averageSkill, 2) }}
+            </p>
             <p class="text-xs text-gray-500 mt-4">Créé le {{ $groupe->created_at->format('d/m/Y') }}</p>
         </div>
         <div class="card-footer mt-4 flex justify-center gap-4">
