@@ -53,23 +53,22 @@ class GroupeController extends Controller
             - Strong: Students with a skill_assessment greater than or equal to 10.
             - Weak: Students with a skill_assessment less than 10.
             - For example, in a group of {$validated['tentacles']} students, there should be a balanced distribution of strong and weak students (e.g., 2 strong and 1 weak for a group of 3).
-        4. Maintain an even distribution of the average skill level across all groups. The sum of skill_assessment for each group should be as balanced as possible. The difference between the highest and lowest average skill level across groups should not exceed 2 points.
-        5. If the total number of students does not allow for complete groups (i.e., not a multiple of {$validated['tentacles']}), create smaller groups to ensure the balance of skill levels and group averages is preserved.
-        6. Keep track of each group’s average skill level to ensure uniformity across all groups. Each group should have a similar average skill_assessment, with no group having an average skill level that deviates by more than 2 points from any other group.
+        4. If the total number of students does not allow for complete groups (i.e., not a multiple of {$validated['tentacles']}), create groups with the maximum possible size. If you can't divide them evenly, create smaller groups to ensure the balance remains.
+        5. Maintain this balance to ensure diversity in all groups.
         
         IMPORTANT:
         - Return ONLY the groups in JSON format.
-        - DO NOT include any other information such as Python code or explanations.
+        - Do NOT include any other information such as Python code or explanations.
         - The JSON MUST follow this exact structure:
-        - For example:
+        - you also have to pay attention to the average of the group you've created, and you have to pay attention to the other group averages. you don't want one group to have an average of 16 while another has 9.
+        
+        EXEMPLE 1 : 
         [
         {
-            \"groupe\": \"Groupe 1\",
-            \"membres\": [\"Nom + skill_assessment, Nom + skill_assessment, Nom + skill_assessment\"]
+            \"groupe\": \"Groupe X\",
+            \"membres\": [\"Nom + skill_assessment, Nom + skill_assessment, Nom + skill_assessment, Nom + skill_assessment\"]
         }
-        ]
-        Ensure that each group is as balanced as possible in terms of both skill level and group average. The difference between the highest and lowest average skill level of all groups must not exceed 2 points.
-        ";
+        ]";
 
         try {
             // CALL API Mistral
