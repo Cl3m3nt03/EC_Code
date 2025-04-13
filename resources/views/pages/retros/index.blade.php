@@ -1,4 +1,6 @@
 <x-app-layout>
+<script src="{{ asset('js/groups.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <x-slot name="header">
         <h1 class="flex items-center gap-1 text-sm font-normal">
             <span class="text-gray-700">
@@ -6,76 +8,46 @@
             </span>
         </h1>
     </x-slot>
-
-    <!-- jKanban CSS -->
-    <link rel="stylesheet" href="{{ asset('css/jkanban.min.css') }}">
-    
-    <!-- jKanban HTML Container -->
-    <div id="kanban" class="p-6"></div>
-
-    <!-- Scripts jKanban -->
-    <script src="{{ asset('js/jkanban.js') }}"></script>
-
-    <!-- Laravel Echo + Pusher -->
-    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.3/dist/echo.iife.js"></script>
-
-    <script>
-        // Initialiser le Kanban
-        var Kanban = new jKanban({
-            element: '#kanban',
-            boards: [
-                {
-                    id: 'todo',
-                    title: 'À faire',
-                    item: [
-                        { id: 'task-1', title: 'Tâche 1' }
-                    ]
-                },
-                {
-                    id: 'doing',
-                    title: 'En cours',
-                    item: []
-                },
-                {
-                    id: 'done',
-                    title: 'Fait',
-                    item: []
-                }
-            ],
-            dragendEl: function (el, source) {
-                let taskId = el.dataset.eid; // ID de la tâche
-                let newColumn = el.parentElement.dataset.id;
-
-                // Appel AJAX pour mettre à jour en BDD
-                fetch('/api/tasks/' + taskId + '/move', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({ column: newColumn })
-                });
-            }
-        });
-
-        // Écoute Pusher avec Echo
-        window.Echo = new Echo({
-            broadcaster: 'pusher',
-            key: '{{ env("PUSHER_APP_KEY") }}',
-            cluster: '{{ env("PUSHER_APP_CLUSTER") }}',
-            forceTLS: true
-        });
-
-        // Quand une tâche est déplacée par quelqu’un d’autre
-        Echo.channel('kanban')
-            .listen('TaskMoved', (e) => {
-                console.log('Reçu via Pusher', e);
-                Kanban.removeElement(e.task.id);
-                Kanban.addElement(e.task.column, {
-                    id: e.task.id,
-                    title: e.task.title
-                });
-            });
-    </script>
+    <div class="card mb-10">
+        <div class="card-header">
+            <h3 class="card-title">
+                Création de Groupes
+            </h3>
+        </div>
+        <div class="card-body">
+            <p class="card-text">
+                Créez des groupes de rétrospectives pour organiser vos sessions de manière efficace. Vous pouvez créer un groupe pour chaque équipe ou projet, et y ajouter des membres.
+            </p>
+        </div>
+        <div class="card-footer justify-center">
+            <button class="btn btn-success" data-modal-toggle="#modal_1_1">
+                <i class="ki-outline ki-plus-squared">
+                </i>
+                Créer un groupe
+            </button>
+        </div>
+    </div>
+    <div class="modal" data-modal="true" id="modal_1_1">
+        <div class="modal-content max-w-[600px] top-[20%]">
+            <div class="modal-header">
+                <h3 class="modal-title">Création de rétrospectives</h3>
+                <button class="btn btn-xs btn-icon btn-light" data-modal-dismiss="true">
+                    <i class="ki-outline ki-cross">
+                    </i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" id="formCreateGroup">
+                    @csrf
+                    <label class="label">Sélectionnez Promotion</label>
+                    <select class="select" name="promotion_id" required>
+                        @foreach (\App\Models\Promotion::all() as $promotion)
+                        <option value="{{ $promotion->id }}">{{ $promotion->nom }}</option>
+                        @endforeach
+                    </select>
+                    <button type="submit" class="btn btn-primary mt-4" >Créer la rétrospectives</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </x-app-layout>
