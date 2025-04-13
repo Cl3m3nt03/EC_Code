@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('retros', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->foreignId('promotion_id')->nullable()->constrained('promotions')->onDelete('set null');
             $table->timestamps();
         });
     }

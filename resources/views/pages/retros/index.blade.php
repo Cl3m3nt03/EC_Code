@@ -1,4 +1,5 @@
 <x-app-layout>
+
 <script src="{{ asset('js/groups.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <x-slot name="header">
@@ -37,17 +38,21 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" id="formCreateGroup">
-                    @csrf
-                    <label class="label">Sélectionnez Promotion</label>
-                    <select class="select" name="promotion_id" required>
-                        @foreach (\App\Models\Promotion::all() as $promotion)
-                        <option value="{{ $promotion->id }}">{{ $promotion->nom }}</option>
-                        @endforeach
-                    </select>
-                    <button type="submit" class="btn btn-primary mt-4" >Créer la rétrospectives</button>
-                </form>
+            <form method="POST" id="formCreateGroup" action="{{ route('retros.create') }}">
+                @csrf
+                <label class="label">Nom du groupe</label>
+                <input class="input" placeholder="Text input" type="text" name="name" required/>
+                <label class="label">Sélectionnez Promotion</label>
+                <select class="select" name="promotion_id" required>
+                    @foreach (\App\Models\Promotion::all() as $promotion)
+                    <option value="{{ $promotion->id }}">{{ $promotion->nom }}</option>
+                    @endforeach
+                </select>
+                <button type="submit" class="btn btn-primary mt-4">Créer la rétrospectives</button>
+            </form>
             </div>
         </div>
     </div>
+@include('pages.retros.modalDataTable')
+
 </x-app-layout>

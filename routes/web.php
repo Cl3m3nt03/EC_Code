@@ -62,4 +62,12 @@ Route::group(['middleware' => ['web', 'groups']], function () {
     Route::put('/groupes/{id}', [GroupeController::class, 'update'])->name('groupes.update');
 });
 
+// retro
+Route::group(['middleware' => ['web']], function(){
+    Route::post('/retros', [RetroController::class, 'create'])->name('retros.create');
+    Route::get('/retros/{retro}', [RetroController::class, 'show'])->name('retros.show');
+    Route::delete('/retros/{retro}', [RetroController::class, 'destroy'])->name('retros.destroy');
+
+});
+
 require __DIR__.'/auth.php';
