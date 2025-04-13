@@ -1,4 +1,6 @@
 <x-app-layout>
+    <script src="{{ asset('js/groups.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <x-slot name="header">
         <h1 class="flex items-center gap-5 text-sm font-normal">
             <span class="text-gray-700 gap-5">
@@ -36,7 +38,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('groupes.store') }}">
+                <form method="POST" action="{{ route('groupes.store') }}" id="formCreateGroup">
                     @csrf
                     <label class="label">Sélectionnez Promotion</label>
                     <select class="select" name="promotion_id" required>
@@ -48,7 +50,7 @@
                     <div>
                         <input type="number" id="tentacles" name="tentacles" min="1" max="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Entre 1 et 4" required />
                     </div>
-                    <button type="submit" class="btn btn-primary mt-4">Créer le Groupe</button>
+                    <button type="submit" class="btn btn-primary mt-4" >Créer le Groupe</button>
                 </form>
             </div>
         </div>
@@ -87,11 +89,11 @@
             <p class="text-xs text-gray-500 mt-4">Créé le {{ $groupe->created_at->format('d/m/Y') }}</p>
         </div>
         <div class="card-footer mt-4 flex justify-center gap-4">
-            <form method="POST" action="{{ route('groupes.destroy', $groupe->id) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce groupe ?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-outline btn-danger">Supprimer</button>
-            </form>
+        <form method="POST" action="{{ route('groupes.destroy', $groupe->id) }}" class="delete-form">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-outline btn-danger">Supprimer</button>
+        </form>
 
             <button class="btn btn-outline btn-warning" data-modal-toggle="#modal_{{ $groupe->id }}">Modifier</button>
         </div>
@@ -106,10 +108,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('groupes.update', $groupe->id) }}">
+                    <form method="POST" action="{{ route('groupes.update', $groupe->id) }}" class="edit-form">
                         @csrf
                         @method('PUT')
-
                         <label class="label">Nom du Groupe</label>
                         <input class="input" name="nom" value="{{ $groupe->nom }}" placeholder="Nom du groupe" type="text" required />
                         <button type="submit" class="btn btn-primary mt-4">Modifier</button>
