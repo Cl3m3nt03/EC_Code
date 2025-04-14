@@ -1,5 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
+        <label>
+            <a href="{{ route('retro.index') }}" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-arrow-left"></i> Retour à la liste des rétrospectives
+            </a>
         <h1 class="text-xl font-bold">{{ $retro->name }}</h1>
     </x-slot>
 
@@ -28,12 +32,12 @@
         var Kanban = new jKanban({
             element: '#kanban',
             boards: @json($retro->columns->map(function($col) {
-            return [
-                'id' => 'column_' . $col->id,
-                'title' => $col->name,
-                'item' => [] 
-            ];
-            })),
+                return [
+                    'id' => 'column_' . $col->id,
+                    'title' => $col->name,
+                    'item' => []
+                ];
+            })->toArray()),
 
             dragendEl: function (el, source) {
                 let taskId = el.dataset.eid; // ID de la tâche
@@ -70,5 +74,37 @@
                 });
             });
     </script>
+
+<div>
+<form method="POST" id="formCreateGroup" action="{{ route('retros.columns.create', ['retro' => $retro->id]) }}">
+    @csrf
+    <input type="hidden" name="retro_id" value="{{ $retro->id }}">
+    <label class="label">Nom de la colonne</label>
+    <input class="input" placeholder="Text input" type="text" name="name" required/> <!-- Utilisation de 'name' -->
+    <button class="btn btn-primary" data-modal-toggle="#modal_1_1">
+        <i class="ki-outline ki-plus-squared"></i>
+        crée une colonne
+    </button>
+</form>
+<label>crée une tache</label>
+<form method="POST" id="formCreateTask" action="{{ route('retros.data.create') }}">
+    @csrf
+    <label class="label">Sélectionnez une colonne</label>
+    <select class="select" name="column_id" id="columnSelect" required>
+        @foreach ($retro->columns as $column)
+            <option value="{{ $column->id }}">{{ $column->name }}</option>
+        @endforeach
+    </select>
+    <label class="label">Nom de la tâche</label>
+    <input class="input" placeholder="Nom de la tâche" type="text" name="name" required/>
+    <label class="label">Description</label>
+    <input class="input" placeholder="Description" type="text" name="description" required/>
+    <button class="btn btn-primary" type="submit" id="createTaskButton">
+        <i class="ki-outline ki-plus-squared"></i>
+        Créer une tâche
+    </button>
+</form>
+
+</div>
     
 </x-app-layout>

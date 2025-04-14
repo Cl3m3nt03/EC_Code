@@ -15,6 +15,6 @@ class Retro extends Model
 
     public function columns()
     {
-        return $this->hasMany(RetrosColumns::class);
+        return $this->hasMany(RetrosColumns::class, 'retro_id');
     }
 }

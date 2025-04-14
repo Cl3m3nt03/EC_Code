@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\RetrosData;
+use App\Models\RetrosColumns;
 
 use Illuminate\Http\Request;
 
@@ -13,18 +15,20 @@ class RetrosDataController extends Controller
      * 
      */
 
-     public function createCard(Request $request){
-        $request->validate([
-            'column_id' => 'required|integer',
-            'content' => 'required|string|max:255',
-        ]);
-    
-        $card = RetrosData::create([
-            'column_id' => $request->input('column_id'),
-            'name' => $request->input('content'), 
-            'description' => '',
-        ]);
-    
-        return response()->json(['message' => 'Card created successfully', 'card' => $card], 201);
-    }
+     public function store(Request $request)
+     {
+         $validated = $request->validate([
+             'column_id' => 'required|exists:retros_columns,id',
+             'name' => 'required|string|max:255',
+             'description' => 'required|string|max:255',
+         ]);
+     
+         RetrosData::create([
+             'column_id' => $validated['column_id'],
+             'name' => $validated['name'],
+             'description' => $validated['description'],
+         ]);
+     
+         return redirect()->back()->with('success', 'Tâche créée avec succès.');
+     }
 }

@@ -12,20 +12,16 @@ class RetrosColumnsController extends Controller
      * Retro_id is required
      * Name is required
      */
-
-     public function createColumn(Request $request)
-     {
-         $request->validate([
-             'retro_id' => 'required|integer',
-             'name' => 'required|string|max:255',
-         ]);
-
-         $request = RetrosColumns::create([
-             'retro_id' => $request->input('retro_id'),
-             'name' => $request->input('name'),
-         ]);
-
-
-         return response()->json(['message' => 'Column created successfully'], 201);
-     }
+    public function store(Request $request, \App\Models\Retro $retro)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+    
+        $retro->columns()->create([
+            'name' => $validated['name'],
+        ]);
+    
+        return redirect()->back()->with('success', 'Colonne créée avec succès.');
+    }
 }

@@ -6,13 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RetrosData extends Model
 {
-    protected $table = 'retros_data';
-
-    protected $fillable = [
-        'column_id',
-        'name',
-        'description',
-    ];
+    protected $fillable = ['column_id', 'name', 'description'];
 
     public function column()
     {
