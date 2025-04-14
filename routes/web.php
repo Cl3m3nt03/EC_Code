@@ -68,6 +68,9 @@ Route::group(['middleware' => ['web']], function(){
     Route::get('/retros/{retro}', [RetroController::class, 'show'])->name('retros.show');
     Route::delete('/retros/{retro}', [RetroController::class, 'destroy'])->name('retros.destroy');
 
+    Route::post('/retros/{retro}/columns', [RetroController::class, 'createColumn'])->name('retros.columns.create');
+    Route::post('/retros/{retro}/columns/{column}/cards', [RetroController::class, 'createCard'])->name('retros.cards.create');
+
 });
 
 require __DIR__.'/auth.php';

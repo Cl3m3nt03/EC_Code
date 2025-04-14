@@ -12,4 +12,9 @@ class Retro extends Model
     {
         return $this->belongsTo(Promotion::class);
     }
+
+    public function columns()
+    {
+        return $this->hasMany(RetrosColumns::class);
+    }
 }

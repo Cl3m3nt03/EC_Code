@@ -27,25 +27,14 @@
         // Initialiser le Kanban
         var Kanban = new jKanban({
             element: '#kanban',
-            boards: [
-                {
-                    id: 'todo',
-                    title: 'À faire',
-                    item: [
-                        { id: 'task-1', title: 'Tâche 1' }
-                    ]
-                },
-                {
-                    id: 'doing',
-                    title: 'En cours',
-                    item: []
-                },
-                {
-                    id: 'done',
-                    title: 'Fait',
-                    item: []
-                }
-            ],
+            boards: @json($retro->columns->map(function($col) {
+            return [
+                'id' => 'column_' . $col->id,
+                'title' => $col->name,
+                'item' => [] 
+            ];
+            })),
+
             dragendEl: function (el, source) {
                 let taskId = el.dataset.eid; // ID de la tâche
                 let newColumn = el.parentElement.dataset.id;

@@ -47,10 +47,14 @@ class RetroController extends Controller
      * @return Factory|View|Application|object
      */
 
-    public function show(\App\Models\Retro $retro)
-    {   
-        return view('pages.retros.show', compact('retro'));
-    }
+     public function show(\App\Models\Retro $retro)
+     {
+         $retro->load(['columns.data']);
+     
+         $columns = $retro->columns;
+     
+         return view('pages.retros.show', compact('retro', 'columns'));
+     }
     
     /**
      * Function to delete a retro
