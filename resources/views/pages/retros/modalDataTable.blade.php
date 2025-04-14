@@ -100,28 +100,15 @@
         </tr>
         @endforeach
        </tr>
-       <tr>
-         <a class="btn btn-sm btn-icon btn-clear btn-light" href="#">
-          <i class="ki-outline ki-notepad-edit">
-          </i>
-         </a>
-        </td>
-        <td>
-         <a class="btn btn-sm btn-icon btn-clear btn-light" href="#">
-          <i class="ki-outline ki-trash">
-          </i>
-         </a>
-        </td>
-       </tr>
       </tbody>
      </table>
     </div>
     <div class="card-footer justify-center md:justify-between flex-col md:flex-row gap-3 text-gray-600 text-2sm font-medium">
      <div class="flex items-center gap-2">
-      Show
+      Voir
       <select class="select select-sm w-16" data-datatable-size="true" name="perpage">
       </select>
-      per page
+      Pages
      </div>
      <div class="flex items-center gap-4">
       <span data-datatable-info="true">
