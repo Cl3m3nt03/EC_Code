@@ -73,6 +73,7 @@ Route::group(['middleware' => ['web']], function(){
     Route::post('retros/{retro}/columns', [RetrosColumnsController::class, 'store'])->name('retros.columns.create');
     Route::post('retros/data', [RetrosDataController::class, 'store'])->name('retros.data.create');
 
+
 });
 
 require __DIR__.'/auth.php';

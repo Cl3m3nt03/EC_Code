@@ -62,5 +62,4 @@ class RetroController extends Controller
         $retro->delete();
         return redirect()->back()->with('success', 'Rétrospective supprimée avec succès.');
     }
-
 }

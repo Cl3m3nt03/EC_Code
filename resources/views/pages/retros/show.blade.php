@@ -16,6 +16,8 @@
 
         <!-- jKanban CSS -->
         <link rel="stylesheet" href="{{ asset('css/jkanban.min.css') }}">
+        <link href="https://cdn.jsdelivr.net/npm/jkanban@1.0.4/dist/jkanban.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/jkanban@1.0.4/dist/jkanban.min.js"></script>
     
     <!-- jKanban HTML Container -->
     <div id="kanban" class="p-6"></div>
