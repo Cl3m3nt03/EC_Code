@@ -17,8 +17,10 @@
     </div>
 
     <div id="kanban" class="p-6"></div>
-    <div id="user_id" data-id="{{ $user_id}}"></div>
-    <div id="columns" data-id="{{$retro}}"></div>
+    <div id="user_id" data-id="{{ Auth::user()->id}}"></div>
+    <div id="retro_id" data-id="{{$retro->id}}"></div>
+
+
 
     <form id="formCreateGroup" method="POST">
         @csrf
@@ -42,40 +44,5 @@
                     'item' => []
                 ])
             );
-
-        // AJAX request to create column without page reload
-        document.getElementById('formCreateGroup').addEventListener('submit', function (e) {
-            e.preventDefault();  // Prevent form from submitting normally
-
-            const name = document.getElementById('nameInput').value;
-            const retroId = document.querySelector('input[name="retro_id"]').value;
-
-            // Send the POST request with the column name and retro_id
-            fetch(`/retros/${retroId}/columns`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({ name })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.column) {
-                    // Dynamically add the column to the Kanban without reloading
-                    KanbanTest.addBoards([{
-                        id: `col_${data.column.id}`,  // Column ID
-                        title: data.column.name,  // Column name
-                        item: []  // No items in the column initially
-                    }]);
-
-                    // Clear the input field after adding
-                    document.getElementById('nameInput').value = '';
-                } else {
-                    console.error('Error creating column:', data);
-                }
-            })
-            .catch(err => console.error('Error:', err));
-        });
     </script>
 </x-app-layout>

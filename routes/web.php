@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GroupeController;
 use App\Http\Controllers\RetrosDataController;
 use App\Http\Controllers\RetrosColumnsController;
+use Illuminate\Support\Facades\Broadcast;
 
 // Redirect the root path to /dashboard
 Route::redirect('/', 'dashboard');
@@ -71,9 +72,12 @@ Route::group(['middleware' => ['web']], function(){
     Route::delete('/retros/{retro}', [RetroController::class, 'destroy'])->name('retros.destroy');
 
     Route::post('retros/data', [RetrosDataController::class, 'store'])->name('retros.data.create');
-    Route::post('/retros/{retro}/columns', [RetrosColumnsController::class, 'store'])->name('retros.columns.create');
     
-
+    Route::post('/retros/{retro}/columns', [RetrosColumnsController::class, 'store'])->name('retros.columns.create');
+    Broadcast::channel('retro', function ($user) {
+        return true;
+    });
+    
 });
 
 require __DIR__.'/auth.php';

@@ -4,12 +4,16 @@ let KanbanTest;
 
 document.addEventListener('DOMContentLoaded', function () {
     // Récupérer les IDs
-    const data_user = document.getElementById('user_id');
-    user_id = data_user?.getAttribute('data-id');
 
-    const data_retro = document.getElementById('retro_id');
-    retro_id = data_retro?.value || data_retro?.getAttribute('data-id');
+    const retroElement = document.getElementById('retro_id');
+    if (retroElement) {
+        retro_id = retroElement.getAttribute('data-id');
+    } else {
+        console.error('L\'élément avec l\'ID "retro_id" est introuvable.');
+    }
 
+
+    
     // Initialiser jKanban avec les colonnes existantes
     KanbanTest = new jKanban({
         element: '#kanban',
@@ -18,9 +22,9 @@ document.addEventListener('DOMContentLoaded', function () {
         boards: window.columnsFromServer || []
     });
 
-
-        echo.channel('retro.' + retro_id)
-        .listen('RetrosColumnCreated', (e) => {
+    console.log(retro_id);
+        Echo.channel('retro.' + retro_id)
+        .listen('.retros-column-created', (e) => {
             console.log("Colonne reçue via event :", e);
 
             KanbanTest.addBoards([{
@@ -50,11 +54,6 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             if (data.column) {
-                KanbanTest.addBoards([{
-                    id: `col_${data.column.id}`,
-                    title: data.column.name,
-                    item: []
-                }]);
                 document.getElementById('nameInput').value = '';
             } else {
                 console.error('Erreur lors de la création de la colonne (data) :', data);
