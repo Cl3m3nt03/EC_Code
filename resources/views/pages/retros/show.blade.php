@@ -30,19 +30,12 @@
         <button type="submit">Créer une colonne</button>
     </form>
 
+    
+
     <script src="{{ asset('js/jkanban.min.js') }}"></script>
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.3/dist/echo.iife.js"></script>
-
-    <script>
-
-
-        window.columnsFromServer = @json(
-                $retro->columns->map(fn($col) => [
-                    'id' => 'col_' . $col->id,
-                    'title' => $col->name,
-                    'item' => []
-                ])
-            );
-    </script>
+    <script src="{{ asset('js/kanbanBuild.js') }}"></script>
+    <link href="{{ asset('./css/styles.css') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ asset('css/jkanban.min.css') }}">
 </x-app-layout>

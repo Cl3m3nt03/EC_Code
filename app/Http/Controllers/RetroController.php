@@ -6,7 +6,10 @@ use App\Models\Retro;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\RetrosColumns;
 
 class RetroController extends Controller
 {
@@ -63,5 +66,35 @@ class RetroController extends Controller
     {
         $retro->delete();
         return redirect()->back()->with('success', 'Rétrospective supprimée avec succès.');
+    }
+
+
+    /**
+     * Function to fetch 
+     */
+    public function fetch($id){
+        $columns = RetrosColumns::where('retro_id', $id)->get();
+
+        $formated = $columns->map(function($column){
+            $items = \DB::table('retros_data')
+                ->where('column_id', $column->id)
+                ->get();
+            $formated_items = $items->map(function($item){
+                return [
+                    'id' => $item->id,
+                    'column_id' => $item->column_id,
+                    'name' => $item->name,
+                    'description' => $item->description,
+                ];
+            });
+            return [
+                'id' => $column->id,
+                'name' => $column->name,
+                'items' => $formated_items,
+            ];
+        });
+        return response()->json([
+            'boards' => $formated,
+        ]);
     }
 }

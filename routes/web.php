@@ -77,6 +77,8 @@ Route::group(['middleware' => ['web']], function(){
     Broadcast::channel('retro', function ($user) {
         return true;
     });
+
+    Route::get('/retros/{id}/fetch', [RetroController::class, 'fetch'])->name('retros.fetch');
     
 });
 
