@@ -19,6 +19,7 @@ class RetrosColumnsController extends Controller
          $validated = $request->validate([
              'name' => 'required|string|max:255',
          ]);
+         
      
          $column = $retro->columns()->create([
              'name' => $validated['name'],

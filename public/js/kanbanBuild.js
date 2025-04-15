@@ -19,9 +19,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    window.Echo.channel(`retro.${retro_id}`)
-        .listen('.retros-column-created', (e) => {
-            console.log("Colonne reçue via Pusher :", e);
+        echo.channel('retro.' + retro_id)
+        .listen('RetrosColumnCreated', (e) => {
+            console.log("Colonne reçue via event :", e);
 
             KanbanTest.addBoards([{
                 id: `col_${e.column.id}`,
@@ -33,16 +33,19 @@ document.addEventListener('DOMContentLoaded', function () {
     // Gérer la création de colonne via AJAX
     document.getElementById('formCreateGroup').addEventListener('submit', function (e) {
         e.preventDefault();
-
+    
         const name = document.getElementById('nameInput').value;
-
-        fetch(`/retros/${retro_id}/columns`, {
+        const retroId = document.querySelector('input[name="retro_id"]').value;
+    
+        const formData = new FormData();
+        formData.append('name', name);
+    
+        fetch(`/retros/${retroId}/columns`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
-            body: JSON.stringify({ name })
+            body: formData
         })
         .then(response => response.json())
         .then(data => {
@@ -54,9 +57,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 }]);
                 document.getElementById('nameInput').value = '';
             } else {
-                console.error('Erreur lors de la création de la colonne :', data);
+                console.error('Erreur lors de la création de la colonne (data) :', data);
             }
         })
         .catch(err => console.error('Erreur AJAX :', err));
     });
+    
 });
