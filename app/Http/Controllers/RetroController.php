@@ -46,10 +46,12 @@ class RetroController extends Controller
      * @param Retro $retro
      * @return Factory|View|Application|object
      */
-
-    public function show(\App\Models\Retro $retro)
-    {   
-        return view('pages.retros.show', compact('retro'));
+    public function show(Retro $retro)
+    {
+        $retro->load('columns'); 
+        $user_id = \Illuminate\Support\Facades\Auth::user()->id;
+    
+        return view('pages.retros.show', compact('retro'), ['user_id' => $user_id]);
     }
     
     /**

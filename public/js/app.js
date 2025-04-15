@@ -10236,6 +10236,1463 @@ module.exports = Array.isArray || function (arr) {
 
 /***/ }),
 
+/***/ "./node_modules/laravel-echo/dist/echo.js":
+/*!************************************************!*\
+  !*** ./node_modules/laravel-echo/dist/echo.js ***!
+  \************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Channel: () => (/* binding */ Channel),
+/* harmony export */   Connector: () => (/* binding */ Connector),
+/* harmony export */   EventFormatter: () => (/* binding */ EventFormatter),
+/* harmony export */   "default": () => (/* binding */ Echo)
+/* harmony export */ });
+function _assertThisInitialized(e) {
+  if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  return e;
+}
+function _callSuper(t, o, e) {
+  return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));
+}
+function _classCallCheck(a, n) {
+  if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties(e, r) {
+  for (var t = 0; t < r.length; t++) {
+    var o = r[t];
+    o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o);
+  }
+}
+function _createClass(e, r, t) {
+  return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", {
+    writable: !1
+  }), e;
+}
+function _defineProperty(e, r, t) {
+  return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
+    value: t,
+    enumerable: !0,
+    configurable: !0,
+    writable: !0
+  }) : e[r] = t, e;
+}
+function _getPrototypeOf(t) {
+  return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) {
+    return t.__proto__ || Object.getPrototypeOf(t);
+  }, _getPrototypeOf(t);
+}
+function _inherits(t, e) {
+  if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function");
+  t.prototype = Object.create(e && e.prototype, {
+    constructor: {
+      value: t,
+      writable: !0,
+      configurable: !0
+    }
+  }), Object.defineProperty(t, "prototype", {
+    writable: !1
+  }), e && _setPrototypeOf(t, e);
+}
+function _isNativeReflectConstruct() {
+  try {
+    var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
+  } catch (t) {}
+  return (_isNativeReflectConstruct = function () {
+    return !!t;
+  })();
+}
+function ownKeys(e, r) {
+  var t = Object.keys(e);
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e);
+    r && (o = o.filter(function (r) {
+      return Object.getOwnPropertyDescriptor(e, r).enumerable;
+    })), t.push.apply(t, o);
+  }
+  return t;
+}
+function _objectSpread2(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {};
+    r % 2 ? ownKeys(Object(t), !0).forEach(function (r) {
+      _defineProperty(e, r, t[r]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) {
+      Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+    });
+  }
+  return e;
+}
+function _possibleConstructorReturn(t, e) {
+  if (e && ("object" == typeof e || "function" == typeof e)) return e;
+  if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined");
+  return _assertThisInitialized(t);
+}
+function _setPrototypeOf(t, e) {
+  return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) {
+    return t.__proto__ = e, t;
+  }, _setPrototypeOf(t, e);
+}
+function _toPrimitive(t, r) {
+  if ("object" != typeof t || !t) return t;
+  var e = t[Symbol.toPrimitive];
+  if (void 0 !== e) {
+    var i = e.call(t, r || "default");
+    if ("object" != typeof i) return i;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r ? String : Number)(t);
+}
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, "string");
+  return "symbol" == typeof i ? i : i + "";
+}
+function _typeof(o) {
+  "@babel/helpers - typeof";
+
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+    return typeof o;
+  } : function (o) {
+    return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+  }, _typeof(o);
+}
+
+/**
+ * This class represents a basic channel.
+ */
+var Channel = /*#__PURE__*/function () {
+  function Channel() {
+    _classCallCheck(this, Channel);
+  }
+  return _createClass(Channel, [{
+    key: "listenForWhisper",
+    value:
+    /**
+     * Listen for a whisper event on the channel instance.
+     */
+    function listenForWhisper(event, callback) {
+      return this.listen('.client-' + event, callback);
+    }
+    /**
+     * Listen for an event on the channel instance.
+     */
+  }, {
+    key: "notification",
+    value: function notification(callback) {
+      return this.listen('.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated', callback);
+    }
+    /**
+     * Stop listening for a whisper event on the channel instance.
+     */
+  }, {
+    key: "stopListeningForWhisper",
+    value: function stopListeningForWhisper(event, callback) {
+      return this.stopListening('.client-' + event, callback);
+    }
+  }]);
+}();
+
+/**
+ * Event name formatter
+ */
+var EventFormatter = /*#__PURE__*/function () {
+  /**
+   * Create a new class instance.
+   */
+  function EventFormatter(namespace) {
+    _classCallCheck(this, EventFormatter);
+    this.namespace = namespace;
+    //
+  }
+  /**
+   * Format the given event name.
+   */
+  return _createClass(EventFormatter, [{
+    key: "format",
+    value: function format(event) {
+      if (['.', '\\'].includes(event.charAt(0))) {
+        return event.substring(1);
+      } else if (this.namespace) {
+        event = this.namespace + '.' + event;
+      }
+      return event.replace(/\./g, '\\');
+    }
+    /**
+     * Set the event namespace.
+     */
+  }, {
+    key: "setNamespace",
+    value: function setNamespace(value) {
+      this.namespace = value;
+    }
+  }]);
+}();
+
+function isConstructor(obj) {
+  try {
+    new obj();
+  } catch (err) {
+    if (err instanceof Error && err.message.includes('is not a constructor')) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * This class represents a Pusher channel.
+ */
+var PusherChannel = /*#__PURE__*/function (_Channel) {
+  /**
+   * Create a new class instance.
+   */
+  function PusherChannel(pusher, name, options) {
+    var _this;
+    _classCallCheck(this, PusherChannel);
+    _this = _callSuper(this, PusherChannel);
+    _this.name = name;
+    _this.pusher = pusher;
+    _this.options = options;
+    _this.eventFormatter = new EventFormatter(_this.options.namespace);
+    _this.subscribe();
+    return _this;
+  }
+  /**
+   * Subscribe to a Pusher channel.
+   */
+  _inherits(PusherChannel, _Channel);
+  return _createClass(PusherChannel, [{
+    key: "subscribe",
+    value: function subscribe() {
+      this.subscription = this.pusher.subscribe(this.name);
+    }
+    /**
+     * Unsubscribe from a Pusher channel.
+     */
+  }, {
+    key: "unsubscribe",
+    value: function unsubscribe() {
+      this.pusher.unsubscribe(this.name);
+    }
+    /**
+     * Listen for an event on the channel instance.
+     */
+  }, {
+    key: "listen",
+    value: function listen(event, callback) {
+      this.on(this.eventFormatter.format(event), callback);
+      return this;
+    }
+    /**
+     * Listen for all events on the channel instance.
+     */
+  }, {
+    key: "listenToAll",
+    value: function listenToAll(callback) {
+      var _this2 = this;
+      this.subscription.bind_global(function (event, data) {
+        var _this2$options$namesp;
+        if (event.startsWith('pusher:')) {
+          return;
+        }
+        var namespace = String((_this2$options$namesp = _this2.options.namespace) !== null && _this2$options$namesp !== void 0 ? _this2$options$namesp : '').replace(/\./g, '\\');
+        var formattedEvent = event.startsWith(namespace) ? event.substring(namespace.length + 1) : '.' + event;
+        callback(formattedEvent, data);
+      });
+      return this;
+    }
+    /**
+     * Stop listening for an event on the channel instance.
+     */
+  }, {
+    key: "stopListening",
+    value: function stopListening(event, callback) {
+      if (callback) {
+        this.subscription.unbind(this.eventFormatter.format(event), callback);
+      } else {
+        this.subscription.unbind(this.eventFormatter.format(event));
+      }
+      return this;
+    }
+    /**
+     * Stop listening for all events on the channel instance.
+     */
+  }, {
+    key: "stopListeningToAll",
+    value: function stopListeningToAll(callback) {
+      if (callback) {
+        this.subscription.unbind_global(callback);
+      } else {
+        this.subscription.unbind_global();
+      }
+      return this;
+    }
+    /**
+     * Register a callback to be called anytime a subscription succeeds.
+     */
+  }, {
+    key: "subscribed",
+    value: function subscribed(callback) {
+      this.on('pusher:subscription_succeeded', function () {
+        callback();
+      });
+      return this;
+    }
+    /**
+     * Register a callback to be called anytime a subscription error occurs.
+     */
+  }, {
+    key: "error",
+    value: function error(callback) {
+      this.on('pusher:subscription_error', function (status) {
+        callback(status);
+      });
+      return this;
+    }
+    /**
+     * Bind a channel to an event.
+     */
+  }, {
+    key: "on",
+    value: function on(event, callback) {
+      this.subscription.bind(event, callback);
+      return this;
+    }
+  }]);
+}(Channel);
+
+/**
+ * This class represents a Pusher private channel.
+ */
+var PusherPrivateChannel = /*#__PURE__*/function (_PusherChannel) {
+  function PusherPrivateChannel() {
+    _classCallCheck(this, PusherPrivateChannel);
+    return _callSuper(this, PusherPrivateChannel, arguments);
+  }
+  _inherits(PusherPrivateChannel, _PusherChannel);
+  return _createClass(PusherPrivateChannel, [{
+    key: "whisper",
+    value:
+    /**
+     * Send a whisper event to other clients in the channel.
+     */
+    function whisper(eventName, data) {
+      this.pusher.channels.channels[this.name].trigger("client-".concat(eventName), data);
+      return this;
+    }
+  }]);
+}(PusherChannel);
+
+/**
+ * This class represents a Pusher private channel.
+ */
+var PusherEncryptedPrivateChannel = /*#__PURE__*/function (_PusherChannel) {
+  function PusherEncryptedPrivateChannel() {
+    _classCallCheck(this, PusherEncryptedPrivateChannel);
+    return _callSuper(this, PusherEncryptedPrivateChannel, arguments);
+  }
+  _inherits(PusherEncryptedPrivateChannel, _PusherChannel);
+  return _createClass(PusherEncryptedPrivateChannel, [{
+    key: "whisper",
+    value:
+    /**
+     * Send a whisper event to other clients in the channel.
+     */
+    function whisper(eventName, data) {
+      this.pusher.channels.channels[this.name].trigger("client-".concat(eventName), data);
+      return this;
+    }
+  }]);
+}(PusherChannel);
+
+/**
+ * This class represents a Pusher presence channel.
+ */
+var PusherPresenceChannel = /*#__PURE__*/function (_PusherPrivateChannel) {
+  function PusherPresenceChannel() {
+    _classCallCheck(this, PusherPresenceChannel);
+    return _callSuper(this, PusherPresenceChannel, arguments);
+  }
+  _inherits(PusherPresenceChannel, _PusherPrivateChannel);
+  return _createClass(PusherPresenceChannel, [{
+    key: "here",
+    value:
+    /**
+     * Register a callback to be called anytime the member list changes.
+     */
+    function here(callback) {
+      this.on('pusher:subscription_succeeded', function (data) {
+        callback(Object.keys(data.members).map(function (k) {
+          return data.members[k];
+        }));
+      });
+      return this;
+    }
+    /**
+     * Listen for someone joining the channel.
+     */
+  }, {
+    key: "joining",
+    value: function joining(callback) {
+      this.on('pusher:member_added', function (member) {
+        callback(member.info);
+      });
+      return this;
+    }
+    /**
+     * Send a whisper event to other clients in the channel.
+     */
+  }, {
+    key: "whisper",
+    value: function whisper(eventName, data) {
+      this.pusher.channels.channels[this.name].trigger("client-".concat(eventName), data);
+      return this;
+    }
+    /**
+     * Listen for someone leaving the channel.
+     */
+  }, {
+    key: "leaving",
+    value: function leaving(callback) {
+      this.on('pusher:member_removed', function (member) {
+        callback(member.info);
+      });
+      return this;
+    }
+  }]);
+}(PusherPrivateChannel);
+
+/**
+ * This class represents a Socket.io channel.
+ */
+var SocketIoChannel = /*#__PURE__*/function (_Channel) {
+  /**
+   * Create a new class instance.
+   */
+  function SocketIoChannel(socket, name, options) {
+    var _this;
+    _classCallCheck(this, SocketIoChannel);
+    _this = _callSuper(this, SocketIoChannel);
+    /**
+     * The event callbacks applied to the socket.
+     */
+    _this.events = {};
+    /**
+     * User supplied callbacks for events on this channel.
+     */
+    _this.listeners = {};
+    _this.name = name;
+    _this.socket = socket;
+    _this.options = options;
+    _this.eventFormatter = new EventFormatter(_this.options.namespace);
+    _this.subscribe();
+    return _this;
+  }
+  /**
+   * Subscribe to a Socket.io channel.
+   */
+  _inherits(SocketIoChannel, _Channel);
+  return _createClass(SocketIoChannel, [{
+    key: "subscribe",
+    value: function subscribe() {
+      this.socket.emit('subscribe', {
+        channel: this.name,
+        auth: this.options.auth || {}
+      });
+    }
+    /**
+     * Unsubscribe from channel and ubind event callbacks.
+     */
+  }, {
+    key: "unsubscribe",
+    value: function unsubscribe() {
+      this.unbind();
+      this.socket.emit('unsubscribe', {
+        channel: this.name,
+        auth: this.options.auth || {}
+      });
+    }
+    /**
+     * Listen for an event on the channel instance.
+     */
+  }, {
+    key: "listen",
+    value: function listen(event, callback) {
+      this.on(this.eventFormatter.format(event), callback);
+      return this;
+    }
+    /**
+     * Stop listening for an event on the channel instance.
+     */
+  }, {
+    key: "stopListening",
+    value: function stopListening(event, callback) {
+      this.unbindEvent(this.eventFormatter.format(event), callback);
+      return this;
+    }
+    /**
+     * Register a callback to be called anytime a subscription succeeds.
+     */
+  }, {
+    key: "subscribed",
+    value: function subscribed(callback) {
+      this.on('connect', function (socket) {
+        callback(socket);
+      });
+      return this;
+    }
+    /**
+     * Register a callback to be called anytime an error occurs.
+     */
+  }, {
+    key: "error",
+    value: function error(_callback) {
+      return this;
+    }
+    /**
+     * Bind the channel's socket to an event and store the callback.
+     */
+  }, {
+    key: "on",
+    value: function on(event, callback) {
+      var _this2 = this;
+      this.listeners[event] = this.listeners[event] || [];
+      if (!this.events[event]) {
+        this.events[event] = function (channel, data) {
+          if (_this2.name === channel && _this2.listeners[event]) {
+            _this2.listeners[event].forEach(function (cb) {
+              return cb(data);
+            });
+          }
+        };
+        this.socket.on(event, this.events[event]);
+      }
+      this.listeners[event].push(callback);
+      return this;
+    }
+    /**
+     * Unbind the channel's socket from all stored event callbacks.
+     */
+  }, {
+    key: "unbind",
+    value: function unbind() {
+      var _this3 = this;
+      Object.keys(this.events).forEach(function (event) {
+        _this3.unbindEvent(event);
+      });
+    }
+    /**
+     * Unbind the listeners for the given event.
+     */
+  }, {
+    key: "unbindEvent",
+    value: function unbindEvent(event, callback) {
+      this.listeners[event] = this.listeners[event] || [];
+      if (callback) {
+        this.listeners[event] = this.listeners[event].filter(function (cb) {
+          return cb !== callback;
+        });
+      }
+      if (!callback || this.listeners[event].length === 0) {
+        if (this.events[event]) {
+          this.socket.removeListener(event, this.events[event]);
+          delete this.events[event];
+        }
+        delete this.listeners[event];
+      }
+    }
+  }]);
+}(Channel);
+
+/**
+ * This class represents a Socket.io private channel.
+ */
+var SocketIoPrivateChannel = /*#__PURE__*/function (_SocketIoChannel) {
+  function SocketIoPrivateChannel() {
+    _classCallCheck(this, SocketIoPrivateChannel);
+    return _callSuper(this, SocketIoPrivateChannel, arguments);
+  }
+  _inherits(SocketIoPrivateChannel, _SocketIoChannel);
+  return _createClass(SocketIoPrivateChannel, [{
+    key: "whisper",
+    value:
+    /**
+     * Send a whisper event to other clients in the channel.
+     */
+    function whisper(eventName, data) {
+      this.socket.emit('client event', {
+        channel: this.name,
+        event: "client-".concat(eventName),
+        data: data
+      });
+      return this;
+    }
+  }]);
+}(SocketIoChannel);
+
+/**
+ * This class represents a Socket.io presence channel.
+ */
+var SocketIoPresenceChannel = /*#__PURE__*/function (_SocketIoPrivateChann) {
+  function SocketIoPresenceChannel() {
+    _classCallCheck(this, SocketIoPresenceChannel);
+    return _callSuper(this, SocketIoPresenceChannel, arguments);
+  }
+  _inherits(SocketIoPresenceChannel, _SocketIoPrivateChann);
+  return _createClass(SocketIoPresenceChannel, [{
+    key: "here",
+    value:
+    /**
+     * Register a callback to be called anytime the member list changes.
+     */
+    function here(callback) {
+      this.on('presence:subscribed', function (members) {
+        callback(members.map(function (m) {
+          return m.user_info;
+        }));
+      });
+      return this;
+    }
+    /**
+     * Listen for someone joining the channel.
+     */
+  }, {
+    key: "joining",
+    value: function joining(callback) {
+      this.on('presence:joining', function (member) {
+        return callback(member.user_info);
+      });
+      return this;
+    }
+    /**
+     * Send a whisper event to other clients in the channel.
+     */
+  }, {
+    key: "whisper",
+    value: function whisper(eventName, data) {
+      this.socket.emit('client event', {
+        channel: this.name,
+        event: "client-".concat(eventName),
+        data: data
+      });
+      return this;
+    }
+    /**
+     * Listen for someone leaving the channel.
+     */
+  }, {
+    key: "leaving",
+    value: function leaving(callback) {
+      this.on('presence:leaving', function (member) {
+        return callback(member.user_info);
+      });
+      return this;
+    }
+  }]);
+}(SocketIoPrivateChannel);
+
+/**
+ * This class represents a null channel.
+ */
+var NullChannel = /*#__PURE__*/function (_Channel) {
+  function NullChannel() {
+    _classCallCheck(this, NullChannel);
+    return _callSuper(this, NullChannel, arguments);
+  }
+  _inherits(NullChannel, _Channel);
+  return _createClass(NullChannel, [{
+    key: "subscribe",
+    value:
+    /**
+     * Subscribe to a channel.
+     */
+    function subscribe() {
+      //
+    }
+    /**
+     * Unsubscribe from a channel.
+     */
+  }, {
+    key: "unsubscribe",
+    value: function unsubscribe() {
+      //
+    }
+    /**
+     * Listen for an event on the channel instance.
+     */
+  }, {
+    key: "listen",
+    value: function listen(_event, _callback) {
+      return this;
+    }
+    /**
+     * Listen for all events on the channel instance.
+     */
+  }, {
+    key: "listenToAll",
+    value: function listenToAll(_callback) {
+      return this;
+    }
+    /**
+     * Stop listening for an event on the channel instance.
+     */
+  }, {
+    key: "stopListening",
+    value: function stopListening(_event, _callback) {
+      return this;
+    }
+    /**
+     * Register a callback to be called anytime a subscription succeeds.
+     */
+  }, {
+    key: "subscribed",
+    value: function subscribed(_callback) {
+      return this;
+    }
+    /**
+     * Register a callback to be called anytime an error occurs.
+     */
+  }, {
+    key: "error",
+    value: function error(_callback) {
+      return this;
+    }
+    /**
+     * Bind a channel to an event.
+     */
+  }, {
+    key: "on",
+    value: function on(_event, _callback) {
+      return this;
+    }
+  }]);
+}(Channel);
+
+/**
+ * This class represents a null private channel.
+ */
+var NullPrivateChannel = /*#__PURE__*/function (_NullChannel) {
+  function NullPrivateChannel() {
+    _classCallCheck(this, NullPrivateChannel);
+    return _callSuper(this, NullPrivateChannel, arguments);
+  }
+  _inherits(NullPrivateChannel, _NullChannel);
+  return _createClass(NullPrivateChannel, [{
+    key: "whisper",
+    value:
+    /**
+     * Send a whisper event to other clients in the channel.
+     */
+    function whisper(_eventName, _data) {
+      return this;
+    }
+  }]);
+}(NullChannel);
+
+/**
+ * This class represents a null private channel.
+ */
+var NullEncryptedPrivateChannel = /*#__PURE__*/function (_NullChannel) {
+  function NullEncryptedPrivateChannel() {
+    _classCallCheck(this, NullEncryptedPrivateChannel);
+    return _callSuper(this, NullEncryptedPrivateChannel, arguments);
+  }
+  _inherits(NullEncryptedPrivateChannel, _NullChannel);
+  return _createClass(NullEncryptedPrivateChannel, [{
+    key: "whisper",
+    value:
+    /**
+     * Send a whisper event to other clients in the channel.
+     */
+    function whisper(_eventName, _data) {
+      return this;
+    }
+  }]);
+}(NullChannel);
+
+/**
+ * This class represents a null presence channel.
+ */
+var NullPresenceChannel = /*#__PURE__*/function (_NullPrivateChannel) {
+  function NullPresenceChannel() {
+    _classCallCheck(this, NullPresenceChannel);
+    return _callSuper(this, NullPresenceChannel, arguments);
+  }
+  _inherits(NullPresenceChannel, _NullPrivateChannel);
+  return _createClass(NullPresenceChannel, [{
+    key: "here",
+    value:
+    /**
+     * Register a callback to be called anytime the member list changes.
+     */
+    function here(_callback) {
+      return this;
+    }
+    /**
+     * Listen for someone joining the channel.
+     */
+  }, {
+    key: "joining",
+    value: function joining(_callback) {
+      return this;
+    }
+    /**
+     * Send a whisper event to other clients in the channel.
+     */
+  }, {
+    key: "whisper",
+    value: function whisper(_eventName, _data) {
+      return this;
+    }
+    /**
+     * Listen for someone leaving the channel.
+     */
+  }, {
+    key: "leaving",
+    value: function leaving(_callback) {
+      return this;
+    }
+  }]);
+}(NullPrivateChannel);
+
+var Connector = /*#__PURE__*/function () {
+  /**
+   * Create a new class instance.
+   */
+  function Connector(options) {
+    _classCallCheck(this, Connector);
+    this.setOptions(options);
+    this.connect();
+  }
+  /**
+   * Merge the custom options with the defaults.
+   */
+  return _createClass(Connector, [{
+    key: "setOptions",
+    value: function setOptions(options) {
+      this.options = _objectSpread2(_objectSpread2(_objectSpread2({}, Connector._defaultOptions), options), {}, {
+        broadcaster: options.broadcaster
+      });
+      var token = this.csrfToken();
+      if (token) {
+        this.options.auth.headers['X-CSRF-TOKEN'] = token;
+        this.options.userAuthentication.headers['X-CSRF-TOKEN'] = token;
+      }
+      token = this.options.bearerToken;
+      if (token) {
+        this.options.auth.headers['Authorization'] = 'Bearer ' + token;
+        this.options.userAuthentication.headers['Authorization'] = 'Bearer ' + token;
+      }
+    }
+    /**
+     * Extract the CSRF token from the page.
+     */
+  }, {
+    key: "csrfToken",
+    value: function csrfToken() {
+      var selector;
+      if (typeof window !== 'undefined' && typeof window.Laravel !== 'undefined' && window.Laravel.csrfToken) {
+        return window.Laravel.csrfToken;
+      }
+      if (this.options.csrfToken) {
+        return this.options.csrfToken;
+      }
+      if (typeof document !== 'undefined' && typeof document.querySelector === 'function' && (selector = document.querySelector('meta[name="csrf-token"]'))) {
+        return selector.getAttribute('content');
+      }
+      return null;
+    }
+  }]);
+}();
+/**
+ * Default connector options.
+ */
+Connector._defaultOptions = {
+  auth: {
+    headers: {}
+  },
+  authEndpoint: '/broadcasting/auth',
+  userAuthentication: {
+    endpoint: '/broadcasting/user-auth',
+    headers: {}
+  },
+  csrfToken: null,
+  bearerToken: null,
+  host: null,
+  key: null,
+  namespace: 'App.Events'
+};
+
+/**
+ * This class creates a connector to Pusher.
+ */
+var PusherConnector = /*#__PURE__*/function (_Connector) {
+  function PusherConnector() {
+    var _this;
+    _classCallCheck(this, PusherConnector);
+    _this = _callSuper(this, PusherConnector, arguments);
+    /**
+     * All of the subscribed channel names.
+     */
+    _this.channels = {};
+    return _this;
+  }
+  /**
+   * Create a fresh Pusher connection.
+   */
+  _inherits(PusherConnector, _Connector);
+  return _createClass(PusherConnector, [{
+    key: "connect",
+    value: function connect() {
+      if (typeof this.options.client !== 'undefined') {
+        this.pusher = this.options.client;
+      } else if (this.options.Pusher) {
+        this.pusher = new this.options.Pusher(this.options.key, this.options);
+      } else if (typeof window !== 'undefined' && typeof window.Pusher !== 'undefined') {
+        this.pusher = new window.Pusher(this.options.key, this.options);
+      } else {
+        throw new Error('Pusher client not found. Should be globally available or passed via options.client');
+      }
+    }
+    /**
+     * Sign in the user via Pusher user authentication (https://pusher.com/docs/channels/using_channels/user-authentication/).
+     */
+  }, {
+    key: "signin",
+    value: function signin() {
+      this.pusher.signin();
+    }
+    /**
+     * Listen for an event on a channel instance.
+     */
+  }, {
+    key: "listen",
+    value: function listen(name, event, callback) {
+      return this.channel(name).listen(event, callback);
+    }
+    /**
+     * Get a channel instance by name.
+     */
+  }, {
+    key: "channel",
+    value: function channel(name) {
+      if (!this.channels[name]) {
+        this.channels[name] = new PusherChannel(this.pusher, name, this.options);
+      }
+      return this.channels[name];
+    }
+    /**
+     * Get a private channel instance by name.
+     */
+  }, {
+    key: "privateChannel",
+    value: function privateChannel(name) {
+      if (!this.channels['private-' + name]) {
+        this.channels['private-' + name] = new PusherPrivateChannel(this.pusher, 'private-' + name, this.options);
+      }
+      return this.channels['private-' + name];
+    }
+    /**
+     * Get a private encrypted channel instance by name.
+     */
+  }, {
+    key: "encryptedPrivateChannel",
+    value: function encryptedPrivateChannel(name) {
+      if (!this.channels['private-encrypted-' + name]) {
+        this.channels['private-encrypted-' + name] = new PusherEncryptedPrivateChannel(this.pusher, 'private-encrypted-' + name, this.options);
+      }
+      return this.channels['private-encrypted-' + name];
+    }
+    /**
+     * Get a presence channel instance by name.
+     */
+  }, {
+    key: "presenceChannel",
+    value: function presenceChannel(name) {
+      if (!this.channels['presence-' + name]) {
+        this.channels['presence-' + name] = new PusherPresenceChannel(this.pusher, 'presence-' + name, this.options);
+      }
+      return this.channels['presence-' + name];
+    }
+    /**
+     * Leave the given channel, as well as its private and presence variants.
+     */
+  }, {
+    key: "leave",
+    value: function leave(name) {
+      var _this2 = this;
+      var channels = [name, 'private-' + name, 'private-encrypted-' + name, 'presence-' + name];
+      channels.forEach(function (name) {
+        _this2.leaveChannel(name);
+      });
+    }
+    /**
+     * Leave the given channel.
+     */
+  }, {
+    key: "leaveChannel",
+    value: function leaveChannel(name) {
+      if (this.channels[name]) {
+        this.channels[name].unsubscribe();
+        delete this.channels[name];
+      }
+    }
+    /**
+     * Get the socket ID for the connection.
+     */
+  }, {
+    key: "socketId",
+    value: function socketId() {
+      return this.pusher.connection.socket_id;
+    }
+    /**
+     * Disconnect Pusher connection.
+     */
+  }, {
+    key: "disconnect",
+    value: function disconnect() {
+      this.pusher.disconnect();
+    }
+  }]);
+}(Connector);
+
+/**
+ * This class creates a connector to a Socket.io server.
+ */
+var SocketIoConnector = /*#__PURE__*/function (_Connector) {
+  function SocketIoConnector() {
+    var _this;
+    _classCallCheck(this, SocketIoConnector);
+    _this = _callSuper(this, SocketIoConnector, arguments);
+    /**
+     * All of the subscribed channel names.
+     */
+    _this.channels = {};
+    return _this;
+  }
+  /**
+   * Create a fresh Socket.io connection.
+   */
+  _inherits(SocketIoConnector, _Connector);
+  return _createClass(SocketIoConnector, [{
+    key: "connect",
+    value: function connect() {
+      var _this$options$host,
+        _this2 = this;
+      var io = this.getSocketIO();
+      this.socket = io((_this$options$host = this.options.host) !== null && _this$options$host !== void 0 ? _this$options$host : undefined, this.options);
+      this.socket.on('reconnect', function () {
+        Object.values(_this2.channels).forEach(function (channel) {
+          channel.subscribe();
+        });
+      });
+    }
+    /**
+     * Get socket.io module from global scope or options.
+     */
+  }, {
+    key: "getSocketIO",
+    value: function getSocketIO() {
+      if (typeof this.options.client !== 'undefined') {
+        return this.options.client;
+      }
+      if (typeof window !== 'undefined' && typeof window.io !== 'undefined') {
+        return window.io;
+      }
+      throw new Error('Socket.io client not found. Should be globally available or passed via options.client');
+    }
+    /**
+     * Listen for an event on a channel instance.
+     */
+  }, {
+    key: "listen",
+    value: function listen(name, event, callback) {
+      return this.channel(name).listen(event, callback);
+    }
+    /**
+     * Get a channel instance by name.
+     */
+  }, {
+    key: "channel",
+    value: function channel(name) {
+      if (!this.channels[name]) {
+        this.channels[name] = new SocketIoChannel(this.socket, name, this.options);
+      }
+      return this.channels[name];
+    }
+    /**
+     * Get a private channel instance by name.
+     */
+  }, {
+    key: "privateChannel",
+    value: function privateChannel(name) {
+      if (!this.channels['private-' + name]) {
+        this.channels['private-' + name] = new SocketIoPrivateChannel(this.socket, 'private-' + name, this.options);
+      }
+      return this.channels['private-' + name];
+    }
+    /**
+     * Get a presence channel instance by name.
+     */
+  }, {
+    key: "presenceChannel",
+    value: function presenceChannel(name) {
+      if (!this.channels['presence-' + name]) {
+        this.channels['presence-' + name] = new SocketIoPresenceChannel(this.socket, 'presence-' + name, this.options);
+      }
+      return this.channels['presence-' + name];
+    }
+    /**
+     * Leave the given channel, as well as its private and presence variants.
+     */
+  }, {
+    key: "leave",
+    value: function leave(name) {
+      var _this3 = this;
+      var channels = [name, 'private-' + name, 'presence-' + name];
+      channels.forEach(function (name) {
+        _this3.leaveChannel(name);
+      });
+    }
+    /**
+     * Leave the given channel.
+     */
+  }, {
+    key: "leaveChannel",
+    value: function leaveChannel(name) {
+      if (this.channels[name]) {
+        this.channels[name].unsubscribe();
+        delete this.channels[name];
+      }
+    }
+    /**
+     * Get the socket ID for the connection.
+     */
+  }, {
+    key: "socketId",
+    value: function socketId() {
+      return this.socket.id;
+    }
+    /**
+     * Disconnect Socketio connection.
+     */
+  }, {
+    key: "disconnect",
+    value: function disconnect() {
+      this.socket.disconnect();
+    }
+  }]);
+}(Connector);
+
+/**
+ * This class creates a null connector.
+ */
+var NullConnector = /*#__PURE__*/function (_Connector) {
+  function NullConnector() {
+    var _this;
+    _classCallCheck(this, NullConnector);
+    _this = _callSuper(this, NullConnector, arguments);
+    /**
+     * All of the subscribed channel names.
+     */
+    _this.channels = {};
+    return _this;
+  }
+  /**
+   * Create a fresh connection.
+   */
+  _inherits(NullConnector, _Connector);
+  return _createClass(NullConnector, [{
+    key: "connect",
+    value: function connect() {
+      //
+    }
+    /**
+     * Listen for an event on a channel instance.
+     */
+  }, {
+    key: "listen",
+    value: function listen(_name, _event, _callback) {
+      return new NullChannel();
+    }
+    /**
+     * Get a channel instance by name.
+     */
+  }, {
+    key: "channel",
+    value: function channel(_name) {
+      return new NullChannel();
+    }
+    /**
+     * Get a private channel instance by name.
+     */
+  }, {
+    key: "privateChannel",
+    value: function privateChannel(_name) {
+      return new NullPrivateChannel();
+    }
+    /**
+     * Get a private encrypted channel instance by name.
+     */
+  }, {
+    key: "encryptedPrivateChannel",
+    value: function encryptedPrivateChannel(_name) {
+      return new NullEncryptedPrivateChannel();
+    }
+    /**
+     * Get a presence channel instance by name.
+     */
+  }, {
+    key: "presenceChannel",
+    value: function presenceChannel(_name) {
+      return new NullPresenceChannel();
+    }
+    /**
+     * Leave the given channel, as well as its private and presence variants.
+     */
+  }, {
+    key: "leave",
+    value: function leave(_name) {
+      //
+    }
+    /**
+     * Leave the given channel.
+     */
+  }, {
+    key: "leaveChannel",
+    value: function leaveChannel(_name) {
+      //
+    }
+    /**
+     * Get the socket ID for the connection.
+     */
+  }, {
+    key: "socketId",
+    value: function socketId() {
+      return 'fake-socket-id';
+    }
+    /**
+     * Disconnect the connection.
+     */
+  }, {
+    key: "disconnect",
+    value: function disconnect() {
+      //
+    }
+  }]);
+}(Connector);
+
+/**
+ * This class is the primary API for interacting with broadcasting.
+ */
+var Echo = /*#__PURE__*/function () {
+  /**
+   * Create a new class instance.
+   */
+  function Echo(options) {
+    _classCallCheck(this, Echo);
+    this.options = options;
+    this.connect();
+    if (!this.options.withoutInterceptors) {
+      this.registerInterceptors();
+    }
+  }
+  /**
+   * Get a channel instance by name.
+   */
+  return _createClass(Echo, [{
+    key: "channel",
+    value: function channel(_channel) {
+      return this.connector.channel(_channel);
+    }
+    /**
+     * Create a new connection.
+     */
+  }, {
+    key: "connect",
+    value: function connect() {
+      if (this.options.broadcaster === 'reverb') {
+        this.connector = new PusherConnector(_objectSpread2(_objectSpread2({}, this.options), {}, {
+          cluster: ''
+        }));
+      } else if (this.options.broadcaster === 'pusher') {
+        this.connector = new PusherConnector(this.options);
+      } else if (this.options.broadcaster === 'socket.io') {
+        this.connector = new SocketIoConnector(this.options);
+      } else if (this.options.broadcaster === 'null') {
+        this.connector = new NullConnector(this.options);
+      } else if (typeof this.options.broadcaster === 'function' && isConstructor(this.options.broadcaster)) {
+        this.connector = new this.options.broadcaster(this.options);
+      } else {
+        throw new Error("Broadcaster ".concat(_typeof(this.options.broadcaster), " ").concat(String(this.options.broadcaster), " is not supported."));
+      }
+    }
+    /**
+     * Disconnect from the Echo server.
+     */
+  }, {
+    key: "disconnect",
+    value: function disconnect() {
+      this.connector.disconnect();
+    }
+    /**
+     * Get a presence channel instance by name.
+     */
+  }, {
+    key: "join",
+    value: function join(channel) {
+      return this.connector.presenceChannel(channel);
+    }
+    /**
+     * Leave the given channel, as well as its private and presence variants.
+     */
+  }, {
+    key: "leave",
+    value: function leave(channel) {
+      this.connector.leave(channel);
+    }
+    /**
+     * Leave the given channel.
+     */
+  }, {
+    key: "leaveChannel",
+    value: function leaveChannel(channel) {
+      this.connector.leaveChannel(channel);
+    }
+    /**
+     * Leave all channels.
+     */
+  }, {
+    key: "leaveAllChannels",
+    value: function leaveAllChannels() {
+      for (var channel in this.connector.channels) {
+        this.leaveChannel(channel);
+      }
+    }
+    /**
+     * Listen for an event on a channel instance.
+     */
+  }, {
+    key: "listen",
+    value: function listen(channel, event, callback) {
+      return this.connector.listen(channel, event, callback);
+    }
+    /**
+     * Get a private channel instance by name.
+     */
+  }, {
+    key: "private",
+    value: function _private(channel) {
+      return this.connector.privateChannel(channel);
+    }
+    /**
+     * Get a private encrypted channel instance by name.
+     */
+  }, {
+    key: "encryptedPrivate",
+    value: function encryptedPrivate(channel) {
+      if (this.connectorSupportsEncryptedPrivateChannels(this.connector)) {
+        return this.connector.encryptedPrivateChannel(channel);
+      }
+      throw new Error("Broadcaster ".concat(_typeof(this.options.broadcaster), " ").concat(String(this.options.broadcaster), " does not support encrypted private channels."));
+    }
+  }, {
+    key: "connectorSupportsEncryptedPrivateChannels",
+    value: function connectorSupportsEncryptedPrivateChannels(connector) {
+      return connector instanceof PusherConnector || connector instanceof NullConnector;
+    }
+    /**
+     * Get the Socket ID for the connection.
+     */
+  }, {
+    key: "socketId",
+    value: function socketId() {
+      return this.connector.socketId();
+    }
+    /**
+     * Register 3rd party request interceptiors. These are used to automatically
+     * send a connections socket id to a Laravel app with a X-Socket-Id header.
+     */
+  }, {
+    key: "registerInterceptors",
+    value: function registerInterceptors() {
+      if (typeof Vue === 'function' && Vue.http) {
+        this.registerVueRequestInterceptor();
+      }
+      if (typeof axios === 'function') {
+        this.registerAxiosRequestInterceptor();
+      }
+      if (typeof jQuery === 'function') {
+        this.registerjQueryAjaxSetup();
+      }
+      if ((typeof Turbo === "undefined" ? "undefined" : _typeof(Turbo)) === 'object') {
+        this.registerTurboRequestInterceptor();
+      }
+    }
+    /**
+     * Register a Vue HTTP interceptor to add the X-Socket-ID header.
+     */
+  }, {
+    key: "registerVueRequestInterceptor",
+    value: function registerVueRequestInterceptor() {
+      var _this = this;
+      Vue.http.interceptors.push(function (request, next) {
+        if (_this.socketId()) {
+          request.headers.set('X-Socket-ID', _this.socketId());
+        }
+        next();
+      });
+    }
+    /**
+     * Register an Axios HTTP interceptor to add the X-Socket-ID header.
+     */
+  }, {
+    key: "registerAxiosRequestInterceptor",
+    value: function registerAxiosRequestInterceptor() {
+      var _this2 = this;
+      axios.interceptors.request.use(function (config) {
+        if (_this2.socketId()) {
+          config.headers['X-Socket-Id'] = _this2.socketId();
+        }
+        return config;
+      });
+    }
+    /**
+     * Register jQuery AjaxPrefilter to add the X-Socket-ID header.
+     */
+  }, {
+    key: "registerjQueryAjaxSetup",
+    value: function registerjQueryAjaxSetup() {
+      var _this3 = this;
+      if (typeof jQuery.ajax != 'undefined') {
+        jQuery.ajaxPrefilter(function (_options, _originalOptions, xhr) {
+          if (_this3.socketId()) {
+            xhr.setRequestHeader('X-Socket-Id', _this3.socketId());
+          }
+        });
+      }
+    }
+    /**
+     * Register the Turbo Request interceptor to add the X-Socket-ID header.
+     */
+  }, {
+    key: "registerTurboRequestInterceptor",
+    value: function registerTurboRequestInterceptor() {
+      var _this4 = this;
+      document.addEventListener('turbo:before-fetch-request', function (event) {
+        event.detail.fetchOptions.headers['X-Socket-Id'] = _this4.socketId();
+      });
+    }
+  }]);
+}();
+
+
+
+
+/***/ }),
+
 /***/ "./node_modules/process/browser.js":
 /*!*****************************************!*\
   !*** ./node_modules/process/browser.js ***!
@@ -10430,6 +11887,4597 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/pusher-js/dist/web/pusher.js":
+/*!***************************************************!*\
+  !*** ./node_modules/pusher-js/dist/web/pusher.js ***!
+  \***************************************************/
+/***/ ((module) => {
+
+/*!
+ * Pusher JavaScript Library v8.4.0
+ * https://pusher.com/
+ *
+ * Copyright 2020, Pusher
+ * Released under the MIT licence.
+ */
+
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(true)
+		module.exports = factory();
+	else {}
+})(window, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __nested_webpack_require_669__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __nested_webpack_require_669__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__nested_webpack_require_669__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__nested_webpack_require_669__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__nested_webpack_require_669__.d = function(exports, name, getter) {
+/******/ 		if(!__nested_webpack_require_669__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__nested_webpack_require_669__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__nested_webpack_require_669__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __nested_webpack_require_669__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__nested_webpack_require_669__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __nested_webpack_require_669__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__nested_webpack_require_669__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__nested_webpack_require_669__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__nested_webpack_require_669__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__nested_webpack_require_669__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __nested_webpack_require_669__(__nested_webpack_require_669__.s = 2);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (C) 2016 Dmitry Chestnykh
+// MIT License. See LICENSE file for details.
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Package base64 implements Base64 encoding and decoding.
+ */
+// Invalid character used in decoding to indicate
+// that the character to decode is out of range of
+// alphabet and cannot be decoded.
+var INVALID_BYTE = 256;
+/**
+ * Implements standard Base64 encoding.
+ *
+ * Operates in constant time.
+ */
+var Coder = /** @class */ (function () {
+    // TODO(dchest): methods to encode chunk-by-chunk.
+    function Coder(_paddingCharacter) {
+        if (_paddingCharacter === void 0) { _paddingCharacter = "="; }
+        this._paddingCharacter = _paddingCharacter;
+    }
+    Coder.prototype.encodedLength = function (length) {
+        if (!this._paddingCharacter) {
+            return (length * 8 + 5) / 6 | 0;
+        }
+        return (length + 2) / 3 * 4 | 0;
+    };
+    Coder.prototype.encode = function (data) {
+        var out = "";
+        var i = 0;
+        for (; i < data.length - 2; i += 3) {
+            var c = (data[i] << 16) | (data[i + 1] << 8) | (data[i + 2]);
+            out += this._encodeByte((c >>> 3 * 6) & 63);
+            out += this._encodeByte((c >>> 2 * 6) & 63);
+            out += this._encodeByte((c >>> 1 * 6) & 63);
+            out += this._encodeByte((c >>> 0 * 6) & 63);
+        }
+        var left = data.length - i;
+        if (left > 0) {
+            var c = (data[i] << 16) | (left === 2 ? data[i + 1] << 8 : 0);
+            out += this._encodeByte((c >>> 3 * 6) & 63);
+            out += this._encodeByte((c >>> 2 * 6) & 63);
+            if (left === 2) {
+                out += this._encodeByte((c >>> 1 * 6) & 63);
+            }
+            else {
+                out += this._paddingCharacter || "";
+            }
+            out += this._paddingCharacter || "";
+        }
+        return out;
+    };
+    Coder.prototype.maxDecodedLength = function (length) {
+        if (!this._paddingCharacter) {
+            return (length * 6 + 7) / 8 | 0;
+        }
+        return length / 4 * 3 | 0;
+    };
+    Coder.prototype.decodedLength = function (s) {
+        return this.maxDecodedLength(s.length - this._getPaddingLength(s));
+    };
+    Coder.prototype.decode = function (s) {
+        if (s.length === 0) {
+            return new Uint8Array(0);
+        }
+        var paddingLength = this._getPaddingLength(s);
+        var length = s.length - paddingLength;
+        var out = new Uint8Array(this.maxDecodedLength(length));
+        var op = 0;
+        var i = 0;
+        var haveBad = 0;
+        var v0 = 0, v1 = 0, v2 = 0, v3 = 0;
+        for (; i < length - 4; i += 4) {
+            v0 = this._decodeChar(s.charCodeAt(i + 0));
+            v1 = this._decodeChar(s.charCodeAt(i + 1));
+            v2 = this._decodeChar(s.charCodeAt(i + 2));
+            v3 = this._decodeChar(s.charCodeAt(i + 3));
+            out[op++] = (v0 << 2) | (v1 >>> 4);
+            out[op++] = (v1 << 4) | (v2 >>> 2);
+            out[op++] = (v2 << 6) | v3;
+            haveBad |= v0 & INVALID_BYTE;
+            haveBad |= v1 & INVALID_BYTE;
+            haveBad |= v2 & INVALID_BYTE;
+            haveBad |= v3 & INVALID_BYTE;
+        }
+        if (i < length - 1) {
+            v0 = this._decodeChar(s.charCodeAt(i));
+            v1 = this._decodeChar(s.charCodeAt(i + 1));
+            out[op++] = (v0 << 2) | (v1 >>> 4);
+            haveBad |= v0 & INVALID_BYTE;
+            haveBad |= v1 & INVALID_BYTE;
+        }
+        if (i < length - 2) {
+            v2 = this._decodeChar(s.charCodeAt(i + 2));
+            out[op++] = (v1 << 4) | (v2 >>> 2);
+            haveBad |= v2 & INVALID_BYTE;
+        }
+        if (i < length - 3) {
+            v3 = this._decodeChar(s.charCodeAt(i + 3));
+            out[op++] = (v2 << 6) | v3;
+            haveBad |= v3 & INVALID_BYTE;
+        }
+        if (haveBad !== 0) {
+            throw new Error("Base64Coder: incorrect characters for decoding");
+        }
+        return out;
+    };
+    // Standard encoding have the following encoded/decoded ranges,
+    // which we need to convert between.
+    //
+    // ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789  +   /
+    // Index:   0 - 25                    26 - 51              52 - 61   62  63
+    // ASCII:  65 - 90                    97 - 122             48 - 57   43  47
+    //
+    // Encode 6 bits in b into a new character.
+    Coder.prototype._encodeByte = function (b) {
+        // Encoding uses constant time operations as follows:
+        //
+        // 1. Define comparison of A with B using (A - B) >>> 8:
+        //          if A > B, then result is positive integer
+        //          if A <= B, then result is 0
+        //
+        // 2. Define selection of C or 0 using bitwise AND: X & C:
+        //          if X == 0, then result is 0
+        //          if X != 0, then result is C
+        //
+        // 3. Start with the smallest comparison (b >= 0), which is always
+        //    true, so set the result to the starting ASCII value (65).
+        //
+        // 4. Continue comparing b to higher ASCII values, and selecting
+        //    zero if comparison isn't true, otherwise selecting a value
+        //    to add to result, which:
+        //
+        //          a) undoes the previous addition
+        //          b) provides new value to add
+        //
+        var result = b;
+        // b >= 0
+        result += 65;
+        // b > 25
+        result += ((25 - b) >>> 8) & ((0 - 65) - 26 + 97);
+        // b > 51
+        result += ((51 - b) >>> 8) & ((26 - 97) - 52 + 48);
+        // b > 61
+        result += ((61 - b) >>> 8) & ((52 - 48) - 62 + 43);
+        // b > 62
+        result += ((62 - b) >>> 8) & ((62 - 43) - 63 + 47);
+        return String.fromCharCode(result);
+    };
+    // Decode a character code into a byte.
+    // Must return 256 if character is out of alphabet range.
+    Coder.prototype._decodeChar = function (c) {
+        // Decoding works similar to encoding: using the same comparison
+        // function, but now it works on ranges: result is always incremented
+        // by value, but this value becomes zero if the range is not
+        // satisfied.
+        //
+        // Decoding starts with invalid value, 256, which is then
+        // subtracted when the range is satisfied. If none of the ranges
+        // apply, the function returns 256, which is then checked by
+        // the caller to throw error.
+        var result = INVALID_BYTE; // start with invalid character
+        // c == 43 (c > 42 and c < 44)
+        result += (((42 - c) & (c - 44)) >>> 8) & (-INVALID_BYTE + c - 43 + 62);
+        // c == 47 (c > 46 and c < 48)
+        result += (((46 - c) & (c - 48)) >>> 8) & (-INVALID_BYTE + c - 47 + 63);
+        // c > 47 and c < 58
+        result += (((47 - c) & (c - 58)) >>> 8) & (-INVALID_BYTE + c - 48 + 52);
+        // c > 64 and c < 91
+        result += (((64 - c) & (c - 91)) >>> 8) & (-INVALID_BYTE + c - 65 + 0);
+        // c > 96 and c < 123
+        result += (((96 - c) & (c - 123)) >>> 8) & (-INVALID_BYTE + c - 97 + 26);
+        return result;
+    };
+    Coder.prototype._getPaddingLength = function (s) {
+        var paddingLength = 0;
+        if (this._paddingCharacter) {
+            for (var i = s.length - 1; i >= 0; i--) {
+                if (s[i] !== this._paddingCharacter) {
+                    break;
+                }
+                paddingLength++;
+            }
+            if (s.length < 4 || paddingLength > 2) {
+                throw new Error("Base64Coder: incorrect padding");
+            }
+        }
+        return paddingLength;
+    };
+    return Coder;
+}());
+exports.Coder = Coder;
+var stdCoder = new Coder();
+function encode(data) {
+    return stdCoder.encode(data);
+}
+exports.encode = encode;
+function decode(s) {
+    return stdCoder.decode(s);
+}
+exports.decode = decode;
+/**
+ * Implements URL-safe Base64 encoding.
+ * (Same as Base64, but '+' is replaced with '-', and '/' with '_').
+ *
+ * Operates in constant time.
+ */
+var URLSafeCoder = /** @class */ (function (_super) {
+    __extends(URLSafeCoder, _super);
+    function URLSafeCoder() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    // URL-safe encoding have the following encoded/decoded ranges:
+    //
+    // ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789  -   _
+    // Index:   0 - 25                    26 - 51              52 - 61   62  63
+    // ASCII:  65 - 90                    97 - 122             48 - 57   45  95
+    //
+    URLSafeCoder.prototype._encodeByte = function (b) {
+        var result = b;
+        // b >= 0
+        result += 65;
+        // b > 25
+        result += ((25 - b) >>> 8) & ((0 - 65) - 26 + 97);
+        // b > 51
+        result += ((51 - b) >>> 8) & ((26 - 97) - 52 + 48);
+        // b > 61
+        result += ((61 - b) >>> 8) & ((52 - 48) - 62 + 45);
+        // b > 62
+        result += ((62 - b) >>> 8) & ((62 - 45) - 63 + 95);
+        return String.fromCharCode(result);
+    };
+    URLSafeCoder.prototype._decodeChar = function (c) {
+        var result = INVALID_BYTE;
+        // c == 45 (c > 44 and c < 46)
+        result += (((44 - c) & (c - 46)) >>> 8) & (-INVALID_BYTE + c - 45 + 62);
+        // c == 95 (c > 94 and c < 96)
+        result += (((94 - c) & (c - 96)) >>> 8) & (-INVALID_BYTE + c - 95 + 63);
+        // c > 47 and c < 58
+        result += (((47 - c) & (c - 58)) >>> 8) & (-INVALID_BYTE + c - 48 + 52);
+        // c > 64 and c < 91
+        result += (((64 - c) & (c - 91)) >>> 8) & (-INVALID_BYTE + c - 65 + 0);
+        // c > 96 and c < 123
+        result += (((96 - c) & (c - 123)) >>> 8) & (-INVALID_BYTE + c - 97 + 26);
+        return result;
+    };
+    return URLSafeCoder;
+}(Coder));
+exports.URLSafeCoder = URLSafeCoder;
+var urlSafeCoder = new URLSafeCoder();
+function encodeURLSafe(data) {
+    return urlSafeCoder.encode(data);
+}
+exports.encodeURLSafe = encodeURLSafe;
+function decodeURLSafe(s) {
+    return urlSafeCoder.decode(s);
+}
+exports.decodeURLSafe = decodeURLSafe;
+exports.encodedLength = function (length) {
+    return stdCoder.encodedLength(length);
+};
+exports.maxDecodedLength = function (length) {
+    return stdCoder.maxDecodedLength(length);
+};
+exports.decodedLength = function (s) {
+    return stdCoder.decodedLength(s);
+};
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (C) 2016 Dmitry Chestnykh
+// MIT License. See LICENSE file for details.
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Package utf8 implements UTF-8 encoding and decoding.
+ */
+var INVALID_UTF16 = "utf8: invalid string";
+var INVALID_UTF8 = "utf8: invalid source encoding";
+/**
+ * Encodes the given string into UTF-8 byte array.
+ * Throws if the source string has invalid UTF-16 encoding.
+ */
+function encode(s) {
+    // Calculate result length and allocate output array.
+    // encodedLength() also validates string and throws errors,
+    // so we don't need repeat validation here.
+    var arr = new Uint8Array(encodedLength(s));
+    var pos = 0;
+    for (var i = 0; i < s.length; i++) {
+        var c = s.charCodeAt(i);
+        if (c < 0x80) {
+            arr[pos++] = c;
+        }
+        else if (c < 0x800) {
+            arr[pos++] = 0xc0 | c >> 6;
+            arr[pos++] = 0x80 | c & 0x3f;
+        }
+        else if (c < 0xd800) {
+            arr[pos++] = 0xe0 | c >> 12;
+            arr[pos++] = 0x80 | (c >> 6) & 0x3f;
+            arr[pos++] = 0x80 | c & 0x3f;
+        }
+        else {
+            i++; // get one more character
+            c = (c & 0x3ff) << 10;
+            c |= s.charCodeAt(i) & 0x3ff;
+            c += 0x10000;
+            arr[pos++] = 0xf0 | c >> 18;
+            arr[pos++] = 0x80 | (c >> 12) & 0x3f;
+            arr[pos++] = 0x80 | (c >> 6) & 0x3f;
+            arr[pos++] = 0x80 | c & 0x3f;
+        }
+    }
+    return arr;
+}
+exports.encode = encode;
+/**
+ * Returns the number of bytes required to encode the given string into UTF-8.
+ * Throws if the source string has invalid UTF-16 encoding.
+ */
+function encodedLength(s) {
+    var result = 0;
+    for (var i = 0; i < s.length; i++) {
+        var c = s.charCodeAt(i);
+        if (c < 0x80) {
+            result += 1;
+        }
+        else if (c < 0x800) {
+            result += 2;
+        }
+        else if (c < 0xd800) {
+            result += 3;
+        }
+        else if (c <= 0xdfff) {
+            if (i >= s.length - 1) {
+                throw new Error(INVALID_UTF16);
+            }
+            i++; // "eat" next character
+            result += 4;
+        }
+        else {
+            throw new Error(INVALID_UTF16);
+        }
+    }
+    return result;
+}
+exports.encodedLength = encodedLength;
+/**
+ * Decodes the given byte array from UTF-8 into a string.
+ * Throws if encoding is invalid.
+ */
+function decode(arr) {
+    var chars = [];
+    for (var i = 0; i < arr.length; i++) {
+        var b = arr[i];
+        if (b & 0x80) {
+            var min = void 0;
+            if (b < 0xe0) {
+                // Need 1 more byte.
+                if (i >= arr.length) {
+                    throw new Error(INVALID_UTF8);
+                }
+                var n1 = arr[++i];
+                if ((n1 & 0xc0) !== 0x80) {
+                    throw new Error(INVALID_UTF8);
+                }
+                b = (b & 0x1f) << 6 | (n1 & 0x3f);
+                min = 0x80;
+            }
+            else if (b < 0xf0) {
+                // Need 2 more bytes.
+                if (i >= arr.length - 1) {
+                    throw new Error(INVALID_UTF8);
+                }
+                var n1 = arr[++i];
+                var n2 = arr[++i];
+                if ((n1 & 0xc0) !== 0x80 || (n2 & 0xc0) !== 0x80) {
+                    throw new Error(INVALID_UTF8);
+                }
+                b = (b & 0x0f) << 12 | (n1 & 0x3f) << 6 | (n2 & 0x3f);
+                min = 0x800;
+            }
+            else if (b < 0xf8) {
+                // Need 3 more bytes.
+                if (i >= arr.length - 2) {
+                    throw new Error(INVALID_UTF8);
+                }
+                var n1 = arr[++i];
+                var n2 = arr[++i];
+                var n3 = arr[++i];
+                if ((n1 & 0xc0) !== 0x80 || (n2 & 0xc0) !== 0x80 || (n3 & 0xc0) !== 0x80) {
+                    throw new Error(INVALID_UTF8);
+                }
+                b = (b & 0x0f) << 18 | (n1 & 0x3f) << 12 | (n2 & 0x3f) << 6 | (n3 & 0x3f);
+                min = 0x10000;
+            }
+            else {
+                throw new Error(INVALID_UTF8);
+            }
+            if (b < min || (b >= 0xd800 && b <= 0xdfff)) {
+                throw new Error(INVALID_UTF8);
+            }
+            if (b >= 0x10000) {
+                // Surrogate pair.
+                if (b > 0x10ffff) {
+                    throw new Error(INVALID_UTF8);
+                }
+                b -= 0x10000;
+                chars.push(String.fromCharCode(0xd800 | (b >> 10)));
+                b = 0xdc00 | (b & 0x3ff);
+            }
+        }
+        chars.push(String.fromCharCode(b));
+    }
+    return chars.join("");
+}
+exports.decode = decode;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __nested_webpack_require_19901__) {
+
+// required so we don't have to do require('pusher').default etc.
+module.exports = __nested_webpack_require_19901__(3).default;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __nested_webpack_exports__, __nested_webpack_require_20105__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__nested_webpack_require_20105__.r(__nested_webpack_exports__);
+
+// CONCATENATED MODULE: ./src/runtimes/web/dom/script_receiver_factory.ts
+class ScriptReceiverFactory {
+    constructor(prefix, name) {
+        this.lastId = 0;
+        this.prefix = prefix;
+        this.name = name;
+    }
+    create(callback) {
+        this.lastId++;
+        var number = this.lastId;
+        var id = this.prefix + number;
+        var name = this.name + '[' + number + ']';
+        var called = false;
+        var callbackWrapper = function () {
+            if (!called) {
+                callback.apply(null, arguments);
+                called = true;
+            }
+        };
+        this[number] = callbackWrapper;
+        return { number: number, id: id, name: name, callback: callbackWrapper };
+    }
+    remove(receiver) {
+        delete this[receiver.number];
+    }
+}
+var ScriptReceivers = new ScriptReceiverFactory('_pusher_script_', 'Pusher.ScriptReceivers');
+
+// CONCATENATED MODULE: ./src/core/defaults.ts
+var Defaults = {
+    VERSION: "8.4.0",
+    PROTOCOL: 7,
+    wsPort: 80,
+    wssPort: 443,
+    wsPath: '',
+    httpHost: 'sockjs.pusher.com',
+    httpPort: 80,
+    httpsPort: 443,
+    httpPath: '/pusher',
+    stats_host: 'stats.pusher.com',
+    authEndpoint: '/pusher/auth',
+    authTransport: 'ajax',
+    activityTimeout: 120000,
+    pongTimeout: 30000,
+    unavailableTimeout: 10000,
+    userAuthentication: {
+        endpoint: '/pusher/user-auth',
+        transport: 'ajax',
+    },
+    channelAuthorization: {
+        endpoint: '/pusher/auth',
+        transport: 'ajax',
+    },
+    cdn_http: "http://js.pusher.com",
+    cdn_https: "https://js.pusher.com",
+    dependency_suffix: "",
+};
+/* harmony default export */ var defaults = (Defaults);
+
+// CONCATENATED MODULE: ./src/runtimes/web/dom/dependency_loader.ts
+
+
+class dependency_loader_DependencyLoader {
+    constructor(options) {
+        this.options = options;
+        this.receivers = options.receivers || ScriptReceivers;
+        this.loading = {};
+    }
+    load(name, options, callback) {
+        var self = this;
+        if (self.loading[name] && self.loading[name].length > 0) {
+            self.loading[name].push(callback);
+        }
+        else {
+            self.loading[name] = [callback];
+            var request = runtime.createScriptRequest(self.getPath(name, options));
+            var receiver = self.receivers.create(function (error) {
+                self.receivers.remove(receiver);
+                if (self.loading[name]) {
+                    var callbacks = self.loading[name];
+                    delete self.loading[name];
+                    var successCallback = function (wasSuccessful) {
+                        if (!wasSuccessful) {
+                            request.cleanup();
+                        }
+                    };
+                    for (var i = 0; i < callbacks.length; i++) {
+                        callbacks[i](error, successCallback);
+                    }
+                }
+            });
+            request.send(receiver);
+        }
+    }
+    getRoot(options) {
+        var cdn;
+        var protocol = runtime.getDocument().location.protocol;
+        if ((options && options.useTLS) || protocol === 'https:') {
+            cdn = this.options.cdn_https;
+        }
+        else {
+            cdn = this.options.cdn_http;
+        }
+        return cdn.replace(/\/*$/, '') + '/' + this.options.version;
+    }
+    getPath(name, options) {
+        return this.getRoot(options) + '/' + name + this.options.suffix + '.js';
+    }
+}
+
+// CONCATENATED MODULE: ./src/runtimes/web/dom/dependencies.ts
+
+
+
+var DependenciesReceivers = new ScriptReceiverFactory('_pusher_dependencies', 'Pusher.DependenciesReceivers');
+var Dependencies = new dependency_loader_DependencyLoader({
+    cdn_http: defaults.cdn_http,
+    cdn_https: defaults.cdn_https,
+    version: defaults.VERSION,
+    suffix: defaults.dependency_suffix,
+    receivers: DependenciesReceivers,
+});
+
+// CONCATENATED MODULE: ./src/core/utils/url_store.ts
+const urlStore = {
+    baseUrl: 'https://pusher.com',
+    urls: {
+        authenticationEndpoint: {
+            path: '/docs/channels/server_api/authenticating_users',
+        },
+        authorizationEndpoint: {
+            path: '/docs/channels/server_api/authorizing-users/',
+        },
+        javascriptQuickStart: {
+            path: '/docs/javascript_quick_start',
+        },
+        triggeringClientEvents: {
+            path: '/docs/client_api_guide/client_events#trigger-events',
+        },
+        encryptedChannelSupport: {
+            fullUrl: 'https://github.com/pusher/pusher-js/tree/cc491015371a4bde5743d1c87a0fbac0feb53195#encrypted-channel-support',
+        },
+    },
+};
+const buildLogSuffix = function (key) {
+    const urlPrefix = 'See:';
+    const urlObj = urlStore.urls[key];
+    if (!urlObj)
+        return '';
+    let url;
+    if (urlObj.fullUrl) {
+        url = urlObj.fullUrl;
+    }
+    else if (urlObj.path) {
+        url = urlStore.baseUrl + urlObj.path;
+    }
+    if (!url)
+        return '';
+    return `${urlPrefix} ${url}`;
+};
+/* harmony default export */ var url_store = ({ buildLogSuffix });
+
+// CONCATENATED MODULE: ./src/core/auth/options.ts
+var AuthRequestType;
+(function (AuthRequestType) {
+    AuthRequestType["UserAuthentication"] = "user-authentication";
+    AuthRequestType["ChannelAuthorization"] = "channel-authorization";
+})(AuthRequestType || (AuthRequestType = {}));
+
+// CONCATENATED MODULE: ./src/core/errors.ts
+class BadEventName extends Error {
+    constructor(msg) {
+        super(msg);
+        Object.setPrototypeOf(this, new.target.prototype);
+    }
+}
+class BadChannelName extends Error {
+    constructor(msg) {
+        super(msg);
+        Object.setPrototypeOf(this, new.target.prototype);
+    }
+}
+class RequestTimedOut extends Error {
+    constructor(msg) {
+        super(msg);
+        Object.setPrototypeOf(this, new.target.prototype);
+    }
+}
+class TransportPriorityTooLow extends Error {
+    constructor(msg) {
+        super(msg);
+        Object.setPrototypeOf(this, new.target.prototype);
+    }
+}
+class TransportClosed extends Error {
+    constructor(msg) {
+        super(msg);
+        Object.setPrototypeOf(this, new.target.prototype);
+    }
+}
+class UnsupportedFeature extends Error {
+    constructor(msg) {
+        super(msg);
+        Object.setPrototypeOf(this, new.target.prototype);
+    }
+}
+class UnsupportedTransport extends Error {
+    constructor(msg) {
+        super(msg);
+        Object.setPrototypeOf(this, new.target.prototype);
+    }
+}
+class UnsupportedStrategy extends Error {
+    constructor(msg) {
+        super(msg);
+        Object.setPrototypeOf(this, new.target.prototype);
+    }
+}
+class HTTPAuthError extends Error {
+    constructor(status, msg) {
+        super(msg);
+        this.status = status;
+        Object.setPrototypeOf(this, new.target.prototype);
+    }
+}
+
+// CONCATENATED MODULE: ./src/runtimes/isomorphic/auth/xhr_auth.ts
+
+
+
+
+const ajax = function (context, query, authOptions, authRequestType, callback) {
+    const xhr = runtime.createXHR();
+    xhr.open('POST', authOptions.endpoint, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    for (var headerName in authOptions.headers) {
+        xhr.setRequestHeader(headerName, authOptions.headers[headerName]);
+    }
+    if (authOptions.headersProvider != null) {
+        let dynamicHeaders = authOptions.headersProvider();
+        for (var headerName in dynamicHeaders) {
+            xhr.setRequestHeader(headerName, dynamicHeaders[headerName]);
+        }
+    }
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                let data;
+                let parsed = false;
+                try {
+                    data = JSON.parse(xhr.responseText);
+                    parsed = true;
+                }
+                catch (e) {
+                    callback(new HTTPAuthError(200, `JSON returned from ${authRequestType.toString()} endpoint was invalid, yet status code was 200. Data was: ${xhr.responseText}`), null);
+                }
+                if (parsed) {
+                    callback(null, data);
+                }
+            }
+            else {
+                let suffix = '';
+                switch (authRequestType) {
+                    case AuthRequestType.UserAuthentication:
+                        suffix = url_store.buildLogSuffix('authenticationEndpoint');
+                        break;
+                    case AuthRequestType.ChannelAuthorization:
+                        suffix = `Clients must be authorized to join private or presence channels. ${url_store.buildLogSuffix('authorizationEndpoint')}`;
+                        break;
+                }
+                callback(new HTTPAuthError(xhr.status, `Unable to retrieve auth string from ${authRequestType.toString()} endpoint - ` +
+                    `received status: ${xhr.status} from ${authOptions.endpoint}. ${suffix}`), null);
+            }
+        }
+    };
+    xhr.send(query);
+    return xhr;
+};
+/* harmony default export */ var xhr_auth = (ajax);
+
+// CONCATENATED MODULE: ./src/core/base64.ts
+function encode(s) {
+    return btoa(utob(s));
+}
+var fromCharCode = String.fromCharCode;
+var b64chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+var b64tab = {};
+for (var base64_i = 0, l = b64chars.length; base64_i < l; base64_i++) {
+    b64tab[b64chars.charAt(base64_i)] = base64_i;
+}
+var cb_utob = function (c) {
+    var cc = c.charCodeAt(0);
+    return cc < 0x80
+        ? c
+        : cc < 0x800
+            ? fromCharCode(0xc0 | (cc >>> 6)) + fromCharCode(0x80 | (cc & 0x3f))
+            : fromCharCode(0xe0 | ((cc >>> 12) & 0x0f)) +
+                fromCharCode(0x80 | ((cc >>> 6) & 0x3f)) +
+                fromCharCode(0x80 | (cc & 0x3f));
+};
+var utob = function (u) {
+    return u.replace(/[^\x00-\x7F]/g, cb_utob);
+};
+var cb_encode = function (ccc) {
+    var padlen = [0, 2, 1][ccc.length % 3];
+    var ord = (ccc.charCodeAt(0) << 16) |
+        ((ccc.length > 1 ? ccc.charCodeAt(1) : 0) << 8) |
+        (ccc.length > 2 ? ccc.charCodeAt(2) : 0);
+    var chars = [
+        b64chars.charAt(ord >>> 18),
+        b64chars.charAt((ord >>> 12) & 63),
+        padlen >= 2 ? '=' : b64chars.charAt((ord >>> 6) & 63),
+        padlen >= 1 ? '=' : b64chars.charAt(ord & 63),
+    ];
+    return chars.join('');
+};
+var btoa = window.btoa ||
+    function (b) {
+        return b.replace(/[\s\S]{1,3}/g, cb_encode);
+    };
+
+// CONCATENATED MODULE: ./src/core/utils/timers/abstract_timer.ts
+class Timer {
+    constructor(set, clear, delay, callback) {
+        this.clear = clear;
+        this.timer = set(() => {
+            if (this.timer) {
+                this.timer = callback(this.timer);
+            }
+        }, delay);
+    }
+    isRunning() {
+        return this.timer !== null;
+    }
+    ensureAborted() {
+        if (this.timer) {
+            this.clear(this.timer);
+            this.timer = null;
+        }
+    }
+}
+/* harmony default export */ var abstract_timer = (Timer);
+
+// CONCATENATED MODULE: ./src/core/utils/timers/index.ts
+
+function timers_clearTimeout(timer) {
+    window.clearTimeout(timer);
+}
+function timers_clearInterval(timer) {
+    window.clearInterval(timer);
+}
+class timers_OneOffTimer extends abstract_timer {
+    constructor(delay, callback) {
+        super(setTimeout, timers_clearTimeout, delay, function (timer) {
+            callback();
+            return null;
+        });
+    }
+}
+class timers_PeriodicTimer extends abstract_timer {
+    constructor(delay, callback) {
+        super(setInterval, timers_clearInterval, delay, function (timer) {
+            callback();
+            return timer;
+        });
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/util.ts
+
+var Util = {
+    now() {
+        if (Date.now) {
+            return Date.now();
+        }
+        else {
+            return new Date().valueOf();
+        }
+    },
+    defer(callback) {
+        return new timers_OneOffTimer(0, callback);
+    },
+    method(name, ...args) {
+        var boundArguments = Array.prototype.slice.call(arguments, 1);
+        return function (object) {
+            return object[name].apply(object, boundArguments.concat(arguments));
+        };
+    },
+};
+/* harmony default export */ var util = (Util);
+
+// CONCATENATED MODULE: ./src/core/utils/collections.ts
+
+
+function extend(target, ...sources) {
+    for (var i = 0; i < sources.length; i++) {
+        var extensions = sources[i];
+        for (var property in extensions) {
+            if (extensions[property] &&
+                extensions[property].constructor &&
+                extensions[property].constructor === Object) {
+                target[property] = extend(target[property] || {}, extensions[property]);
+            }
+            else {
+                target[property] = extensions[property];
+            }
+        }
+    }
+    return target;
+}
+function stringify() {
+    var m = ['Pusher'];
+    for (var i = 0; i < arguments.length; i++) {
+        if (typeof arguments[i] === 'string') {
+            m.push(arguments[i]);
+        }
+        else {
+            m.push(safeJSONStringify(arguments[i]));
+        }
+    }
+    return m.join(' : ');
+}
+function arrayIndexOf(array, item) {
+    var nativeIndexOf = Array.prototype.indexOf;
+    if (array === null) {
+        return -1;
+    }
+    if (nativeIndexOf && array.indexOf === nativeIndexOf) {
+        return array.indexOf(item);
+    }
+    for (var i = 0, l = array.length; i < l; i++) {
+        if (array[i] === item) {
+            return i;
+        }
+    }
+    return -1;
+}
+function objectApply(object, f) {
+    for (var key in object) {
+        if (Object.prototype.hasOwnProperty.call(object, key)) {
+            f(object[key], key, object);
+        }
+    }
+}
+function keys(object) {
+    var keys = [];
+    objectApply(object, function (_, key) {
+        keys.push(key);
+    });
+    return keys;
+}
+function values(object) {
+    var values = [];
+    objectApply(object, function (value) {
+        values.push(value);
+    });
+    return values;
+}
+function apply(array, f, context) {
+    for (var i = 0; i < array.length; i++) {
+        f.call(context || window, array[i], i, array);
+    }
+}
+function map(array, f) {
+    var result = [];
+    for (var i = 0; i < array.length; i++) {
+        result.push(f(array[i], i, array, result));
+    }
+    return result;
+}
+function mapObject(object, f) {
+    var result = {};
+    objectApply(object, function (value, key) {
+        result[key] = f(value);
+    });
+    return result;
+}
+function filter(array, test) {
+    test =
+        test ||
+            function (value) {
+                return !!value;
+            };
+    var result = [];
+    for (var i = 0; i < array.length; i++) {
+        if (test(array[i], i, array, result)) {
+            result.push(array[i]);
+        }
+    }
+    return result;
+}
+function filterObject(object, test) {
+    var result = {};
+    objectApply(object, function (value, key) {
+        if ((test && test(value, key, object, result)) || Boolean(value)) {
+            result[key] = value;
+        }
+    });
+    return result;
+}
+function flatten(object) {
+    var result = [];
+    objectApply(object, function (value, key) {
+        result.push([key, value]);
+    });
+    return result;
+}
+function any(array, test) {
+    for (var i = 0; i < array.length; i++) {
+        if (test(array[i], i, array)) {
+            return true;
+        }
+    }
+    return false;
+}
+function collections_all(array, test) {
+    for (var i = 0; i < array.length; i++) {
+        if (!test(array[i], i, array)) {
+            return false;
+        }
+    }
+    return true;
+}
+function encodeParamsObject(data) {
+    return mapObject(data, function (value) {
+        if (typeof value === 'object') {
+            value = safeJSONStringify(value);
+        }
+        return encodeURIComponent(encode(value.toString()));
+    });
+}
+function buildQueryString(data) {
+    var params = filterObject(data, function (value) {
+        return value !== undefined;
+    });
+    var query = map(flatten(encodeParamsObject(params)), util.method('join', '=')).join('&');
+    return query;
+}
+function decycleObject(object) {
+    var objects = [], paths = [];
+    return (function derez(value, path) {
+        var i, name, nu;
+        switch (typeof value) {
+            case 'object':
+                if (!value) {
+                    return null;
+                }
+                for (i = 0; i < objects.length; i += 1) {
+                    if (objects[i] === value) {
+                        return { $ref: paths[i] };
+                    }
+                }
+                objects.push(value);
+                paths.push(path);
+                if (Object.prototype.toString.apply(value) === '[object Array]') {
+                    nu = [];
+                    for (i = 0; i < value.length; i += 1) {
+                        nu[i] = derez(value[i], path + '[' + i + ']');
+                    }
+                }
+                else {
+                    nu = {};
+                    for (name in value) {
+                        if (Object.prototype.hasOwnProperty.call(value, name)) {
+                            nu[name] = derez(value[name], path + '[' + JSON.stringify(name) + ']');
+                        }
+                    }
+                }
+                return nu;
+            case 'number':
+            case 'string':
+            case 'boolean':
+                return value;
+        }
+    })(object, '$');
+}
+function safeJSONStringify(source) {
+    try {
+        return JSON.stringify(source);
+    }
+    catch (e) {
+        return JSON.stringify(decycleObject(source));
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/logger.ts
+
+
+class logger_Logger {
+    constructor() {
+        this.globalLog = (message) => {
+            if (window.console && window.console.log) {
+                window.console.log(message);
+            }
+        };
+    }
+    debug(...args) {
+        this.log(this.globalLog, args);
+    }
+    warn(...args) {
+        this.log(this.globalLogWarn, args);
+    }
+    error(...args) {
+        this.log(this.globalLogError, args);
+    }
+    globalLogWarn(message) {
+        if (window.console && window.console.warn) {
+            window.console.warn(message);
+        }
+        else {
+            this.globalLog(message);
+        }
+    }
+    globalLogError(message) {
+        if (window.console && window.console.error) {
+            window.console.error(message);
+        }
+        else {
+            this.globalLogWarn(message);
+        }
+    }
+    log(defaultLoggingFunction, ...args) {
+        var message = stringify.apply(this, arguments);
+        if (core_pusher.log) {
+            core_pusher.log(message);
+        }
+        else if (core_pusher.logToConsole) {
+            const log = defaultLoggingFunction.bind(this);
+            log(message);
+        }
+    }
+}
+/* harmony default export */ var logger = (new logger_Logger());
+
+// CONCATENATED MODULE: ./src/runtimes/web/auth/jsonp_auth.ts
+
+var jsonp = function (context, query, authOptions, authRequestType, callback) {
+    if (authOptions.headers !== undefined ||
+        authOptions.headersProvider != null) {
+        logger.warn(`To send headers with the ${authRequestType.toString()} request, you must use AJAX, rather than JSONP.`);
+    }
+    var callbackName = context.nextAuthCallbackID.toString();
+    context.nextAuthCallbackID++;
+    var document = context.getDocument();
+    var script = document.createElement('script');
+    context.auth_callbacks[callbackName] = function (data) {
+        callback(null, data);
+    };
+    var callback_name = "Pusher.auth_callbacks['" + callbackName + "']";
+    script.src =
+        authOptions.endpoint +
+            '?callback=' +
+            encodeURIComponent(callback_name) +
+            '&' +
+            query;
+    var head = document.getElementsByTagName('head')[0] || document.documentElement;
+    head.insertBefore(script, head.firstChild);
+};
+/* harmony default export */ var jsonp_auth = (jsonp);
+
+// CONCATENATED MODULE: ./src/runtimes/web/dom/script_request.ts
+class ScriptRequest {
+    constructor(src) {
+        this.src = src;
+    }
+    send(receiver) {
+        var self = this;
+        var errorString = 'Error loading ' + self.src;
+        self.script = document.createElement('script');
+        self.script.id = receiver.id;
+        self.script.src = self.src;
+        self.script.type = 'text/javascript';
+        self.script.charset = 'UTF-8';
+        if (self.script.addEventListener) {
+            self.script.onerror = function () {
+                receiver.callback(errorString);
+            };
+            self.script.onload = function () {
+                receiver.callback(null);
+            };
+        }
+        else {
+            self.script.onreadystatechange = function () {
+                if (self.script.readyState === 'loaded' ||
+                    self.script.readyState === 'complete') {
+                    receiver.callback(null);
+                }
+            };
+        }
+        if (self.script.async === undefined &&
+            document.attachEvent &&
+            /opera/i.test(navigator.userAgent)) {
+            self.errorScript = document.createElement('script');
+            self.errorScript.id = receiver.id + '_error';
+            self.errorScript.text = receiver.name + "('" + errorString + "');";
+            self.script.async = self.errorScript.async = false;
+        }
+        else {
+            self.script.async = true;
+        }
+        var head = document.getElementsByTagName('head')[0];
+        head.insertBefore(self.script, head.firstChild);
+        if (self.errorScript) {
+            head.insertBefore(self.errorScript, self.script.nextSibling);
+        }
+    }
+    cleanup() {
+        if (this.script) {
+            this.script.onload = this.script.onerror = null;
+            this.script.onreadystatechange = null;
+        }
+        if (this.script && this.script.parentNode) {
+            this.script.parentNode.removeChild(this.script);
+        }
+        if (this.errorScript && this.errorScript.parentNode) {
+            this.errorScript.parentNode.removeChild(this.errorScript);
+        }
+        this.script = null;
+        this.errorScript = null;
+    }
+}
+
+// CONCATENATED MODULE: ./src/runtimes/web/dom/jsonp_request.ts
+
+
+class jsonp_request_JSONPRequest {
+    constructor(url, data) {
+        this.url = url;
+        this.data = data;
+    }
+    send(receiver) {
+        if (this.request) {
+            return;
+        }
+        var query = buildQueryString(this.data);
+        var url = this.url + '/' + receiver.number + '?' + query;
+        this.request = runtime.createScriptRequest(url);
+        this.request.send(receiver);
+    }
+    cleanup() {
+        if (this.request) {
+            this.request.cleanup();
+        }
+    }
+}
+
+// CONCATENATED MODULE: ./src/runtimes/web/timeline/jsonp_timeline.ts
+
+
+var getAgent = function (sender, useTLS) {
+    return function (data, callback) {
+        var scheme = 'http' + (useTLS ? 's' : '') + '://';
+        var url = scheme + (sender.host || sender.options.host) + sender.options.path;
+        var request = runtime.createJSONPRequest(url, data);
+        var receiver = runtime.ScriptReceivers.create(function (error, result) {
+            ScriptReceivers.remove(receiver);
+            request.cleanup();
+            if (result && result.host) {
+                sender.host = result.host;
+            }
+            if (callback) {
+                callback(error, result);
+            }
+        });
+        request.send(receiver);
+    };
+};
+var jsonp_timeline_jsonp = {
+    name: 'jsonp',
+    getAgent,
+};
+/* harmony default export */ var jsonp_timeline = (jsonp_timeline_jsonp);
+
+// CONCATENATED MODULE: ./src/core/transports/url_schemes.ts
+
+function getGenericURL(baseScheme, params, path) {
+    var scheme = baseScheme + (params.useTLS ? 's' : '');
+    var host = params.useTLS ? params.hostTLS : params.hostNonTLS;
+    return scheme + '://' + host + path;
+}
+function getGenericPath(key, queryString) {
+    var path = '/app/' + key;
+    var query = '?protocol=' +
+        defaults.PROTOCOL +
+        '&client=js' +
+        '&version=' +
+        defaults.VERSION +
+        (queryString ? '&' + queryString : '');
+    return path + query;
+}
+var ws = {
+    getInitial: function (key, params) {
+        var path = (params.httpPath || '') + getGenericPath(key, 'flash=false');
+        return getGenericURL('ws', params, path);
+    },
+};
+var http = {
+    getInitial: function (key, params) {
+        var path = (params.httpPath || '/pusher') + getGenericPath(key);
+        return getGenericURL('http', params, path);
+    },
+};
+var sockjs = {
+    getInitial: function (key, params) {
+        return getGenericURL('http', params, params.httpPath || '/pusher');
+    },
+    getPath: function (key, params) {
+        return getGenericPath(key);
+    },
+};
+
+// CONCATENATED MODULE: ./src/core/events/callback_registry.ts
+
+class callback_registry_CallbackRegistry {
+    constructor() {
+        this._callbacks = {};
+    }
+    get(name) {
+        return this._callbacks[prefix(name)];
+    }
+    add(name, callback, context) {
+        var prefixedEventName = prefix(name);
+        this._callbacks[prefixedEventName] =
+            this._callbacks[prefixedEventName] || [];
+        this._callbacks[prefixedEventName].push({
+            fn: callback,
+            context: context,
+        });
+    }
+    remove(name, callback, context) {
+        if (!name && !callback && !context) {
+            this._callbacks = {};
+            return;
+        }
+        var names = name ? [prefix(name)] : keys(this._callbacks);
+        if (callback || context) {
+            this.removeCallback(names, callback, context);
+        }
+        else {
+            this.removeAllCallbacks(names);
+        }
+    }
+    removeCallback(names, callback, context) {
+        apply(names, function (name) {
+            this._callbacks[name] = filter(this._callbacks[name] || [], function (binding) {
+                return ((callback && callback !== binding.fn) ||
+                    (context && context !== binding.context));
+            });
+            if (this._callbacks[name].length === 0) {
+                delete this._callbacks[name];
+            }
+        }, this);
+    }
+    removeAllCallbacks(names) {
+        apply(names, function (name) {
+            delete this._callbacks[name];
+        }, this);
+    }
+}
+function prefix(name) {
+    return '_' + name;
+}
+
+// CONCATENATED MODULE: ./src/core/events/dispatcher.ts
+
+
+class dispatcher_Dispatcher {
+    constructor(failThrough) {
+        this.callbacks = new callback_registry_CallbackRegistry();
+        this.global_callbacks = [];
+        this.failThrough = failThrough;
+    }
+    bind(eventName, callback, context) {
+        this.callbacks.add(eventName, callback, context);
+        return this;
+    }
+    bind_global(callback) {
+        this.global_callbacks.push(callback);
+        return this;
+    }
+    unbind(eventName, callback, context) {
+        this.callbacks.remove(eventName, callback, context);
+        return this;
+    }
+    unbind_global(callback) {
+        if (!callback) {
+            this.global_callbacks = [];
+            return this;
+        }
+        this.global_callbacks = filter(this.global_callbacks || [], (c) => c !== callback);
+        return this;
+    }
+    unbind_all() {
+        this.unbind();
+        this.unbind_global();
+        return this;
+    }
+    emit(eventName, data, metadata) {
+        for (var i = 0; i < this.global_callbacks.length; i++) {
+            this.global_callbacks[i](eventName, data);
+        }
+        var callbacks = this.callbacks.get(eventName);
+        var args = [];
+        if (metadata) {
+            args.push(data, metadata);
+        }
+        else if (data) {
+            args.push(data);
+        }
+        if (callbacks && callbacks.length > 0) {
+            for (var i = 0; i < callbacks.length; i++) {
+                callbacks[i].fn.apply(callbacks[i].context || window, args);
+            }
+        }
+        else if (this.failThrough) {
+            this.failThrough(eventName, data);
+        }
+        return this;
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/transports/transport_connection.ts
+
+
+
+
+
+class transport_connection_TransportConnection extends dispatcher_Dispatcher {
+    constructor(hooks, name, priority, key, options) {
+        super();
+        this.initialize = runtime.transportConnectionInitializer;
+        this.hooks = hooks;
+        this.name = name;
+        this.priority = priority;
+        this.key = key;
+        this.options = options;
+        this.state = 'new';
+        this.timeline = options.timeline;
+        this.activityTimeout = options.activityTimeout;
+        this.id = this.timeline.generateUniqueID();
+    }
+    handlesActivityChecks() {
+        return Boolean(this.hooks.handlesActivityChecks);
+    }
+    supportsPing() {
+        return Boolean(this.hooks.supportsPing);
+    }
+    connect() {
+        if (this.socket || this.state !== 'initialized') {
+            return false;
+        }
+        var url = this.hooks.urls.getInitial(this.key, this.options);
+        try {
+            this.socket = this.hooks.getSocket(url, this.options);
+        }
+        catch (e) {
+            util.defer(() => {
+                this.onError(e);
+                this.changeState('closed');
+            });
+            return false;
+        }
+        this.bindListeners();
+        logger.debug('Connecting', { transport: this.name, url });
+        this.changeState('connecting');
+        return true;
+    }
+    close() {
+        if (this.socket) {
+            this.socket.close();
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    send(data) {
+        if (this.state === 'open') {
+            util.defer(() => {
+                if (this.socket) {
+                    this.socket.send(data);
+                }
+            });
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    ping() {
+        if (this.state === 'open' && this.supportsPing()) {
+            this.socket.ping();
+        }
+    }
+    onOpen() {
+        if (this.hooks.beforeOpen) {
+            this.hooks.beforeOpen(this.socket, this.hooks.urls.getPath(this.key, this.options));
+        }
+        this.changeState('open');
+        this.socket.onopen = undefined;
+    }
+    onError(error) {
+        this.emit('error', { type: 'WebSocketError', error: error });
+        this.timeline.error(this.buildTimelineMessage({ error: error.toString() }));
+    }
+    onClose(closeEvent) {
+        if (closeEvent) {
+            this.changeState('closed', {
+                code: closeEvent.code,
+                reason: closeEvent.reason,
+                wasClean: closeEvent.wasClean,
+            });
+        }
+        else {
+            this.changeState('closed');
+        }
+        this.unbindListeners();
+        this.socket = undefined;
+    }
+    onMessage(message) {
+        this.emit('message', message);
+    }
+    onActivity() {
+        this.emit('activity');
+    }
+    bindListeners() {
+        this.socket.onopen = () => {
+            this.onOpen();
+        };
+        this.socket.onerror = (error) => {
+            this.onError(error);
+        };
+        this.socket.onclose = (closeEvent) => {
+            this.onClose(closeEvent);
+        };
+        this.socket.onmessage = (message) => {
+            this.onMessage(message);
+        };
+        if (this.supportsPing()) {
+            this.socket.onactivity = () => {
+                this.onActivity();
+            };
+        }
+    }
+    unbindListeners() {
+        if (this.socket) {
+            this.socket.onopen = undefined;
+            this.socket.onerror = undefined;
+            this.socket.onclose = undefined;
+            this.socket.onmessage = undefined;
+            if (this.supportsPing()) {
+                this.socket.onactivity = undefined;
+            }
+        }
+    }
+    changeState(state, params) {
+        this.state = state;
+        this.timeline.info(this.buildTimelineMessage({
+            state: state,
+            params: params,
+        }));
+        this.emit(state, params);
+    }
+    buildTimelineMessage(message) {
+        return extend({ cid: this.id }, message);
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/transports/transport.ts
+
+class transport_Transport {
+    constructor(hooks) {
+        this.hooks = hooks;
+    }
+    isSupported(environment) {
+        return this.hooks.isSupported(environment);
+    }
+    createConnection(name, priority, key, options) {
+        return new transport_connection_TransportConnection(this.hooks, name, priority, key, options);
+    }
+}
+
+// CONCATENATED MODULE: ./src/runtimes/isomorphic/transports/transports.ts
+
+
+
+
+var WSTransport = new transport_Transport({
+    urls: ws,
+    handlesActivityChecks: false,
+    supportsPing: false,
+    isInitialized: function () {
+        return Boolean(runtime.getWebSocketAPI());
+    },
+    isSupported: function () {
+        return Boolean(runtime.getWebSocketAPI());
+    },
+    getSocket: function (url) {
+        return runtime.createWebSocket(url);
+    },
+});
+var httpConfiguration = {
+    urls: http,
+    handlesActivityChecks: false,
+    supportsPing: true,
+    isInitialized: function () {
+        return true;
+    },
+};
+var streamingConfiguration = extend({
+    getSocket: function (url) {
+        return runtime.HTTPFactory.createStreamingSocket(url);
+    },
+}, httpConfiguration);
+var pollingConfiguration = extend({
+    getSocket: function (url) {
+        return runtime.HTTPFactory.createPollingSocket(url);
+    },
+}, httpConfiguration);
+var xhrConfiguration = {
+    isSupported: function () {
+        return runtime.isXHRSupported();
+    },
+};
+var XHRStreamingTransport = new transport_Transport((extend({}, streamingConfiguration, xhrConfiguration)));
+var XHRPollingTransport = new transport_Transport((extend({}, pollingConfiguration, xhrConfiguration)));
+var Transports = {
+    ws: WSTransport,
+    xhr_streaming: XHRStreamingTransport,
+    xhr_polling: XHRPollingTransport,
+};
+/* harmony default export */ var transports = (Transports);
+
+// CONCATENATED MODULE: ./src/runtimes/web/transports/transports.ts
+
+
+
+
+
+
+var SockJSTransport = new transport_Transport({
+    file: 'sockjs',
+    urls: sockjs,
+    handlesActivityChecks: true,
+    supportsPing: false,
+    isSupported: function () {
+        return true;
+    },
+    isInitialized: function () {
+        return window.SockJS !== undefined;
+    },
+    getSocket: function (url, options) {
+        return new window.SockJS(url, null, {
+            js_path: Dependencies.getPath('sockjs', {
+                useTLS: options.useTLS,
+            }),
+            ignore_null_origin: options.ignoreNullOrigin,
+        });
+    },
+    beforeOpen: function (socket, path) {
+        socket.send(JSON.stringify({
+            path: path,
+        }));
+    },
+});
+var xdrConfiguration = {
+    isSupported: function (environment) {
+        var yes = runtime.isXDRSupported(environment.useTLS);
+        return yes;
+    },
+};
+var XDRStreamingTransport = new transport_Transport((extend({}, streamingConfiguration, xdrConfiguration)));
+var XDRPollingTransport = new transport_Transport((extend({}, pollingConfiguration, xdrConfiguration)));
+transports.xdr_streaming = XDRStreamingTransport;
+transports.xdr_polling = XDRPollingTransport;
+transports.sockjs = SockJSTransport;
+/* harmony default export */ var transports_transports = (transports);
+
+// CONCATENATED MODULE: ./src/runtimes/web/net_info.ts
+
+class net_info_NetInfo extends dispatcher_Dispatcher {
+    constructor() {
+        super();
+        var self = this;
+        if (window.addEventListener !== undefined) {
+            window.addEventListener('online', function () {
+                self.emit('online');
+            }, false);
+            window.addEventListener('offline', function () {
+                self.emit('offline');
+            }, false);
+        }
+    }
+    isOnline() {
+        if (window.navigator.onLine === undefined) {
+            return true;
+        }
+        else {
+            return window.navigator.onLine;
+        }
+    }
+}
+var net_info_Network = new net_info_NetInfo();
+
+// CONCATENATED MODULE: ./src/core/transports/assistant_to_the_transport_manager.ts
+
+
+class assistant_to_the_transport_manager_AssistantToTheTransportManager {
+    constructor(manager, transport, options) {
+        this.manager = manager;
+        this.transport = transport;
+        this.minPingDelay = options.minPingDelay;
+        this.maxPingDelay = options.maxPingDelay;
+        this.pingDelay = undefined;
+    }
+    createConnection(name, priority, key, options) {
+        options = extend({}, options, {
+            activityTimeout: this.pingDelay,
+        });
+        var connection = this.transport.createConnection(name, priority, key, options);
+        var openTimestamp = null;
+        var onOpen = function () {
+            connection.unbind('open', onOpen);
+            connection.bind('closed', onClosed);
+            openTimestamp = util.now();
+        };
+        var onClosed = (closeEvent) => {
+            connection.unbind('closed', onClosed);
+            if (closeEvent.code === 1002 || closeEvent.code === 1003) {
+                this.manager.reportDeath();
+            }
+            else if (!closeEvent.wasClean && openTimestamp) {
+                var lifespan = util.now() - openTimestamp;
+                if (lifespan < 2 * this.maxPingDelay) {
+                    this.manager.reportDeath();
+                    this.pingDelay = Math.max(lifespan / 2, this.minPingDelay);
+                }
+            }
+        };
+        connection.bind('open', onOpen);
+        return connection;
+    }
+    isSupported(environment) {
+        return this.manager.isAlive() && this.transport.isSupported(environment);
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/connection/protocol/protocol.ts
+const Protocol = {
+    decodeMessage: function (messageEvent) {
+        try {
+            var messageData = JSON.parse(messageEvent.data);
+            var pusherEventData = messageData.data;
+            if (typeof pusherEventData === 'string') {
+                try {
+                    pusherEventData = JSON.parse(messageData.data);
+                }
+                catch (e) { }
+            }
+            var pusherEvent = {
+                event: messageData.event,
+                channel: messageData.channel,
+                data: pusherEventData,
+            };
+            if (messageData.user_id) {
+                pusherEvent.user_id = messageData.user_id;
+            }
+            return pusherEvent;
+        }
+        catch (e) {
+            throw { type: 'MessageParseError', error: e, data: messageEvent.data };
+        }
+    },
+    encodeMessage: function (event) {
+        return JSON.stringify(event);
+    },
+    processHandshake: function (messageEvent) {
+        var message = Protocol.decodeMessage(messageEvent);
+        if (message.event === 'pusher:connection_established') {
+            if (!message.data.activity_timeout) {
+                throw 'No activity timeout specified in handshake';
+            }
+            return {
+                action: 'connected',
+                id: message.data.socket_id,
+                activityTimeout: message.data.activity_timeout * 1000,
+            };
+        }
+        else if (message.event === 'pusher:error') {
+            return {
+                action: this.getCloseAction(message.data),
+                error: this.getCloseError(message.data),
+            };
+        }
+        else {
+            throw 'Invalid handshake';
+        }
+    },
+    getCloseAction: function (closeEvent) {
+        if (closeEvent.code < 4000) {
+            if (closeEvent.code >= 1002 && closeEvent.code <= 1004) {
+                return 'backoff';
+            }
+            else {
+                return null;
+            }
+        }
+        else if (closeEvent.code === 4000) {
+            return 'tls_only';
+        }
+        else if (closeEvent.code < 4100) {
+            return 'refused';
+        }
+        else if (closeEvent.code < 4200) {
+            return 'backoff';
+        }
+        else if (closeEvent.code < 4300) {
+            return 'retry';
+        }
+        else {
+            return 'refused';
+        }
+    },
+    getCloseError: function (closeEvent) {
+        if (closeEvent.code !== 1000 && closeEvent.code !== 1001) {
+            return {
+                type: 'PusherError',
+                data: {
+                    code: closeEvent.code,
+                    message: closeEvent.reason || closeEvent.message,
+                },
+            };
+        }
+        else {
+            return null;
+        }
+    },
+};
+/* harmony default export */ var protocol_protocol = (Protocol);
+
+// CONCATENATED MODULE: ./src/core/connection/connection.ts
+
+
+
+
+class connection_Connection extends dispatcher_Dispatcher {
+    constructor(id, transport) {
+        super();
+        this.id = id;
+        this.transport = transport;
+        this.activityTimeout = transport.activityTimeout;
+        this.bindListeners();
+    }
+    handlesActivityChecks() {
+        return this.transport.handlesActivityChecks();
+    }
+    send(data) {
+        return this.transport.send(data);
+    }
+    send_event(name, data, channel) {
+        var event = { event: name, data: data };
+        if (channel) {
+            event.channel = channel;
+        }
+        logger.debug('Event sent', event);
+        return this.send(protocol_protocol.encodeMessage(event));
+    }
+    ping() {
+        if (this.transport.supportsPing()) {
+            this.transport.ping();
+        }
+        else {
+            this.send_event('pusher:ping', {});
+        }
+    }
+    close() {
+        this.transport.close();
+    }
+    bindListeners() {
+        var listeners = {
+            message: (messageEvent) => {
+                var pusherEvent;
+                try {
+                    pusherEvent = protocol_protocol.decodeMessage(messageEvent);
+                }
+                catch (e) {
+                    this.emit('error', {
+                        type: 'MessageParseError',
+                        error: e,
+                        data: messageEvent.data,
+                    });
+                }
+                if (pusherEvent !== undefined) {
+                    logger.debug('Event recd', pusherEvent);
+                    switch (pusherEvent.event) {
+                        case 'pusher:error':
+                            this.emit('error', {
+                                type: 'PusherError',
+                                data: pusherEvent.data,
+                            });
+                            break;
+                        case 'pusher:ping':
+                            this.emit('ping');
+                            break;
+                        case 'pusher:pong':
+                            this.emit('pong');
+                            break;
+                    }
+                    this.emit('message', pusherEvent);
+                }
+            },
+            activity: () => {
+                this.emit('activity');
+            },
+            error: (error) => {
+                this.emit('error', error);
+            },
+            closed: (closeEvent) => {
+                unbindListeners();
+                if (closeEvent && closeEvent.code) {
+                    this.handleCloseEvent(closeEvent);
+                }
+                this.transport = null;
+                this.emit('closed');
+            },
+        };
+        var unbindListeners = () => {
+            objectApply(listeners, (listener, event) => {
+                this.transport.unbind(event, listener);
+            });
+        };
+        objectApply(listeners, (listener, event) => {
+            this.transport.bind(event, listener);
+        });
+    }
+    handleCloseEvent(closeEvent) {
+        var action = protocol_protocol.getCloseAction(closeEvent);
+        var error = protocol_protocol.getCloseError(closeEvent);
+        if (error) {
+            this.emit('error', error);
+        }
+        if (action) {
+            this.emit(action, { action: action, error: error });
+        }
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/connection/handshake/index.ts
+
+
+
+class handshake_Handshake {
+    constructor(transport, callback) {
+        this.transport = transport;
+        this.callback = callback;
+        this.bindListeners();
+    }
+    close() {
+        this.unbindListeners();
+        this.transport.close();
+    }
+    bindListeners() {
+        this.onMessage = (m) => {
+            this.unbindListeners();
+            var result;
+            try {
+                result = protocol_protocol.processHandshake(m);
+            }
+            catch (e) {
+                this.finish('error', { error: e });
+                this.transport.close();
+                return;
+            }
+            if (result.action === 'connected') {
+                this.finish('connected', {
+                    connection: new connection_Connection(result.id, this.transport),
+                    activityTimeout: result.activityTimeout,
+                });
+            }
+            else {
+                this.finish(result.action, { error: result.error });
+                this.transport.close();
+            }
+        };
+        this.onClosed = (closeEvent) => {
+            this.unbindListeners();
+            var action = protocol_protocol.getCloseAction(closeEvent) || 'backoff';
+            var error = protocol_protocol.getCloseError(closeEvent);
+            this.finish(action, { error: error });
+        };
+        this.transport.bind('message', this.onMessage);
+        this.transport.bind('closed', this.onClosed);
+    }
+    unbindListeners() {
+        this.transport.unbind('message', this.onMessage);
+        this.transport.unbind('closed', this.onClosed);
+    }
+    finish(action, params) {
+        this.callback(extend({ transport: this.transport, action: action }, params));
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/timeline/timeline_sender.ts
+
+class timeline_sender_TimelineSender {
+    constructor(timeline, options) {
+        this.timeline = timeline;
+        this.options = options || {};
+    }
+    send(useTLS, callback) {
+        if (this.timeline.isEmpty()) {
+            return;
+        }
+        this.timeline.send(runtime.TimelineTransport.getAgent(this, useTLS), callback);
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/channels/channel.ts
+
+
+
+
+
+class channel_Channel extends dispatcher_Dispatcher {
+    constructor(name, pusher) {
+        super(function (event, data) {
+            logger.debug('No callbacks on ' + name + ' for ' + event);
+        });
+        this.name = name;
+        this.pusher = pusher;
+        this.subscribed = false;
+        this.subscriptionPending = false;
+        this.subscriptionCancelled = false;
+    }
+    authorize(socketId, callback) {
+        return callback(null, { auth: '' });
+    }
+    trigger(event, data) {
+        if (event.indexOf('client-') !== 0) {
+            throw new BadEventName("Event '" + event + "' does not start with 'client-'");
+        }
+        if (!this.subscribed) {
+            var suffix = url_store.buildLogSuffix('triggeringClientEvents');
+            logger.warn(`Client event triggered before channel 'subscription_succeeded' event . ${suffix}`);
+        }
+        return this.pusher.send_event(event, data, this.name);
+    }
+    disconnect() {
+        this.subscribed = false;
+        this.subscriptionPending = false;
+    }
+    handleEvent(event) {
+        var eventName = event.event;
+        var data = event.data;
+        if (eventName === 'pusher_internal:subscription_succeeded') {
+            this.handleSubscriptionSucceededEvent(event);
+        }
+        else if (eventName === 'pusher_internal:subscription_count') {
+            this.handleSubscriptionCountEvent(event);
+        }
+        else if (eventName.indexOf('pusher_internal:') !== 0) {
+            var metadata = {};
+            this.emit(eventName, data, metadata);
+        }
+    }
+    handleSubscriptionSucceededEvent(event) {
+        this.subscriptionPending = false;
+        this.subscribed = true;
+        if (this.subscriptionCancelled) {
+            this.pusher.unsubscribe(this.name);
+        }
+        else {
+            this.emit('pusher:subscription_succeeded', event.data);
+        }
+    }
+    handleSubscriptionCountEvent(event) {
+        if (event.data.subscription_count) {
+            this.subscriptionCount = event.data.subscription_count;
+        }
+        this.emit('pusher:subscription_count', event.data);
+    }
+    subscribe() {
+        if (this.subscribed) {
+            return;
+        }
+        this.subscriptionPending = true;
+        this.subscriptionCancelled = false;
+        this.authorize(this.pusher.connection.socket_id, (error, data) => {
+            if (error) {
+                this.subscriptionPending = false;
+                logger.error(error.toString());
+                this.emit('pusher:subscription_error', Object.assign({}, {
+                    type: 'AuthError',
+                    error: error.message,
+                }, error instanceof HTTPAuthError ? { status: error.status } : {}));
+            }
+            else {
+                this.pusher.send_event('pusher:subscribe', {
+                    auth: data.auth,
+                    channel_data: data.channel_data,
+                    channel: this.name,
+                });
+            }
+        });
+    }
+    unsubscribe() {
+        this.subscribed = false;
+        this.pusher.send_event('pusher:unsubscribe', {
+            channel: this.name,
+        });
+    }
+    cancelSubscription() {
+        this.subscriptionCancelled = true;
+    }
+    reinstateSubscription() {
+        this.subscriptionCancelled = false;
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/channels/private_channel.ts
+
+class private_channel_PrivateChannel extends channel_Channel {
+    authorize(socketId, callback) {
+        return this.pusher.config.channelAuthorizer({
+            channelName: this.name,
+            socketId: socketId,
+        }, callback);
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/channels/members.ts
+
+class members_Members {
+    constructor() {
+        this.reset();
+    }
+    get(id) {
+        if (Object.prototype.hasOwnProperty.call(this.members, id)) {
+            return {
+                id: id,
+                info: this.members[id],
+            };
+        }
+        else {
+            return null;
+        }
+    }
+    each(callback) {
+        objectApply(this.members, (member, id) => {
+            callback(this.get(id));
+        });
+    }
+    setMyID(id) {
+        this.myID = id;
+    }
+    onSubscription(subscriptionData) {
+        this.members = subscriptionData.presence.hash;
+        this.count = subscriptionData.presence.count;
+        this.me = this.get(this.myID);
+    }
+    addMember(memberData) {
+        if (this.get(memberData.user_id) === null) {
+            this.count++;
+        }
+        this.members[memberData.user_id] = memberData.user_info;
+        return this.get(memberData.user_id);
+    }
+    removeMember(memberData) {
+        var member = this.get(memberData.user_id);
+        if (member) {
+            delete this.members[memberData.user_id];
+            this.count--;
+        }
+        return member;
+    }
+    reset() {
+        this.members = {};
+        this.count = 0;
+        this.myID = null;
+        this.me = null;
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/channels/presence_channel.ts
+var __awaiter = ( false) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+class presence_channel_PresenceChannel extends private_channel_PrivateChannel {
+    constructor(name, pusher) {
+        super(name, pusher);
+        this.members = new members_Members();
+    }
+    authorize(socketId, callback) {
+        super.authorize(socketId, (error, authData) => __awaiter(this, void 0, void 0, function* () {
+            if (!error) {
+                authData = authData;
+                if (authData.channel_data != null) {
+                    var channelData = JSON.parse(authData.channel_data);
+                    this.members.setMyID(channelData.user_id);
+                }
+                else {
+                    yield this.pusher.user.signinDonePromise;
+                    if (this.pusher.user.user_data != null) {
+                        this.members.setMyID(this.pusher.user.user_data.id);
+                    }
+                    else {
+                        let suffix = url_store.buildLogSuffix('authorizationEndpoint');
+                        logger.error(`Invalid auth response for channel '${this.name}', ` +
+                            `expected 'channel_data' field. ${suffix}, ` +
+                            `or the user should be signed in.`);
+                        callback('Invalid auth response');
+                        return;
+                    }
+                }
+            }
+            callback(error, authData);
+        }));
+    }
+    handleEvent(event) {
+        var eventName = event.event;
+        if (eventName.indexOf('pusher_internal:') === 0) {
+            this.handleInternalEvent(event);
+        }
+        else {
+            var data = event.data;
+            var metadata = {};
+            if (event.user_id) {
+                metadata.user_id = event.user_id;
+            }
+            this.emit(eventName, data, metadata);
+        }
+    }
+    handleInternalEvent(event) {
+        var eventName = event.event;
+        var data = event.data;
+        switch (eventName) {
+            case 'pusher_internal:subscription_succeeded':
+                this.handleSubscriptionSucceededEvent(event);
+                break;
+            case 'pusher_internal:subscription_count':
+                this.handleSubscriptionCountEvent(event);
+                break;
+            case 'pusher_internal:member_added':
+                var addedMember = this.members.addMember(data);
+                this.emit('pusher:member_added', addedMember);
+                break;
+            case 'pusher_internal:member_removed':
+                var removedMember = this.members.removeMember(data);
+                if (removedMember) {
+                    this.emit('pusher:member_removed', removedMember);
+                }
+                break;
+        }
+    }
+    handleSubscriptionSucceededEvent(event) {
+        this.subscriptionPending = false;
+        this.subscribed = true;
+        if (this.subscriptionCancelled) {
+            this.pusher.unsubscribe(this.name);
+        }
+        else {
+            this.members.onSubscription(event.data);
+            this.emit('pusher:subscription_succeeded', this.members);
+        }
+    }
+    disconnect() {
+        this.members.reset();
+        super.disconnect();
+    }
+}
+
+// EXTERNAL MODULE: ./node_modules/@stablelib/utf8/lib/utf8.js
+var utf8 = __nested_webpack_require_20105__(1);
+
+// EXTERNAL MODULE: ./node_modules/@stablelib/base64/lib/base64.js
+var base64 = __nested_webpack_require_20105__(0);
+
+// CONCATENATED MODULE: ./src/core/channels/encrypted_channel.ts
+
+
+
+
+
+class encrypted_channel_EncryptedChannel extends private_channel_PrivateChannel {
+    constructor(name, pusher, nacl) {
+        super(name, pusher);
+        this.key = null;
+        this.nacl = nacl;
+    }
+    authorize(socketId, callback) {
+        super.authorize(socketId, (error, authData) => {
+            if (error) {
+                callback(error, authData);
+                return;
+            }
+            let sharedSecret = authData['shared_secret'];
+            if (!sharedSecret) {
+                callback(new Error(`No shared_secret key in auth payload for encrypted channel: ${this.name}`), null);
+                return;
+            }
+            this.key = Object(base64["decode"])(sharedSecret);
+            delete authData['shared_secret'];
+            callback(null, authData);
+        });
+    }
+    trigger(event, data) {
+        throw new UnsupportedFeature('Client events are not currently supported for encrypted channels');
+    }
+    handleEvent(event) {
+        var eventName = event.event;
+        var data = event.data;
+        if (eventName.indexOf('pusher_internal:') === 0 ||
+            eventName.indexOf('pusher:') === 0) {
+            super.handleEvent(event);
+            return;
+        }
+        this.handleEncryptedEvent(eventName, data);
+    }
+    handleEncryptedEvent(event, data) {
+        if (!this.key) {
+            logger.debug('Received encrypted event before key has been retrieved from the authEndpoint');
+            return;
+        }
+        if (!data.ciphertext || !data.nonce) {
+            logger.error('Unexpected format for encrypted event, expected object with `ciphertext` and `nonce` fields, got: ' +
+                data);
+            return;
+        }
+        let cipherText = Object(base64["decode"])(data.ciphertext);
+        if (cipherText.length < this.nacl.secretbox.overheadLength) {
+            logger.error(`Expected encrypted event ciphertext length to be ${this.nacl.secretbox.overheadLength}, got: ${cipherText.length}`);
+            return;
+        }
+        let nonce = Object(base64["decode"])(data.nonce);
+        if (nonce.length < this.nacl.secretbox.nonceLength) {
+            logger.error(`Expected encrypted event nonce length to be ${this.nacl.secretbox.nonceLength}, got: ${nonce.length}`);
+            return;
+        }
+        let bytes = this.nacl.secretbox.open(cipherText, nonce, this.key);
+        if (bytes === null) {
+            logger.debug('Failed to decrypt an event, probably because it was encrypted with a different key. Fetching a new key from the authEndpoint...');
+            this.authorize(this.pusher.connection.socket_id, (error, authData) => {
+                if (error) {
+                    logger.error(`Failed to make a request to the authEndpoint: ${authData}. Unable to fetch new key, so dropping encrypted event`);
+                    return;
+                }
+                bytes = this.nacl.secretbox.open(cipherText, nonce, this.key);
+                if (bytes === null) {
+                    logger.error(`Failed to decrypt event with new key. Dropping encrypted event`);
+                    return;
+                }
+                this.emit(event, this.getDataToEmit(bytes));
+                return;
+            });
+            return;
+        }
+        this.emit(event, this.getDataToEmit(bytes));
+    }
+    getDataToEmit(bytes) {
+        let raw = Object(utf8["decode"])(bytes);
+        try {
+            return JSON.parse(raw);
+        }
+        catch (_a) {
+            return raw;
+        }
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/connection/connection_manager.ts
+
+
+
+
+
+class connection_manager_ConnectionManager extends dispatcher_Dispatcher {
+    constructor(key, options) {
+        super();
+        this.state = 'initialized';
+        this.connection = null;
+        this.key = key;
+        this.options = options;
+        this.timeline = this.options.timeline;
+        this.usingTLS = this.options.useTLS;
+        this.errorCallbacks = this.buildErrorCallbacks();
+        this.connectionCallbacks = this.buildConnectionCallbacks(this.errorCallbacks);
+        this.handshakeCallbacks = this.buildHandshakeCallbacks(this.errorCallbacks);
+        var Network = runtime.getNetwork();
+        Network.bind('online', () => {
+            this.timeline.info({ netinfo: 'online' });
+            if (this.state === 'connecting' || this.state === 'unavailable') {
+                this.retryIn(0);
+            }
+        });
+        Network.bind('offline', () => {
+            this.timeline.info({ netinfo: 'offline' });
+            if (this.connection) {
+                this.sendActivityCheck();
+            }
+        });
+        this.updateStrategy();
+    }
+    connect() {
+        if (this.connection || this.runner) {
+            return;
+        }
+        if (!this.strategy.isSupported()) {
+            this.updateState('failed');
+            return;
+        }
+        this.updateState('connecting');
+        this.startConnecting();
+        this.setUnavailableTimer();
+    }
+    send(data) {
+        if (this.connection) {
+            return this.connection.send(data);
+        }
+        else {
+            return false;
+        }
+    }
+    send_event(name, data, channel) {
+        if (this.connection) {
+            return this.connection.send_event(name, data, channel);
+        }
+        else {
+            return false;
+        }
+    }
+    disconnect() {
+        this.disconnectInternally();
+        this.updateState('disconnected');
+    }
+    isUsingTLS() {
+        return this.usingTLS;
+    }
+    startConnecting() {
+        var callback = (error, handshake) => {
+            if (error) {
+                this.runner = this.strategy.connect(0, callback);
+            }
+            else {
+                if (handshake.action === 'error') {
+                    this.emit('error', {
+                        type: 'HandshakeError',
+                        error: handshake.error,
+                    });
+                    this.timeline.error({ handshakeError: handshake.error });
+                }
+                else {
+                    this.abortConnecting();
+                    this.handshakeCallbacks[handshake.action](handshake);
+                }
+            }
+        };
+        this.runner = this.strategy.connect(0, callback);
+    }
+    abortConnecting() {
+        if (this.runner) {
+            this.runner.abort();
+            this.runner = null;
+        }
+    }
+    disconnectInternally() {
+        this.abortConnecting();
+        this.clearRetryTimer();
+        this.clearUnavailableTimer();
+        if (this.connection) {
+            var connection = this.abandonConnection();
+            connection.close();
+        }
+    }
+    updateStrategy() {
+        this.strategy = this.options.getStrategy({
+            key: this.key,
+            timeline: this.timeline,
+            useTLS: this.usingTLS,
+        });
+    }
+    retryIn(delay) {
+        this.timeline.info({ action: 'retry', delay: delay });
+        if (delay > 0) {
+            this.emit('connecting_in', Math.round(delay / 1000));
+        }
+        this.retryTimer = new timers_OneOffTimer(delay || 0, () => {
+            this.disconnectInternally();
+            this.connect();
+        });
+    }
+    clearRetryTimer() {
+        if (this.retryTimer) {
+            this.retryTimer.ensureAborted();
+            this.retryTimer = null;
+        }
+    }
+    setUnavailableTimer() {
+        this.unavailableTimer = new timers_OneOffTimer(this.options.unavailableTimeout, () => {
+            this.updateState('unavailable');
+        });
+    }
+    clearUnavailableTimer() {
+        if (this.unavailableTimer) {
+            this.unavailableTimer.ensureAborted();
+        }
+    }
+    sendActivityCheck() {
+        this.stopActivityCheck();
+        this.connection.ping();
+        this.activityTimer = new timers_OneOffTimer(this.options.pongTimeout, () => {
+            this.timeline.error({ pong_timed_out: this.options.pongTimeout });
+            this.retryIn(0);
+        });
+    }
+    resetActivityCheck() {
+        this.stopActivityCheck();
+        if (this.connection && !this.connection.handlesActivityChecks()) {
+            this.activityTimer = new timers_OneOffTimer(this.activityTimeout, () => {
+                this.sendActivityCheck();
+            });
+        }
+    }
+    stopActivityCheck() {
+        if (this.activityTimer) {
+            this.activityTimer.ensureAborted();
+        }
+    }
+    buildConnectionCallbacks(errorCallbacks) {
+        return extend({}, errorCallbacks, {
+            message: (message) => {
+                this.resetActivityCheck();
+                this.emit('message', message);
+            },
+            ping: () => {
+                this.send_event('pusher:pong', {});
+            },
+            activity: () => {
+                this.resetActivityCheck();
+            },
+            error: (error) => {
+                this.emit('error', error);
+            },
+            closed: () => {
+                this.abandonConnection();
+                if (this.shouldRetry()) {
+                    this.retryIn(1000);
+                }
+            },
+        });
+    }
+    buildHandshakeCallbacks(errorCallbacks) {
+        return extend({}, errorCallbacks, {
+            connected: (handshake) => {
+                this.activityTimeout = Math.min(this.options.activityTimeout, handshake.activityTimeout, handshake.connection.activityTimeout || Infinity);
+                this.clearUnavailableTimer();
+                this.setConnection(handshake.connection);
+                this.socket_id = this.connection.id;
+                this.updateState('connected', { socket_id: this.socket_id });
+            },
+        });
+    }
+    buildErrorCallbacks() {
+        let withErrorEmitted = (callback) => {
+            return (result) => {
+                if (result.error) {
+                    this.emit('error', { type: 'WebSocketError', error: result.error });
+                }
+                callback(result);
+            };
+        };
+        return {
+            tls_only: withErrorEmitted(() => {
+                this.usingTLS = true;
+                this.updateStrategy();
+                this.retryIn(0);
+            }),
+            refused: withErrorEmitted(() => {
+                this.disconnect();
+            }),
+            backoff: withErrorEmitted(() => {
+                this.retryIn(1000);
+            }),
+            retry: withErrorEmitted(() => {
+                this.retryIn(0);
+            }),
+        };
+    }
+    setConnection(connection) {
+        this.connection = connection;
+        for (var event in this.connectionCallbacks) {
+            this.connection.bind(event, this.connectionCallbacks[event]);
+        }
+        this.resetActivityCheck();
+    }
+    abandonConnection() {
+        if (!this.connection) {
+            return;
+        }
+        this.stopActivityCheck();
+        for (var event in this.connectionCallbacks) {
+            this.connection.unbind(event, this.connectionCallbacks[event]);
+        }
+        var connection = this.connection;
+        this.connection = null;
+        return connection;
+    }
+    updateState(newState, data) {
+        var previousState = this.state;
+        this.state = newState;
+        if (previousState !== newState) {
+            var newStateDescription = newState;
+            if (newStateDescription === 'connected') {
+                newStateDescription += ' with new socket ID ' + data.socket_id;
+            }
+            logger.debug('State changed', previousState + ' -> ' + newStateDescription);
+            this.timeline.info({ state: newState, params: data });
+            this.emit('state_change', { previous: previousState, current: newState });
+            this.emit(newState, data);
+        }
+    }
+    shouldRetry() {
+        return this.state === 'connecting' || this.state === 'connected';
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/channels/channels.ts
+
+
+
+
+class channels_Channels {
+    constructor() {
+        this.channels = {};
+    }
+    add(name, pusher) {
+        if (!this.channels[name]) {
+            this.channels[name] = createChannel(name, pusher);
+        }
+        return this.channels[name];
+    }
+    all() {
+        return values(this.channels);
+    }
+    find(name) {
+        return this.channels[name];
+    }
+    remove(name) {
+        var channel = this.channels[name];
+        delete this.channels[name];
+        return channel;
+    }
+    disconnect() {
+        objectApply(this.channels, function (channel) {
+            channel.disconnect();
+        });
+    }
+}
+function createChannel(name, pusher) {
+    if (name.indexOf('private-encrypted-') === 0) {
+        if (pusher.config.nacl) {
+            return factory.createEncryptedChannel(name, pusher, pusher.config.nacl);
+        }
+        let errMsg = 'Tried to subscribe to a private-encrypted- channel but no nacl implementation available';
+        let suffix = url_store.buildLogSuffix('encryptedChannelSupport');
+        throw new UnsupportedFeature(`${errMsg}. ${suffix}`);
+    }
+    else if (name.indexOf('private-') === 0) {
+        return factory.createPrivateChannel(name, pusher);
+    }
+    else if (name.indexOf('presence-') === 0) {
+        return factory.createPresenceChannel(name, pusher);
+    }
+    else if (name.indexOf('#') === 0) {
+        throw new BadChannelName('Cannot create a channel with name "' + name + '".');
+    }
+    else {
+        return factory.createChannel(name, pusher);
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/utils/factory.ts
+
+
+
+
+
+
+
+
+
+var Factory = {
+    createChannels() {
+        return new channels_Channels();
+    },
+    createConnectionManager(key, options) {
+        return new connection_manager_ConnectionManager(key, options);
+    },
+    createChannel(name, pusher) {
+        return new channel_Channel(name, pusher);
+    },
+    createPrivateChannel(name, pusher) {
+        return new private_channel_PrivateChannel(name, pusher);
+    },
+    createPresenceChannel(name, pusher) {
+        return new presence_channel_PresenceChannel(name, pusher);
+    },
+    createEncryptedChannel(name, pusher, nacl) {
+        return new encrypted_channel_EncryptedChannel(name, pusher, nacl);
+    },
+    createTimelineSender(timeline, options) {
+        return new timeline_sender_TimelineSender(timeline, options);
+    },
+    createHandshake(transport, callback) {
+        return new handshake_Handshake(transport, callback);
+    },
+    createAssistantToTheTransportManager(manager, transport, options) {
+        return new assistant_to_the_transport_manager_AssistantToTheTransportManager(manager, transport, options);
+    },
+};
+/* harmony default export */ var factory = (Factory);
+
+// CONCATENATED MODULE: ./src/core/transports/transport_manager.ts
+
+class transport_manager_TransportManager {
+    constructor(options) {
+        this.options = options || {};
+        this.livesLeft = this.options.lives || Infinity;
+    }
+    getAssistant(transport) {
+        return factory.createAssistantToTheTransportManager(this, transport, {
+            minPingDelay: this.options.minPingDelay,
+            maxPingDelay: this.options.maxPingDelay,
+        });
+    }
+    isAlive() {
+        return this.livesLeft > 0;
+    }
+    reportDeath() {
+        this.livesLeft -= 1;
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/strategies/sequential_strategy.ts
+
+
+
+class sequential_strategy_SequentialStrategy {
+    constructor(strategies, options) {
+        this.strategies = strategies;
+        this.loop = Boolean(options.loop);
+        this.failFast = Boolean(options.failFast);
+        this.timeout = options.timeout;
+        this.timeoutLimit = options.timeoutLimit;
+    }
+    isSupported() {
+        return any(this.strategies, util.method('isSupported'));
+    }
+    connect(minPriority, callback) {
+        var strategies = this.strategies;
+        var current = 0;
+        var timeout = this.timeout;
+        var runner = null;
+        var tryNextStrategy = (error, handshake) => {
+            if (handshake) {
+                callback(null, handshake);
+            }
+            else {
+                current = current + 1;
+                if (this.loop) {
+                    current = current % strategies.length;
+                }
+                if (current < strategies.length) {
+                    if (timeout) {
+                        timeout = timeout * 2;
+                        if (this.timeoutLimit) {
+                            timeout = Math.min(timeout, this.timeoutLimit);
+                        }
+                    }
+                    runner = this.tryStrategy(strategies[current], minPriority, { timeout, failFast: this.failFast }, tryNextStrategy);
+                }
+                else {
+                    callback(true);
+                }
+            }
+        };
+        runner = this.tryStrategy(strategies[current], minPriority, { timeout: timeout, failFast: this.failFast }, tryNextStrategy);
+        return {
+            abort: function () {
+                runner.abort();
+            },
+            forceMinPriority: function (p) {
+                minPriority = p;
+                if (runner) {
+                    runner.forceMinPriority(p);
+                }
+            },
+        };
+    }
+    tryStrategy(strategy, minPriority, options, callback) {
+        var timer = null;
+        var runner = null;
+        if (options.timeout > 0) {
+            timer = new timers_OneOffTimer(options.timeout, function () {
+                runner.abort();
+                callback(true);
+            });
+        }
+        runner = strategy.connect(minPriority, function (error, handshake) {
+            if (error && timer && timer.isRunning() && !options.failFast) {
+                return;
+            }
+            if (timer) {
+                timer.ensureAborted();
+            }
+            callback(error, handshake);
+        });
+        return {
+            abort: function () {
+                if (timer) {
+                    timer.ensureAborted();
+                }
+                runner.abort();
+            },
+            forceMinPriority: function (p) {
+                runner.forceMinPriority(p);
+            },
+        };
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/strategies/best_connected_ever_strategy.ts
+
+
+class best_connected_ever_strategy_BestConnectedEverStrategy {
+    constructor(strategies) {
+        this.strategies = strategies;
+    }
+    isSupported() {
+        return any(this.strategies, util.method('isSupported'));
+    }
+    connect(minPriority, callback) {
+        return connect(this.strategies, minPriority, function (i, runners) {
+            return function (error, handshake) {
+                runners[i].error = error;
+                if (error) {
+                    if (allRunnersFailed(runners)) {
+                        callback(true);
+                    }
+                    return;
+                }
+                apply(runners, function (runner) {
+                    runner.forceMinPriority(handshake.transport.priority);
+                });
+                callback(null, handshake);
+            };
+        });
+    }
+}
+function connect(strategies, minPriority, callbackBuilder) {
+    var runners = map(strategies, function (strategy, i, _, rs) {
+        return strategy.connect(minPriority, callbackBuilder(i, rs));
+    });
+    return {
+        abort: function () {
+            apply(runners, abortRunner);
+        },
+        forceMinPriority: function (p) {
+            apply(runners, function (runner) {
+                runner.forceMinPriority(p);
+            });
+        },
+    };
+}
+function allRunnersFailed(runners) {
+    return collections_all(runners, function (runner) {
+        return Boolean(runner.error);
+    });
+}
+function abortRunner(runner) {
+    if (!runner.error && !runner.aborted) {
+        runner.abort();
+        runner.aborted = true;
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/strategies/websocket_prioritized_cached_strategy.ts
+
+
+
+
+class websocket_prioritized_cached_strategy_WebSocketPrioritizedCachedStrategy {
+    constructor(strategy, transports, options) {
+        this.strategy = strategy;
+        this.transports = transports;
+        this.ttl = options.ttl || 1800 * 1000;
+        this.usingTLS = options.useTLS;
+        this.timeline = options.timeline;
+    }
+    isSupported() {
+        return this.strategy.isSupported();
+    }
+    connect(minPriority, callback) {
+        var usingTLS = this.usingTLS;
+        var info = fetchTransportCache(usingTLS);
+        var cacheSkipCount = info && info.cacheSkipCount ? info.cacheSkipCount : 0;
+        var strategies = [this.strategy];
+        if (info && info.timestamp + this.ttl >= util.now()) {
+            var transport = this.transports[info.transport];
+            if (transport) {
+                if (['ws', 'wss'].includes(info.transport) || cacheSkipCount > 3) {
+                    this.timeline.info({
+                        cached: true,
+                        transport: info.transport,
+                        latency: info.latency,
+                    });
+                    strategies.push(new sequential_strategy_SequentialStrategy([transport], {
+                        timeout: info.latency * 2 + 1000,
+                        failFast: true,
+                    }));
+                }
+                else {
+                    cacheSkipCount++;
+                }
+            }
+        }
+        var startTimestamp = util.now();
+        var runner = strategies
+            .pop()
+            .connect(minPriority, function cb(error, handshake) {
+            if (error) {
+                flushTransportCache(usingTLS);
+                if (strategies.length > 0) {
+                    startTimestamp = util.now();
+                    runner = strategies.pop().connect(minPriority, cb);
+                }
+                else {
+                    callback(error);
+                }
+            }
+            else {
+                storeTransportCache(usingTLS, handshake.transport.name, util.now() - startTimestamp, cacheSkipCount);
+                callback(null, handshake);
+            }
+        });
+        return {
+            abort: function () {
+                runner.abort();
+            },
+            forceMinPriority: function (p) {
+                minPriority = p;
+                if (runner) {
+                    runner.forceMinPriority(p);
+                }
+            },
+        };
+    }
+}
+function getTransportCacheKey(usingTLS) {
+    return 'pusherTransport' + (usingTLS ? 'TLS' : 'NonTLS');
+}
+function fetchTransportCache(usingTLS) {
+    var storage = runtime.getLocalStorage();
+    if (storage) {
+        try {
+            var serializedCache = storage[getTransportCacheKey(usingTLS)];
+            if (serializedCache) {
+                return JSON.parse(serializedCache);
+            }
+        }
+        catch (e) {
+            flushTransportCache(usingTLS);
+        }
+    }
+    return null;
+}
+function storeTransportCache(usingTLS, transport, latency, cacheSkipCount) {
+    var storage = runtime.getLocalStorage();
+    if (storage) {
+        try {
+            storage[getTransportCacheKey(usingTLS)] = safeJSONStringify({
+                timestamp: util.now(),
+                transport: transport,
+                latency: latency,
+                cacheSkipCount: cacheSkipCount,
+            });
+        }
+        catch (e) {
+        }
+    }
+}
+function flushTransportCache(usingTLS) {
+    var storage = runtime.getLocalStorage();
+    if (storage) {
+        try {
+            delete storage[getTransportCacheKey(usingTLS)];
+        }
+        catch (e) {
+        }
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/strategies/delayed_strategy.ts
+
+class delayed_strategy_DelayedStrategy {
+    constructor(strategy, { delay: number }) {
+        this.strategy = strategy;
+        this.options = { delay: number };
+    }
+    isSupported() {
+        return this.strategy.isSupported();
+    }
+    connect(minPriority, callback) {
+        var strategy = this.strategy;
+        var runner;
+        var timer = new timers_OneOffTimer(this.options.delay, function () {
+            runner = strategy.connect(minPriority, callback);
+        });
+        return {
+            abort: function () {
+                timer.ensureAborted();
+                if (runner) {
+                    runner.abort();
+                }
+            },
+            forceMinPriority: function (p) {
+                minPriority = p;
+                if (runner) {
+                    runner.forceMinPriority(p);
+                }
+            },
+        };
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/strategies/if_strategy.ts
+class IfStrategy {
+    constructor(test, trueBranch, falseBranch) {
+        this.test = test;
+        this.trueBranch = trueBranch;
+        this.falseBranch = falseBranch;
+    }
+    isSupported() {
+        var branch = this.test() ? this.trueBranch : this.falseBranch;
+        return branch.isSupported();
+    }
+    connect(minPriority, callback) {
+        var branch = this.test() ? this.trueBranch : this.falseBranch;
+        return branch.connect(minPriority, callback);
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/strategies/first_connected_strategy.ts
+class FirstConnectedStrategy {
+    constructor(strategy) {
+        this.strategy = strategy;
+    }
+    isSupported() {
+        return this.strategy.isSupported();
+    }
+    connect(minPriority, callback) {
+        var runner = this.strategy.connect(minPriority, function (error, handshake) {
+            if (handshake) {
+                runner.abort();
+            }
+            callback(error, handshake);
+        });
+        return runner;
+    }
+}
+
+// CONCATENATED MODULE: ./src/runtimes/web/default_strategy.ts
+
+
+
+
+
+
+
+function testSupportsStrategy(strategy) {
+    return function () {
+        return strategy.isSupported();
+    };
+}
+var getDefaultStrategy = function (config, baseOptions, defineTransport) {
+    var definedTransports = {};
+    function defineTransportStrategy(name, type, priority, options, manager) {
+        var transport = defineTransport(config, name, type, priority, options, manager);
+        definedTransports[name] = transport;
+        return transport;
+    }
+    var ws_options = Object.assign({}, baseOptions, {
+        hostNonTLS: config.wsHost + ':' + config.wsPort,
+        hostTLS: config.wsHost + ':' + config.wssPort,
+        httpPath: config.wsPath,
+    });
+    var wss_options = Object.assign({}, ws_options, {
+        useTLS: true,
+    });
+    var sockjs_options = Object.assign({}, baseOptions, {
+        hostNonTLS: config.httpHost + ':' + config.httpPort,
+        hostTLS: config.httpHost + ':' + config.httpsPort,
+        httpPath: config.httpPath,
+    });
+    var timeouts = {
+        loop: true,
+        timeout: 15000,
+        timeoutLimit: 60000,
+    };
+    var ws_manager = new transport_manager_TransportManager({
+        minPingDelay: 10000,
+        maxPingDelay: config.activityTimeout,
+    });
+    var streaming_manager = new transport_manager_TransportManager({
+        lives: 2,
+        minPingDelay: 10000,
+        maxPingDelay: config.activityTimeout,
+    });
+    var ws_transport = defineTransportStrategy('ws', 'ws', 3, ws_options, ws_manager);
+    var wss_transport = defineTransportStrategy('wss', 'ws', 3, wss_options, ws_manager);
+    var sockjs_transport = defineTransportStrategy('sockjs', 'sockjs', 1, sockjs_options);
+    var xhr_streaming_transport = defineTransportStrategy('xhr_streaming', 'xhr_streaming', 1, sockjs_options, streaming_manager);
+    var xdr_streaming_transport = defineTransportStrategy('xdr_streaming', 'xdr_streaming', 1, sockjs_options, streaming_manager);
+    var xhr_polling_transport = defineTransportStrategy('xhr_polling', 'xhr_polling', 1, sockjs_options);
+    var xdr_polling_transport = defineTransportStrategy('xdr_polling', 'xdr_polling', 1, sockjs_options);
+    var ws_loop = new sequential_strategy_SequentialStrategy([ws_transport], timeouts);
+    var wss_loop = new sequential_strategy_SequentialStrategy([wss_transport], timeouts);
+    var sockjs_loop = new sequential_strategy_SequentialStrategy([sockjs_transport], timeouts);
+    var streaming_loop = new sequential_strategy_SequentialStrategy([
+        new IfStrategy(testSupportsStrategy(xhr_streaming_transport), xhr_streaming_transport, xdr_streaming_transport),
+    ], timeouts);
+    var polling_loop = new sequential_strategy_SequentialStrategy([
+        new IfStrategy(testSupportsStrategy(xhr_polling_transport), xhr_polling_transport, xdr_polling_transport),
+    ], timeouts);
+    var http_loop = new sequential_strategy_SequentialStrategy([
+        new IfStrategy(testSupportsStrategy(streaming_loop), new best_connected_ever_strategy_BestConnectedEverStrategy([
+            streaming_loop,
+            new delayed_strategy_DelayedStrategy(polling_loop, { delay: 4000 }),
+        ]), polling_loop),
+    ], timeouts);
+    var http_fallback_loop = new IfStrategy(testSupportsStrategy(http_loop), http_loop, sockjs_loop);
+    var wsStrategy;
+    if (baseOptions.useTLS) {
+        wsStrategy = new best_connected_ever_strategy_BestConnectedEverStrategy([
+            ws_loop,
+            new delayed_strategy_DelayedStrategy(http_fallback_loop, { delay: 2000 }),
+        ]);
+    }
+    else {
+        wsStrategy = new best_connected_ever_strategy_BestConnectedEverStrategy([
+            ws_loop,
+            new delayed_strategy_DelayedStrategy(wss_loop, { delay: 2000 }),
+            new delayed_strategy_DelayedStrategy(http_fallback_loop, { delay: 5000 }),
+        ]);
+    }
+    return new websocket_prioritized_cached_strategy_WebSocketPrioritizedCachedStrategy(new FirstConnectedStrategy(new IfStrategy(testSupportsStrategy(ws_transport), wsStrategy, http_fallback_loop)), definedTransports, {
+        ttl: 1800000,
+        timeline: baseOptions.timeline,
+        useTLS: baseOptions.useTLS,
+    });
+};
+/* harmony default export */ var default_strategy = (getDefaultStrategy);
+
+// CONCATENATED MODULE: ./src/runtimes/web/transports/transport_connection_initializer.ts
+
+/* harmony default export */ var transport_connection_initializer = (function () {
+    var self = this;
+    self.timeline.info(self.buildTimelineMessage({
+        transport: self.name + (self.options.useTLS ? 's' : ''),
+    }));
+    if (self.hooks.isInitialized()) {
+        self.changeState('initialized');
+    }
+    else if (self.hooks.file) {
+        self.changeState('initializing');
+        Dependencies.load(self.hooks.file, { useTLS: self.options.useTLS }, function (error, callback) {
+            if (self.hooks.isInitialized()) {
+                self.changeState('initialized');
+                callback(true);
+            }
+            else {
+                if (error) {
+                    self.onError(error);
+                }
+                self.onClose();
+                callback(false);
+            }
+        });
+    }
+    else {
+        self.onClose();
+    }
+});
+
+// CONCATENATED MODULE: ./src/runtimes/web/http/http_xdomain_request.ts
+
+var http_xdomain_request_hooks = {
+    getRequest: function (socket) {
+        var xdr = new window.XDomainRequest();
+        xdr.ontimeout = function () {
+            socket.emit('error', new RequestTimedOut());
+            socket.close();
+        };
+        xdr.onerror = function (e) {
+            socket.emit('error', e);
+            socket.close();
+        };
+        xdr.onprogress = function () {
+            if (xdr.responseText && xdr.responseText.length > 0) {
+                socket.onChunk(200, xdr.responseText);
+            }
+        };
+        xdr.onload = function () {
+            if (xdr.responseText && xdr.responseText.length > 0) {
+                socket.onChunk(200, xdr.responseText);
+            }
+            socket.emit('finished', 200);
+            socket.close();
+        };
+        return xdr;
+    },
+    abortRequest: function (xdr) {
+        xdr.ontimeout = xdr.onerror = xdr.onprogress = xdr.onload = null;
+        xdr.abort();
+    },
+};
+/* harmony default export */ var http_xdomain_request = (http_xdomain_request_hooks);
+
+// CONCATENATED MODULE: ./src/core/http/http_request.ts
+
+
+const MAX_BUFFER_LENGTH = 256 * 1024;
+class http_request_HTTPRequest extends dispatcher_Dispatcher {
+    constructor(hooks, method, url) {
+        super();
+        this.hooks = hooks;
+        this.method = method;
+        this.url = url;
+    }
+    start(payload) {
+        this.position = 0;
+        this.xhr = this.hooks.getRequest(this);
+        this.unloader = () => {
+            this.close();
+        };
+        runtime.addUnloadListener(this.unloader);
+        this.xhr.open(this.method, this.url, true);
+        if (this.xhr.setRequestHeader) {
+            this.xhr.setRequestHeader('Content-Type', 'application/json');
+        }
+        this.xhr.send(payload);
+    }
+    close() {
+        if (this.unloader) {
+            runtime.removeUnloadListener(this.unloader);
+            this.unloader = null;
+        }
+        if (this.xhr) {
+            this.hooks.abortRequest(this.xhr);
+            this.xhr = null;
+        }
+    }
+    onChunk(status, data) {
+        while (true) {
+            var chunk = this.advanceBuffer(data);
+            if (chunk) {
+                this.emit('chunk', { status: status, data: chunk });
+            }
+            else {
+                break;
+            }
+        }
+        if (this.isBufferTooLong(data)) {
+            this.emit('buffer_too_long');
+        }
+    }
+    advanceBuffer(buffer) {
+        var unreadData = buffer.slice(this.position);
+        var endOfLinePosition = unreadData.indexOf('\n');
+        if (endOfLinePosition !== -1) {
+            this.position += endOfLinePosition + 1;
+            return unreadData.slice(0, endOfLinePosition);
+        }
+        else {
+            return null;
+        }
+    }
+    isBufferTooLong(buffer) {
+        return this.position === buffer.length && buffer.length > MAX_BUFFER_LENGTH;
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/http/state.ts
+var State;
+(function (State) {
+    State[State["CONNECTING"] = 0] = "CONNECTING";
+    State[State["OPEN"] = 1] = "OPEN";
+    State[State["CLOSED"] = 3] = "CLOSED";
+})(State || (State = {}));
+/* harmony default export */ var state = (State);
+
+// CONCATENATED MODULE: ./src/core/http/http_socket.ts
+
+
+
+var autoIncrement = 1;
+class http_socket_HTTPSocket {
+    constructor(hooks, url) {
+        this.hooks = hooks;
+        this.session = randomNumber(1000) + '/' + randomString(8);
+        this.location = getLocation(url);
+        this.readyState = state.CONNECTING;
+        this.openStream();
+    }
+    send(payload) {
+        return this.sendRaw(JSON.stringify([payload]));
+    }
+    ping() {
+        this.hooks.sendHeartbeat(this);
+    }
+    close(code, reason) {
+        this.onClose(code, reason, true);
+    }
+    sendRaw(payload) {
+        if (this.readyState === state.OPEN) {
+            try {
+                runtime.createSocketRequest('POST', getUniqueURL(getSendURL(this.location, this.session))).start(payload);
+                return true;
+            }
+            catch (e) {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+    reconnect() {
+        this.closeStream();
+        this.openStream();
+    }
+    onClose(code, reason, wasClean) {
+        this.closeStream();
+        this.readyState = state.CLOSED;
+        if (this.onclose) {
+            this.onclose({
+                code: code,
+                reason: reason,
+                wasClean: wasClean,
+            });
+        }
+    }
+    onChunk(chunk) {
+        if (chunk.status !== 200) {
+            return;
+        }
+        if (this.readyState === state.OPEN) {
+            this.onActivity();
+        }
+        var payload;
+        var type = chunk.data.slice(0, 1);
+        switch (type) {
+            case 'o':
+                payload = JSON.parse(chunk.data.slice(1) || '{}');
+                this.onOpen(payload);
+                break;
+            case 'a':
+                payload = JSON.parse(chunk.data.slice(1) || '[]');
+                for (var i = 0; i < payload.length; i++) {
+                    this.onEvent(payload[i]);
+                }
+                break;
+            case 'm':
+                payload = JSON.parse(chunk.data.slice(1) || 'null');
+                this.onEvent(payload);
+                break;
+            case 'h':
+                this.hooks.onHeartbeat(this);
+                break;
+            case 'c':
+                payload = JSON.parse(chunk.data.slice(1) || '[]');
+                this.onClose(payload[0], payload[1], true);
+                break;
+        }
+    }
+    onOpen(options) {
+        if (this.readyState === state.CONNECTING) {
+            if (options && options.hostname) {
+                this.location.base = replaceHost(this.location.base, options.hostname);
+            }
+            this.readyState = state.OPEN;
+            if (this.onopen) {
+                this.onopen();
+            }
+        }
+        else {
+            this.onClose(1006, 'Server lost session', true);
+        }
+    }
+    onEvent(event) {
+        if (this.readyState === state.OPEN && this.onmessage) {
+            this.onmessage({ data: event });
+        }
+    }
+    onActivity() {
+        if (this.onactivity) {
+            this.onactivity();
+        }
+    }
+    onError(error) {
+        if (this.onerror) {
+            this.onerror(error);
+        }
+    }
+    openStream() {
+        this.stream = runtime.createSocketRequest('POST', getUniqueURL(this.hooks.getReceiveURL(this.location, this.session)));
+        this.stream.bind('chunk', (chunk) => {
+            this.onChunk(chunk);
+        });
+        this.stream.bind('finished', (status) => {
+            this.hooks.onFinished(this, status);
+        });
+        this.stream.bind('buffer_too_long', () => {
+            this.reconnect();
+        });
+        try {
+            this.stream.start();
+        }
+        catch (error) {
+            util.defer(() => {
+                this.onError(error);
+                this.onClose(1006, 'Could not start streaming', false);
+            });
+        }
+    }
+    closeStream() {
+        if (this.stream) {
+            this.stream.unbind_all();
+            this.stream.close();
+            this.stream = null;
+        }
+    }
+}
+function getLocation(url) {
+    var parts = /([^\?]*)\/*(\??.*)/.exec(url);
+    return {
+        base: parts[1],
+        queryString: parts[2],
+    };
+}
+function getSendURL(url, session) {
+    return url.base + '/' + session + '/xhr_send';
+}
+function getUniqueURL(url) {
+    var separator = url.indexOf('?') === -1 ? '?' : '&';
+    return url + separator + 't=' + +new Date() + '&n=' + autoIncrement++;
+}
+function replaceHost(url, hostname) {
+    var urlParts = /(https?:\/\/)([^\/:]+)((\/|:)?.*)/.exec(url);
+    return urlParts[1] + hostname + urlParts[3];
+}
+function randomNumber(max) {
+    return runtime.randomInt(max);
+}
+function randomString(length) {
+    var result = [];
+    for (var i = 0; i < length; i++) {
+        result.push(randomNumber(32).toString(32));
+    }
+    return result.join('');
+}
+/* harmony default export */ var http_socket = (http_socket_HTTPSocket);
+
+// CONCATENATED MODULE: ./src/core/http/http_streaming_socket.ts
+var http_streaming_socket_hooks = {
+    getReceiveURL: function (url, session) {
+        return url.base + '/' + session + '/xhr_streaming' + url.queryString;
+    },
+    onHeartbeat: function (socket) {
+        socket.sendRaw('[]');
+    },
+    sendHeartbeat: function (socket) {
+        socket.sendRaw('[]');
+    },
+    onFinished: function (socket, status) {
+        socket.onClose(1006, 'Connection interrupted (' + status + ')', false);
+    },
+};
+/* harmony default export */ var http_streaming_socket = (http_streaming_socket_hooks);
+
+// CONCATENATED MODULE: ./src/core/http/http_polling_socket.ts
+var http_polling_socket_hooks = {
+    getReceiveURL: function (url, session) {
+        return url.base + '/' + session + '/xhr' + url.queryString;
+    },
+    onHeartbeat: function () {
+    },
+    sendHeartbeat: function (socket) {
+        socket.sendRaw('[]');
+    },
+    onFinished: function (socket, status) {
+        if (status === 200) {
+            socket.reconnect();
+        }
+        else {
+            socket.onClose(1006, 'Connection interrupted (' + status + ')', false);
+        }
+    },
+};
+/* harmony default export */ var http_polling_socket = (http_polling_socket_hooks);
+
+// CONCATENATED MODULE: ./src/runtimes/isomorphic/http/http_xhr_request.ts
+
+var http_xhr_request_hooks = {
+    getRequest: function (socket) {
+        var Constructor = runtime.getXHRAPI();
+        var xhr = new Constructor();
+        xhr.onreadystatechange = xhr.onprogress = function () {
+            switch (xhr.readyState) {
+                case 3:
+                    if (xhr.responseText && xhr.responseText.length > 0) {
+                        socket.onChunk(xhr.status, xhr.responseText);
+                    }
+                    break;
+                case 4:
+                    if (xhr.responseText && xhr.responseText.length > 0) {
+                        socket.onChunk(xhr.status, xhr.responseText);
+                    }
+                    socket.emit('finished', xhr.status);
+                    socket.close();
+                    break;
+            }
+        };
+        return xhr;
+    },
+    abortRequest: function (xhr) {
+        xhr.onreadystatechange = null;
+        xhr.abort();
+    },
+};
+/* harmony default export */ var http_xhr_request = (http_xhr_request_hooks);
+
+// CONCATENATED MODULE: ./src/runtimes/isomorphic/http/http.ts
+
+
+
+
+
+var HTTP = {
+    createStreamingSocket(url) {
+        return this.createSocket(http_streaming_socket, url);
+    },
+    createPollingSocket(url) {
+        return this.createSocket(http_polling_socket, url);
+    },
+    createSocket(hooks, url) {
+        return new http_socket(hooks, url);
+    },
+    createXHR(method, url) {
+        return this.createRequest(http_xhr_request, method, url);
+    },
+    createRequest(hooks, method, url) {
+        return new http_request_HTTPRequest(hooks, method, url);
+    },
+};
+/* harmony default export */ var http_http = (HTTP);
+
+// CONCATENATED MODULE: ./src/runtimes/web/http/http.ts
+
+
+http_http.createXDR = function (method, url) {
+    return this.createRequest(http_xdomain_request, method, url);
+};
+/* harmony default export */ var web_http_http = (http_http);
+
+// CONCATENATED MODULE: ./src/runtimes/web/runtime.ts
+
+
+
+
+
+
+
+
+
+
+
+
+var Runtime = {
+    nextAuthCallbackID: 1,
+    auth_callbacks: {},
+    ScriptReceivers: ScriptReceivers,
+    DependenciesReceivers: DependenciesReceivers,
+    getDefaultStrategy: default_strategy,
+    Transports: transports_transports,
+    transportConnectionInitializer: transport_connection_initializer,
+    HTTPFactory: web_http_http,
+    TimelineTransport: jsonp_timeline,
+    getXHRAPI() {
+        return window.XMLHttpRequest;
+    },
+    getWebSocketAPI() {
+        return window.WebSocket || window.MozWebSocket;
+    },
+    setup(PusherClass) {
+        window.Pusher = PusherClass;
+        var initializeOnDocumentBody = () => {
+            this.onDocumentBody(PusherClass.ready);
+        };
+        if (!window.JSON) {
+            Dependencies.load('json2', {}, initializeOnDocumentBody);
+        }
+        else {
+            initializeOnDocumentBody();
+        }
+    },
+    getDocument() {
+        return document;
+    },
+    getProtocol() {
+        return this.getDocument().location.protocol;
+    },
+    getAuthorizers() {
+        return { ajax: xhr_auth, jsonp: jsonp_auth };
+    },
+    onDocumentBody(callback) {
+        if (document.body) {
+            callback();
+        }
+        else {
+            setTimeout(() => {
+                this.onDocumentBody(callback);
+            }, 0);
+        }
+    },
+    createJSONPRequest(url, data) {
+        return new jsonp_request_JSONPRequest(url, data);
+    },
+    createScriptRequest(src) {
+        return new ScriptRequest(src);
+    },
+    getLocalStorage() {
+        try {
+            return window.localStorage;
+        }
+        catch (e) {
+            return undefined;
+        }
+    },
+    createXHR() {
+        if (this.getXHRAPI()) {
+            return this.createXMLHttpRequest();
+        }
+        else {
+            return this.createMicrosoftXHR();
+        }
+    },
+    createXMLHttpRequest() {
+        var Constructor = this.getXHRAPI();
+        return new Constructor();
+    },
+    createMicrosoftXHR() {
+        return new ActiveXObject('Microsoft.XMLHTTP');
+    },
+    getNetwork() {
+        return net_info_Network;
+    },
+    createWebSocket(url) {
+        var Constructor = this.getWebSocketAPI();
+        return new Constructor(url);
+    },
+    createSocketRequest(method, url) {
+        if (this.isXHRSupported()) {
+            return this.HTTPFactory.createXHR(method, url);
+        }
+        else if (this.isXDRSupported(url.indexOf('https:') === 0)) {
+            return this.HTTPFactory.createXDR(method, url);
+        }
+        else {
+            throw 'Cross-origin HTTP requests are not supported';
+        }
+    },
+    isXHRSupported() {
+        var Constructor = this.getXHRAPI();
+        return (Boolean(Constructor) && new Constructor().withCredentials !== undefined);
+    },
+    isXDRSupported(useTLS) {
+        var protocol = useTLS ? 'https:' : 'http:';
+        var documentProtocol = this.getProtocol();
+        return (Boolean(window['XDomainRequest']) && documentProtocol === protocol);
+    },
+    addUnloadListener(listener) {
+        if (window.addEventListener !== undefined) {
+            window.addEventListener('unload', listener, false);
+        }
+        else if (window.attachEvent !== undefined) {
+            window.attachEvent('onunload', listener);
+        }
+    },
+    removeUnloadListener(listener) {
+        if (window.addEventListener !== undefined) {
+            window.removeEventListener('unload', listener, false);
+        }
+        else if (window.detachEvent !== undefined) {
+            window.detachEvent('onunload', listener);
+        }
+    },
+    randomInt(max) {
+        const random = function () {
+            const crypto = window.crypto || window['msCrypto'];
+            const random = crypto.getRandomValues(new Uint32Array(1))[0];
+            return random / Math.pow(2, 32);
+        };
+        return Math.floor(random() * max);
+    },
+};
+/* harmony default export */ var runtime = (Runtime);
+
+// CONCATENATED MODULE: ./src/core/timeline/level.ts
+var TimelineLevel;
+(function (TimelineLevel) {
+    TimelineLevel[TimelineLevel["ERROR"] = 3] = "ERROR";
+    TimelineLevel[TimelineLevel["INFO"] = 6] = "INFO";
+    TimelineLevel[TimelineLevel["DEBUG"] = 7] = "DEBUG";
+})(TimelineLevel || (TimelineLevel = {}));
+/* harmony default export */ var timeline_level = (TimelineLevel);
+
+// CONCATENATED MODULE: ./src/core/timeline/timeline.ts
+
+
+
+class timeline_Timeline {
+    constructor(key, session, options) {
+        this.key = key;
+        this.session = session;
+        this.events = [];
+        this.options = options || {};
+        this.sent = 0;
+        this.uniqueID = 0;
+    }
+    log(level, event) {
+        if (level <= this.options.level) {
+            this.events.push(extend({}, event, { timestamp: util.now() }));
+            if (this.options.limit && this.events.length > this.options.limit) {
+                this.events.shift();
+            }
+        }
+    }
+    error(event) {
+        this.log(timeline_level.ERROR, event);
+    }
+    info(event) {
+        this.log(timeline_level.INFO, event);
+    }
+    debug(event) {
+        this.log(timeline_level.DEBUG, event);
+    }
+    isEmpty() {
+        return this.events.length === 0;
+    }
+    send(sendfn, callback) {
+        var data = extend({
+            session: this.session,
+            bundle: this.sent + 1,
+            key: this.key,
+            lib: 'js',
+            version: this.options.version,
+            cluster: this.options.cluster,
+            features: this.options.features,
+            timeline: this.events,
+        }, this.options.params);
+        this.events = [];
+        sendfn(data, (error, result) => {
+            if (!error) {
+                this.sent++;
+            }
+            if (callback) {
+                callback(error, result);
+            }
+        });
+        return true;
+    }
+    generateUniqueID() {
+        this.uniqueID++;
+        return this.uniqueID;
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/strategies/transport_strategy.ts
+
+
+
+
+class transport_strategy_TransportStrategy {
+    constructor(name, priority, transport, options) {
+        this.name = name;
+        this.priority = priority;
+        this.transport = transport;
+        this.options = options || {};
+    }
+    isSupported() {
+        return this.transport.isSupported({
+            useTLS: this.options.useTLS,
+        });
+    }
+    connect(minPriority, callback) {
+        if (!this.isSupported()) {
+            return failAttempt(new UnsupportedStrategy(), callback);
+        }
+        else if (this.priority < minPriority) {
+            return failAttempt(new TransportPriorityTooLow(), callback);
+        }
+        var connected = false;
+        var transport = this.transport.createConnection(this.name, this.priority, this.options.key, this.options);
+        var handshake = null;
+        var onInitialized = function () {
+            transport.unbind('initialized', onInitialized);
+            transport.connect();
+        };
+        var onOpen = function () {
+            handshake = factory.createHandshake(transport, function (result) {
+                connected = true;
+                unbindListeners();
+                callback(null, result);
+            });
+        };
+        var onError = function (error) {
+            unbindListeners();
+            callback(error);
+        };
+        var onClosed = function () {
+            unbindListeners();
+            var serializedTransport;
+            serializedTransport = safeJSONStringify(transport);
+            callback(new TransportClosed(serializedTransport));
+        };
+        var unbindListeners = function () {
+            transport.unbind('initialized', onInitialized);
+            transport.unbind('open', onOpen);
+            transport.unbind('error', onError);
+            transport.unbind('closed', onClosed);
+        };
+        transport.bind('initialized', onInitialized);
+        transport.bind('open', onOpen);
+        transport.bind('error', onError);
+        transport.bind('closed', onClosed);
+        transport.initialize();
+        return {
+            abort: () => {
+                if (connected) {
+                    return;
+                }
+                unbindListeners();
+                if (handshake) {
+                    handshake.close();
+                }
+                else {
+                    transport.close();
+                }
+            },
+            forceMinPriority: (p) => {
+                if (connected) {
+                    return;
+                }
+                if (this.priority < p) {
+                    if (handshake) {
+                        handshake.close();
+                    }
+                    else {
+                        transport.close();
+                    }
+                }
+            },
+        };
+    }
+}
+function failAttempt(error, callback) {
+    util.defer(function () {
+        callback(error);
+    });
+    return {
+        abort: function () { },
+        forceMinPriority: function () { },
+    };
+}
+
+// CONCATENATED MODULE: ./src/core/strategies/strategy_builder.ts
+
+
+
+
+
+const { Transports: strategy_builder_Transports } = runtime;
+var strategy_builder_defineTransport = function (config, name, type, priority, options, manager) {
+    var transportClass = strategy_builder_Transports[type];
+    if (!transportClass) {
+        throw new UnsupportedTransport(type);
+    }
+    var enabled = (!config.enabledTransports ||
+        arrayIndexOf(config.enabledTransports, name) !== -1) &&
+        (!config.disabledTransports ||
+            arrayIndexOf(config.disabledTransports, name) === -1);
+    var transport;
+    if (enabled) {
+        options = Object.assign({ ignoreNullOrigin: config.ignoreNullOrigin }, options);
+        transport = new transport_strategy_TransportStrategy(name, priority, manager ? manager.getAssistant(transportClass) : transportClass, options);
+    }
+    else {
+        transport = strategy_builder_UnsupportedStrategy;
+    }
+    return transport;
+};
+var strategy_builder_UnsupportedStrategy = {
+    isSupported: function () {
+        return false;
+    },
+    connect: function (_, callback) {
+        var deferred = util.defer(function () {
+            callback(new UnsupportedStrategy());
+        });
+        return {
+            abort: function () {
+                deferred.ensureAborted();
+            },
+            forceMinPriority: function () { },
+        };
+    },
+};
+
+// CONCATENATED MODULE: ./src/core/options.ts
+
+function validateOptions(options) {
+    if (options == null) {
+        throw 'You must pass an options object';
+    }
+    if (options.cluster == null) {
+        throw 'Options object must provide a cluster';
+    }
+    if ('disableStats' in options) {
+        logger.warn('The disableStats option is deprecated in favor of enableStats');
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/auth/user_authenticator.ts
+
+
+const composeChannelQuery = (params, authOptions) => {
+    var query = 'socket_id=' + encodeURIComponent(params.socketId);
+    for (var key in authOptions.params) {
+        query +=
+            '&' +
+                encodeURIComponent(key) +
+                '=' +
+                encodeURIComponent(authOptions.params[key]);
+    }
+    if (authOptions.paramsProvider != null) {
+        let dynamicParams = authOptions.paramsProvider();
+        for (var key in dynamicParams) {
+            query +=
+                '&' +
+                    encodeURIComponent(key) +
+                    '=' +
+                    encodeURIComponent(dynamicParams[key]);
+        }
+    }
+    return query;
+};
+const UserAuthenticator = (authOptions) => {
+    if (typeof runtime.getAuthorizers()[authOptions.transport] === 'undefined') {
+        throw `'${authOptions.transport}' is not a recognized auth transport`;
+    }
+    return (params, callback) => {
+        const query = composeChannelQuery(params, authOptions);
+        runtime.getAuthorizers()[authOptions.transport](runtime, query, authOptions, AuthRequestType.UserAuthentication, callback);
+    };
+};
+/* harmony default export */ var user_authenticator = (UserAuthenticator);
+
+// CONCATENATED MODULE: ./src/core/auth/channel_authorizer.ts
+
+
+const channel_authorizer_composeChannelQuery = (params, authOptions) => {
+    var query = 'socket_id=' + encodeURIComponent(params.socketId);
+    query += '&channel_name=' + encodeURIComponent(params.channelName);
+    for (var key in authOptions.params) {
+        query +=
+            '&' +
+                encodeURIComponent(key) +
+                '=' +
+                encodeURIComponent(authOptions.params[key]);
+    }
+    if (authOptions.paramsProvider != null) {
+        let dynamicParams = authOptions.paramsProvider();
+        for (var key in dynamicParams) {
+            query +=
+                '&' +
+                    encodeURIComponent(key) +
+                    '=' +
+                    encodeURIComponent(dynamicParams[key]);
+        }
+    }
+    return query;
+};
+const ChannelAuthorizer = (authOptions) => {
+    if (typeof runtime.getAuthorizers()[authOptions.transport] === 'undefined') {
+        throw `'${authOptions.transport}' is not a recognized auth transport`;
+    }
+    return (params, callback) => {
+        const query = channel_authorizer_composeChannelQuery(params, authOptions);
+        runtime.getAuthorizers()[authOptions.transport](runtime, query, authOptions, AuthRequestType.ChannelAuthorization, callback);
+    };
+};
+/* harmony default export */ var channel_authorizer = (ChannelAuthorizer);
+
+// CONCATENATED MODULE: ./src/core/auth/deprecated_channel_authorizer.ts
+const ChannelAuthorizerProxy = (pusher, authOptions, channelAuthorizerGenerator) => {
+    const deprecatedAuthorizerOptions = {
+        authTransport: authOptions.transport,
+        authEndpoint: authOptions.endpoint,
+        auth: {
+            params: authOptions.params,
+            headers: authOptions.headers,
+        },
+    };
+    return (params, callback) => {
+        const channel = pusher.channel(params.channelName);
+        const channelAuthorizer = channelAuthorizerGenerator(channel, deprecatedAuthorizerOptions);
+        channelAuthorizer.authorize(params.socketId, callback);
+    };
+};
+
+// CONCATENATED MODULE: ./src/core/config.ts
+
+
+
+
+
+function getConfig(opts, pusher) {
+    let config = {
+        activityTimeout: opts.activityTimeout || defaults.activityTimeout,
+        cluster: opts.cluster,
+        httpPath: opts.httpPath || defaults.httpPath,
+        httpPort: opts.httpPort || defaults.httpPort,
+        httpsPort: opts.httpsPort || defaults.httpsPort,
+        pongTimeout: opts.pongTimeout || defaults.pongTimeout,
+        statsHost: opts.statsHost || defaults.stats_host,
+        unavailableTimeout: opts.unavailableTimeout || defaults.unavailableTimeout,
+        wsPath: opts.wsPath || defaults.wsPath,
+        wsPort: opts.wsPort || defaults.wsPort,
+        wssPort: opts.wssPort || defaults.wssPort,
+        enableStats: getEnableStatsConfig(opts),
+        httpHost: getHttpHost(opts),
+        useTLS: shouldUseTLS(opts),
+        wsHost: getWebsocketHost(opts),
+        userAuthenticator: buildUserAuthenticator(opts),
+        channelAuthorizer: buildChannelAuthorizer(opts, pusher),
+    };
+    if ('disabledTransports' in opts)
+        config.disabledTransports = opts.disabledTransports;
+    if ('enabledTransports' in opts)
+        config.enabledTransports = opts.enabledTransports;
+    if ('ignoreNullOrigin' in opts)
+        config.ignoreNullOrigin = opts.ignoreNullOrigin;
+    if ('timelineParams' in opts)
+        config.timelineParams = opts.timelineParams;
+    if ('nacl' in opts) {
+        config.nacl = opts.nacl;
+    }
+    return config;
+}
+function getHttpHost(opts) {
+    if (opts.httpHost) {
+        return opts.httpHost;
+    }
+    if (opts.cluster) {
+        return `sockjs-${opts.cluster}.pusher.com`;
+    }
+    return defaults.httpHost;
+}
+function getWebsocketHost(opts) {
+    if (opts.wsHost) {
+        return opts.wsHost;
+    }
+    return getWebsocketHostFromCluster(opts.cluster);
+}
+function getWebsocketHostFromCluster(cluster) {
+    return `ws-${cluster}.pusher.com`;
+}
+function shouldUseTLS(opts) {
+    if (runtime.getProtocol() === 'https:') {
+        return true;
+    }
+    else if (opts.forceTLS === false) {
+        return false;
+    }
+    return true;
+}
+function getEnableStatsConfig(opts) {
+    if ('enableStats' in opts) {
+        return opts.enableStats;
+    }
+    if ('disableStats' in opts) {
+        return !opts.disableStats;
+    }
+    return false;
+}
+function buildUserAuthenticator(opts) {
+    const userAuthentication = Object.assign(Object.assign({}, defaults.userAuthentication), opts.userAuthentication);
+    if ('customHandler' in userAuthentication &&
+        userAuthentication['customHandler'] != null) {
+        return userAuthentication['customHandler'];
+    }
+    return user_authenticator(userAuthentication);
+}
+function buildChannelAuth(opts, pusher) {
+    let channelAuthorization;
+    if ('channelAuthorization' in opts) {
+        channelAuthorization = Object.assign(Object.assign({}, defaults.channelAuthorization), opts.channelAuthorization);
+    }
+    else {
+        channelAuthorization = {
+            transport: opts.authTransport || defaults.authTransport,
+            endpoint: opts.authEndpoint || defaults.authEndpoint,
+        };
+        if ('auth' in opts) {
+            if ('params' in opts.auth)
+                channelAuthorization.params = opts.auth.params;
+            if ('headers' in opts.auth)
+                channelAuthorization.headers = opts.auth.headers;
+        }
+        if ('authorizer' in opts)
+            channelAuthorization.customHandler = ChannelAuthorizerProxy(pusher, channelAuthorization, opts.authorizer);
+    }
+    return channelAuthorization;
+}
+function buildChannelAuthorizer(opts, pusher) {
+    const channelAuthorization = buildChannelAuth(opts, pusher);
+    if ('customHandler' in channelAuthorization &&
+        channelAuthorization['customHandler'] != null) {
+        return channelAuthorization['customHandler'];
+    }
+    return channel_authorizer(channelAuthorization);
+}
+
+// CONCATENATED MODULE: ./src/core/watchlist.ts
+
+
+class watchlist_WatchlistFacade extends dispatcher_Dispatcher {
+    constructor(pusher) {
+        super(function (eventName, data) {
+            logger.debug(`No callbacks on watchlist events for ${eventName}`);
+        });
+        this.pusher = pusher;
+        this.bindWatchlistInternalEvent();
+    }
+    handleEvent(pusherEvent) {
+        pusherEvent.data.events.forEach((watchlistEvent) => {
+            this.emit(watchlistEvent.name, watchlistEvent);
+        });
+    }
+    bindWatchlistInternalEvent() {
+        this.pusher.connection.bind('message', (pusherEvent) => {
+            var eventName = pusherEvent.event;
+            if (eventName === 'pusher_internal:watchlist_events') {
+                this.handleEvent(pusherEvent);
+            }
+        });
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/utils/flat_promise.ts
+function flatPromise() {
+    let resolve, reject;
+    const promise = new Promise((res, rej) => {
+        resolve = res;
+        reject = rej;
+    });
+    return { promise, resolve, reject };
+}
+/* harmony default export */ var flat_promise = (flatPromise);
+
+// CONCATENATED MODULE: ./src/core/user.ts
+
+
+
+
+
+class user_UserFacade extends dispatcher_Dispatcher {
+    constructor(pusher) {
+        super(function (eventName, data) {
+            logger.debug('No callbacks on user for ' + eventName);
+        });
+        this.signin_requested = false;
+        this.user_data = null;
+        this.serverToUserChannel = null;
+        this.signinDonePromise = null;
+        this._signinDoneResolve = null;
+        this._onAuthorize = (err, authData) => {
+            if (err) {
+                logger.warn(`Error during signin: ${err}`);
+                this._cleanup();
+                return;
+            }
+            this.pusher.send_event('pusher:signin', {
+                auth: authData.auth,
+                user_data: authData.user_data,
+            });
+        };
+        this.pusher = pusher;
+        this.pusher.connection.bind('state_change', ({ previous, current }) => {
+            if (previous !== 'connected' && current === 'connected') {
+                this._signin();
+            }
+            if (previous === 'connected' && current !== 'connected') {
+                this._cleanup();
+                this._newSigninPromiseIfNeeded();
+            }
+        });
+        this.watchlist = new watchlist_WatchlistFacade(pusher);
+        this.pusher.connection.bind('message', (event) => {
+            var eventName = event.event;
+            if (eventName === 'pusher:signin_success') {
+                this._onSigninSuccess(event.data);
+            }
+            if (this.serverToUserChannel &&
+                this.serverToUserChannel.name === event.channel) {
+                this.serverToUserChannel.handleEvent(event);
+            }
+        });
+    }
+    signin() {
+        if (this.signin_requested) {
+            return;
+        }
+        this.signin_requested = true;
+        this._signin();
+    }
+    _signin() {
+        if (!this.signin_requested) {
+            return;
+        }
+        this._newSigninPromiseIfNeeded();
+        if (this.pusher.connection.state !== 'connected') {
+            return;
+        }
+        this.pusher.config.userAuthenticator({
+            socketId: this.pusher.connection.socket_id,
+        }, this._onAuthorize);
+    }
+    _onSigninSuccess(data) {
+        try {
+            this.user_data = JSON.parse(data.user_data);
+        }
+        catch (e) {
+            logger.error(`Failed parsing user data after signin: ${data.user_data}`);
+            this._cleanup();
+            return;
+        }
+        if (typeof this.user_data.id !== 'string' || this.user_data.id === '') {
+            logger.error(`user_data doesn't contain an id. user_data: ${this.user_data}`);
+            this._cleanup();
+            return;
+        }
+        this._signinDoneResolve();
+        this._subscribeChannels();
+    }
+    _subscribeChannels() {
+        const ensure_subscribed = (channel) => {
+            if (channel.subscriptionPending && channel.subscriptionCancelled) {
+                channel.reinstateSubscription();
+            }
+            else if (!channel.subscriptionPending &&
+                this.pusher.connection.state === 'connected') {
+                channel.subscribe();
+            }
+        };
+        this.serverToUserChannel = new channel_Channel(`#server-to-user-${this.user_data.id}`, this.pusher);
+        this.serverToUserChannel.bind_global((eventName, data) => {
+            if (eventName.indexOf('pusher_internal:') === 0 ||
+                eventName.indexOf('pusher:') === 0) {
+                return;
+            }
+            this.emit(eventName, data);
+        });
+        ensure_subscribed(this.serverToUserChannel);
+    }
+    _cleanup() {
+        this.user_data = null;
+        if (this.serverToUserChannel) {
+            this.serverToUserChannel.unbind_all();
+            this.serverToUserChannel.disconnect();
+            this.serverToUserChannel = null;
+        }
+        if (this.signin_requested) {
+            this._signinDoneResolve();
+        }
+    }
+    _newSigninPromiseIfNeeded() {
+        if (!this.signin_requested) {
+            return;
+        }
+        if (this.signinDonePromise && !this.signinDonePromise.done) {
+            return;
+        }
+        const { promise, resolve, reject: _ } = flat_promise();
+        promise.done = false;
+        const setDone = () => {
+            promise.done = true;
+        };
+        promise.then(setDone).catch(setDone);
+        this.signinDonePromise = promise;
+        this._signinDoneResolve = resolve;
+    }
+}
+
+// CONCATENATED MODULE: ./src/core/pusher.ts
+
+
+
+
+
+
+
+
+
+
+
+
+
+class pusher_Pusher {
+    static ready() {
+        pusher_Pusher.isReady = true;
+        for (var i = 0, l = pusher_Pusher.instances.length; i < l; i++) {
+            pusher_Pusher.instances[i].connect();
+        }
+    }
+    static getClientFeatures() {
+        return keys(filterObject({ ws: runtime.Transports.ws }, function (t) {
+            return t.isSupported({});
+        }));
+    }
+    constructor(app_key, options) {
+        checkAppKey(app_key);
+        validateOptions(options);
+        this.key = app_key;
+        this.config = getConfig(options, this);
+        this.channels = factory.createChannels();
+        this.global_emitter = new dispatcher_Dispatcher();
+        this.sessionID = runtime.randomInt(1000000000);
+        this.timeline = new timeline_Timeline(this.key, this.sessionID, {
+            cluster: this.config.cluster,
+            features: pusher_Pusher.getClientFeatures(),
+            params: this.config.timelineParams || {},
+            limit: 50,
+            level: timeline_level.INFO,
+            version: defaults.VERSION,
+        });
+        if (this.config.enableStats) {
+            this.timelineSender = factory.createTimelineSender(this.timeline, {
+                host: this.config.statsHost,
+                path: '/timeline/v2/' + runtime.TimelineTransport.name,
+            });
+        }
+        var getStrategy = (options) => {
+            return runtime.getDefaultStrategy(this.config, options, strategy_builder_defineTransport);
+        };
+        this.connection = factory.createConnectionManager(this.key, {
+            getStrategy: getStrategy,
+            timeline: this.timeline,
+            activityTimeout: this.config.activityTimeout,
+            pongTimeout: this.config.pongTimeout,
+            unavailableTimeout: this.config.unavailableTimeout,
+            useTLS: Boolean(this.config.useTLS),
+        });
+        this.connection.bind('connected', () => {
+            this.subscribeAll();
+            if (this.timelineSender) {
+                this.timelineSender.send(this.connection.isUsingTLS());
+            }
+        });
+        this.connection.bind('message', (event) => {
+            var eventName = event.event;
+            var internal = eventName.indexOf('pusher_internal:') === 0;
+            if (event.channel) {
+                var channel = this.channel(event.channel);
+                if (channel) {
+                    channel.handleEvent(event);
+                }
+            }
+            if (!internal) {
+                this.global_emitter.emit(event.event, event.data);
+            }
+        });
+        this.connection.bind('connecting', () => {
+            this.channels.disconnect();
+        });
+        this.connection.bind('disconnected', () => {
+            this.channels.disconnect();
+        });
+        this.connection.bind('error', (err) => {
+            logger.warn(err);
+        });
+        pusher_Pusher.instances.push(this);
+        this.timeline.info({ instances: pusher_Pusher.instances.length });
+        this.user = new user_UserFacade(this);
+        if (pusher_Pusher.isReady) {
+            this.connect();
+        }
+    }
+    channel(name) {
+        return this.channels.find(name);
+    }
+    allChannels() {
+        return this.channels.all();
+    }
+    connect() {
+        this.connection.connect();
+        if (this.timelineSender) {
+            if (!this.timelineSenderTimer) {
+                var usingTLS = this.connection.isUsingTLS();
+                var timelineSender = this.timelineSender;
+                this.timelineSenderTimer = new timers_PeriodicTimer(60000, function () {
+                    timelineSender.send(usingTLS);
+                });
+            }
+        }
+    }
+    disconnect() {
+        this.connection.disconnect();
+        if (this.timelineSenderTimer) {
+            this.timelineSenderTimer.ensureAborted();
+            this.timelineSenderTimer = null;
+        }
+    }
+    bind(event_name, callback, context) {
+        this.global_emitter.bind(event_name, callback, context);
+        return this;
+    }
+    unbind(event_name, callback, context) {
+        this.global_emitter.unbind(event_name, callback, context);
+        return this;
+    }
+    bind_global(callback) {
+        this.global_emitter.bind_global(callback);
+        return this;
+    }
+    unbind_global(callback) {
+        this.global_emitter.unbind_global(callback);
+        return this;
+    }
+    unbind_all(callback) {
+        this.global_emitter.unbind_all();
+        return this;
+    }
+    subscribeAll() {
+        var channelName;
+        for (channelName in this.channels.channels) {
+            if (this.channels.channels.hasOwnProperty(channelName)) {
+                this.subscribe(channelName);
+            }
+        }
+    }
+    subscribe(channel_name) {
+        var channel = this.channels.add(channel_name, this);
+        if (channel.subscriptionPending && channel.subscriptionCancelled) {
+            channel.reinstateSubscription();
+        }
+        else if (!channel.subscriptionPending &&
+            this.connection.state === 'connected') {
+            channel.subscribe();
+        }
+        return channel;
+    }
+    unsubscribe(channel_name) {
+        var channel = this.channels.find(channel_name);
+        if (channel && channel.subscriptionPending) {
+            channel.cancelSubscription();
+        }
+        else {
+            channel = this.channels.remove(channel_name);
+            if (channel && channel.subscribed) {
+                channel.unsubscribe();
+            }
+        }
+    }
+    send_event(event_name, data, channel) {
+        return this.connection.send_event(event_name, data, channel);
+    }
+    shouldUseTLS() {
+        return this.config.useTLS;
+    }
+    signin() {
+        this.user.signin();
+    }
+}
+pusher_Pusher.instances = [];
+pusher_Pusher.isReady = false;
+pusher_Pusher.logToConsole = false;
+pusher_Pusher.Runtime = runtime;
+pusher_Pusher.ScriptReceivers = runtime.ScriptReceivers;
+pusher_Pusher.DependenciesReceivers = runtime.DependenciesReceivers;
+pusher_Pusher.auth_callbacks = runtime.auth_callbacks;
+/* harmony default export */ var core_pusher = __nested_webpack_exports__["default"] = (pusher_Pusher);
+function checkAppKey(key) {
+    if (key === null || key === undefined) {
+        throw 'You must pass your app key when you instantiate Pusher.';
+    }
+}
+runtime.setup(pusher_Pusher);
+
+
+/***/ })
+/******/ ]);
+});
+//# sourceMappingURL=pusher.js.map
+
+/***/ }),
+
 /***/ "./node_modules/sweetalert2/dist/sweetalert2.all.js":
 /*!**********************************************************!*\
   !*** ./node_modules/sweetalert2/dist/sweetalert2.all.js ***!
@@ -10437,7 +16485,7 @@ process.umask = function() { return 0; };
 /***/ (function(module) {
 
 /*!
-* sweetalert2 v11.17.2
+* sweetalert2 v11.6.13
 * Released under the MIT License.
 */
 (function (global, factory) {
@@ -10445,84 +16493,56 @@ process.umask = function() { return 0; };
   0;
 })(this, (function () { 'use strict';
 
-  function _assertClassBrand(e, t, n) {
-    if ("function" == typeof e ? e === t : e.has(t)) return arguments.length < 3 ? t : n;
-    throw new TypeError("Private element is not present on this object");
-  }
-  function _checkPrivateRedeclaration(e, t) {
-    if (t.has(e)) throw new TypeError("Cannot initialize the same private elements twice on an object");
-  }
-  function _classPrivateFieldGet2(s, a) {
-    return s.get(_assertClassBrand(s, a));
-  }
-  function _classPrivateFieldInitSpec(e, t, a) {
-    _checkPrivateRedeclaration(e, t), t.set(e, a);
-  }
-  function _classPrivateFieldSet2(s, a, r) {
-    return s.set(_assertClassBrand(s, a), r), r;
-  }
-
-  const RESTORE_FOCUS_TIMEOUT = 100;
-
-  /** @type {GlobalState} */
-  const globalState = {};
-  const focusPreviousActiveElement = () => {
-    if (globalState.previousActiveElement instanceof HTMLElement) {
-      globalState.previousActiveElement.focus();
-      globalState.previousActiveElement = null;
-    } else if (document.body) {
-      document.body.focus();
-    }
-  };
-
   /**
-   * Restore previous active (focused) element
-   *
-   * @param {boolean} returnFocus
-   * @returns {Promise<void>}
+   * This module contains `WeakMap`s for each effectively-"private  property" that a `Swal` has.
+   * For example, to set the private property "foo" of `this` to "bar", you can `privateProps.foo.set(this, 'bar')`
+   * This is the approach that Babel will probably take to implement private methods/fields
+   *   https://github.com/tc39/proposal-private-methods
+   *   https://github.com/babel/babel/pull/7555
+   * Once we have the changes from that PR in Babel, and our core class fits reasonable in *one module*
+   *   then we can use that language feature.
    */
-  const restoreActiveElement = returnFocus => {
-    return new Promise(resolve => {
-      if (!returnFocus) {
-        return resolve();
-      }
-      const x = window.scrollX;
-      const y = window.scrollY;
-      globalState.restoreFocusTimeout = setTimeout(() => {
-        focusPreviousActiveElement();
-        resolve();
-      }, RESTORE_FOCUS_TIMEOUT); // issues/900
 
-      window.scrollTo(x, y);
-    });
+  var privateProps = {
+    awaitingPromise: new WeakMap(),
+    promise: new WeakMap(),
+    innerParams: new WeakMap(),
+    domCache: new WeakMap()
   };
 
   const swalPrefix = 'swal2-';
 
   /**
-   * @typedef {Record<SwalClass, string>} SwalClasses
+   * @param {string[]} items
+   * @returns {object}
    */
-
-  /**
-   * @typedef {'success' | 'warning' | 'info' | 'question' | 'error'} SwalIcon
-   * @typedef {Record<SwalIcon, string>} SwalIcons
-   */
-
-  /** @type {SwalClass[]} */
-  const classNames = ['container', 'shown', 'height-auto', 'iosfix', 'popup', 'modal', 'no-backdrop', 'no-transition', 'toast', 'toast-shown', 'show', 'hide', 'close', 'title', 'html-container', 'actions', 'confirm', 'deny', 'cancel', 'default-outline', 'footer', 'icon', 'icon-content', 'image', 'input', 'file', 'range', 'select', 'radio', 'checkbox', 'label', 'textarea', 'inputerror', 'input-label', 'validation-message', 'progress-steps', 'active-progress-step', 'progress-step', 'progress-step-line', 'loader', 'loading', 'styled', 'top', 'top-start', 'top-end', 'top-left', 'top-right', 'center', 'center-start', 'center-end', 'center-left', 'center-right', 'bottom', 'bottom-start', 'bottom-end', 'bottom-left', 'bottom-right', 'grow-row', 'grow-column', 'grow-fullscreen', 'rtl', 'timer-progress-bar', 'timer-progress-bar-container', 'scrollbar-measure', 'icon-success', 'icon-warning', 'icon-info', 'icon-question', 'icon-error', 'draggable', 'dragging'];
-  const swalClasses = classNames.reduce((acc, className) => {
-    acc[className] = swalPrefix + className;
-    return acc;
-  }, /** @type {SwalClasses} */{});
-
-  /** @type {SwalIcon[]} */
-  const icons = ['success', 'warning', 'info', 'question', 'error'];
-  const iconTypes = icons.reduce((acc, icon) => {
-    acc[icon] = swalPrefix + icon;
-    return acc;
-  }, /** @type {SwalIcons} */{});
+  const prefix = items => {
+    const result = {};
+    for (const i in items) {
+      result[items[i]] = swalPrefix + items[i];
+    }
+    return result;
+  };
+  const swalClasses = prefix(['container', 'shown', 'height-auto', 'iosfix', 'popup', 'modal', 'no-backdrop', 'no-transition', 'toast', 'toast-shown', 'show', 'hide', 'close', 'title', 'html-container', 'actions', 'confirm', 'deny', 'cancel', 'default-outline', 'footer', 'icon', 'icon-content', 'image', 'input', 'file', 'range', 'select', 'radio', 'checkbox', 'label', 'textarea', 'inputerror', 'input-label', 'validation-message', 'progress-steps', 'active-progress-step', 'progress-step', 'progress-step-line', 'loader', 'loading', 'styled', 'top', 'top-start', 'top-end', 'top-left', 'top-right', 'center', 'center-start', 'center-end', 'center-left', 'center-right', 'bottom', 'bottom-start', 'bottom-end', 'bottom-left', 'bottom-right', 'grow-row', 'grow-column', 'grow-fullscreen', 'rtl', 'timer-progress-bar', 'timer-progress-bar-container', 'scrollbar-measure', 'icon-success', 'icon-warning', 'icon-info', 'icon-question', 'icon-error']);
+  const iconTypes = prefix(['success', 'warning', 'info', 'question', 'error']);
 
   const consolePrefix = 'SweetAlert2:';
+
+  /**
+   * Filter the unique values into a new array
+   *
+   * @param {Array} arr
+   * @returns {Array}
+   */
+  const uniqueArray = arr => {
+    const result = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (result.indexOf(arr[i]) === -1) {
+        result.push(arr[i]);
+      }
+    }
+    return result;
+  };
 
   /**
    * Capitalize the first letter of a string
@@ -10535,7 +16555,7 @@ process.umask = function() { return 0; };
   /**
    * Standardize console warnings
    *
-   * @param {string | string[]} message
+   * @param {string | Array} message
    */
   const warn = message => {
     console.warn(`${consolePrefix} ${typeof message === 'object' ? message.join(' ') : message}`);
@@ -10553,7 +16573,7 @@ process.umask = function() { return 0; };
   /**
    * Private global state for `warnOnce`
    *
-   * @type {string[]}
+   * @type {Array}
    * @private
    */
   const previousWarnOnceMessages = [];
@@ -10574,11 +16594,10 @@ process.umask = function() { return 0; };
    * Show a one-time console warning about deprecated params/methods
    *
    * @param {string} deprecatedParam
-   * @param {string?} useInstead
+   * @param {string} useInstead
    */
-  const warnAboutDeprecation = function (deprecatedParam) {
-    let useInstead = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    warnOnce(`"${deprecatedParam}" is deprecated and will be removed in the next major release.${useInstead ? ` Use "${useInstead}" instead.` : ''}`);
+  const warnAboutDeprecation = (deprecatedParam, useInstead) => {
+    warnOnce(`"${deprecatedParam}" is deprecated and will be removed in the next major release. Please use "${useInstead}" instead.`);
   };
 
   /**
@@ -10598,7 +16617,7 @@ process.umask = function() { return 0; };
 
   /**
    * @param {any} arg
-   * @returns {Promise<any>}
+   * @returns {Promise}
    */
   const asPromise = arg => hasToPromiseFn(arg) ? arg.toPromise() : Promise.resolve(arg);
 
@@ -10673,19 +16692,14 @@ process.umask = function() { return 0; };
   const getValidationMessage = () => elementByClass(swalClasses['validation-message']);
 
   /**
-   * @returns {HTMLButtonElement | null}
+   * @returns {HTMLElement | null}
    */
-  const getConfirmButton = () => (/** @type {HTMLButtonElement} */elementBySelector(`.${swalClasses.actions} .${swalClasses.confirm}`));
+  const getConfirmButton = () => elementBySelector(`.${swalClasses.actions} .${swalClasses.confirm}`);
 
   /**
-   * @returns {HTMLButtonElement | null}
+   * @returns {HTMLElement | null}
    */
-  const getCancelButton = () => (/** @type {HTMLButtonElement} */elementBySelector(`.${swalClasses.actions} .${swalClasses.cancel}`));
-
-  /**
-   * @returns {HTMLButtonElement | null}
-   */
-  const getDenyButton = () => (/** @type {HTMLButtonElement} */elementBySelector(`.${swalClasses.actions} .${swalClasses.deny}`));
+  const getDenyButton = () => elementBySelector(`.${swalClasses.actions} .${swalClasses.deny}`);
 
   /**
    * @returns {HTMLElement | null}
@@ -10696,6 +16710,11 @@ process.umask = function() { return 0; };
    * @returns {HTMLElement | null}
    */
   const getLoader = () => elementBySelector(`.${swalClasses.loader}`);
+
+  /**
+   * @returns {HTMLElement | null}
+   */
+  const getCancelButton = () => elementBySelector(`.${swalClasses.actions} .${swalClasses.cancel}`);
 
   /**
    * @returns {HTMLElement | null}
@@ -10738,17 +16757,11 @@ process.umask = function() { return 0; };
    * @returns {HTMLElement[]}
    */
   const getFocusableElements = () => {
-    const popup = getPopup();
-    if (!popup) {
-      return [];
-    }
-    /** @type {NodeListOf<HTMLElement>} */
-    const focusableElementsWithTabindex = popup.querySelectorAll('[tabindex]:not([tabindex="-1"]):not([tabindex="0"])');
-    const focusableElementsWithTabindexSorted = Array.from(focusableElementsWithTabindex)
+    const focusableElementsWithTabindex = Array.from(getPopup().querySelectorAll('[tabindex]:not([tabindex="-1"]):not([tabindex="0"])'))
     // sort according to tabindex
     .sort((a, b) => {
-      const tabindexA = parseInt(a.getAttribute('tabindex') || '0');
-      const tabindexB = parseInt(b.getAttribute('tabindex') || '0');
+      const tabindexA = parseInt(a.getAttribute('tabindex'));
+      const tabindexB = parseInt(b.getAttribute('tabindex'));
       if (tabindexA > tabindexB) {
         return 1;
       } else if (tabindexA < tabindexB) {
@@ -10756,11 +16769,8 @@ process.umask = function() { return 0; };
       }
       return 0;
     });
-
-    /** @type {NodeListOf<HTMLElement>} */
-    const otherFocusableElements = popup.querySelectorAll(focusable);
-    const otherFocusableElementsFiltered = Array.from(otherFocusableElements).filter(el => el.getAttribute('tabindex') !== '-1');
-    return [...new Set(focusableElementsWithTabindexSorted.concat(otherFocusableElementsFiltered))].filter(el => isVisible$1(el));
+    const otherFocusableElements = Array.from(getPopup().querySelectorAll(focusable)).filter(el => el.getAttribute('tabindex') !== '-1');
+    return uniqueArray(focusableElementsWithTabindex.concat(otherFocusableElements)).filter(el => isVisible$1(el));
   };
 
   /**
@@ -10774,22 +16784,19 @@ process.umask = function() { return 0; };
    * @returns {boolean}
    */
   const isToast = () => {
-    const popup = getPopup();
-    if (!popup) {
-      return false;
-    }
-    return hasClass(popup, swalClasses.toast);
+    return getPopup() && hasClass(getPopup(), swalClasses.toast);
   };
 
   /**
    * @returns {boolean}
    */
   const isLoading = () => {
-    const popup = getPopup();
-    if (!popup) {
-      return false;
-    }
-    return popup.hasAttribute('data-loading');
+    return getPopup().hasAttribute('data-loading');
+  };
+
+  // Remember state in cases where opening and handling a modal will fiddle with it.
+  const states = {
+    previousBodyPadding: null
   };
 
   /**
@@ -10804,22 +16811,16 @@ process.umask = function() { return 0; };
     if (html) {
       const parser = new DOMParser();
       const parsed = parser.parseFromString(html, `text/html`);
-      const head = parsed.querySelector('head');
-      if (head) {
-        Array.from(head.childNodes).forEach(child => {
+      Array.from(parsed.querySelector('head').childNodes).forEach(child => {
+        elem.appendChild(child);
+      });
+      Array.from(parsed.querySelector('body').childNodes).forEach(child => {
+        if (child instanceof HTMLVideoElement || child instanceof HTMLAudioElement) {
+          elem.appendChild(child.cloneNode(true)); // https://github.com/sweetalert2/sweetalert2/issues/2507
+        } else {
           elem.appendChild(child);
-        });
-      }
-      const body = parsed.querySelector('body');
-      if (body) {
-        Array.from(body.childNodes).forEach(child => {
-          if (child instanceof HTMLVideoElement || child instanceof HTMLAudioElement) {
-            elem.appendChild(child.cloneNode(true)); // https://github.com/sweetalert2/sweetalert2/issues/2507
-          } else {
-            elem.appendChild(child);
-          }
-        });
-      }
+        }
+      });
     }
   };
 
@@ -10847,7 +16848,7 @@ process.umask = function() { return 0; };
    */
   const removeCustomClasses = (elem, params) => {
     Array.from(elem.classList).forEach(className => {
-      if (!Object.values(swalClasses).includes(className) && !Object.values(iconTypes).includes(className) && !Object.values(params.showClass || {}).includes(className)) {
+      if (!Object.values(swalClasses).includes(className) && !Object.values(iconTypes).includes(className) && !Object.values(params.showClass).includes(className)) {
         elem.classList.remove(className);
       }
     });
@@ -10860,23 +16861,18 @@ process.umask = function() { return 0; };
    */
   const applyCustomClass = (elem, params, className) => {
     removeCustomClasses(elem, params);
-    if (!params.customClass) {
-      return;
+    if (params.customClass && params.customClass[className]) {
+      if (typeof params.customClass[className] !== 'string' && !params.customClass[className].forEach) {
+        warn(`Invalid type of customClass.${className}! Expected string or iterable object, got "${typeof params.customClass[className]}"`);
+        return;
+      }
+      addClass(elem, params.customClass[className]);
     }
-    const customClass = params.customClass[(/** @type {keyof SweetAlertCustomClass} */className)];
-    if (!customClass) {
-      return;
-    }
-    if (typeof customClass !== 'string' && !customClass.forEach) {
-      warn(`Invalid type of customClass.${className}! Expected string or iterable object, got "${typeof customClass}"`);
-      return;
-    }
-    addClass(elem, customClass);
   };
 
   /**
    * @param {HTMLElement} popup
-   * @param {import('./renderers/renderInput').InputClass | SweetAlertInput} inputClass
+   * @param {import('./renderers/renderInput').InputClass} inputClass
    * @returns {HTMLInputElement | null}
    */
   const getInput$1 = (popup, inputClass) => {
@@ -10916,7 +16912,7 @@ process.umask = function() { return 0; };
 
   /**
    * @param {HTMLElement | HTMLElement[] | null} target
-   * @param {string | string[] | readonly string[] | undefined} classList
+   * @param {string | string[] | readonly string[]} classList
    * @param {boolean} condition
    */
   const toggleClass = (target, classList, condition) => {
@@ -10929,25 +16925,17 @@ process.umask = function() { return 0; };
     classList.forEach(className => {
       if (Array.isArray(target)) {
         target.forEach(elem => {
-          if (condition) {
-            elem.classList.add(className);
-          } else {
-            elem.classList.remove(className);
-          }
+          condition ? elem.classList.add(className) : elem.classList.remove(className);
         });
       } else {
-        if (condition) {
-          target.classList.add(className);
-        } else {
-          target.classList.remove(className);
-        }
+        condition ? target.classList.add(className) : target.classList.remove(className);
       }
     });
   };
 
   /**
    * @param {HTMLElement | HTMLElement[] | null} target
-   * @param {string | string[] | readonly string[] | undefined} classList
+   * @param {string | string[] | readonly string[]} classList
    */
   const addClass = (target, classList) => {
     toggleClass(target, classList, true);
@@ -10955,7 +16943,7 @@ process.umask = function() { return 0; };
 
   /**
    * @param {HTMLElement | HTMLElement[] | null} target
-   * @param {string | string[] | readonly string[] | undefined} classList
+   * @param {string | string[] | readonly string[]} classList
    */
   const removeClass = (target, classList) => {
     toggleClass(target, classList, false);
@@ -10988,49 +16976,26 @@ process.umask = function() { return 0; };
       value = parseInt(value);
     }
     if (value || parseInt(value) === 0) {
-      elem.style.setProperty(property, typeof value === 'number' ? `${value}px` : value);
+      elem.style[property] = typeof value === 'number' ? `${value}px` : value;
     } else {
       elem.style.removeProperty(property);
     }
   };
 
   /**
-   * @param {HTMLElement | null} elem
+   * @param {HTMLElement} elem
    * @param {string} display
    */
   const show = function (elem) {
     let display = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'flex';
-    if (!elem) {
-      return;
-    }
     elem.style.display = display;
   };
 
   /**
-   * @param {HTMLElement | null} elem
+   * @param {HTMLElement} elem
    */
   const hide = elem => {
-    if (!elem) {
-      return;
-    }
     elem.style.display = 'none';
-  };
-
-  /**
-   * @param {HTMLElement | null} elem
-   * @param {string} display
-   */
-  const showWhenInnerHtmlPresent = function (elem) {
-    let display = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'block';
-    if (!elem) {
-      return;
-    }
-    new MutationObserver(() => {
-      toggle(elem, elem.innerHTML, display);
-    }).observe(elem, {
-      childList: true,
-      subtree: true
-    });
   };
 
   /**
@@ -11040,10 +17005,10 @@ process.umask = function() { return 0; };
    * @param {string} value
    */
   const setStyle = (parent, selector, property, value) => {
-    /** @type {HTMLElement | null} */
+    /** @type {HTMLElement} */
     const el = parent.querySelector(selector);
     if (el) {
-      el.style.setProperty(property, value);
+      el.style[property] = value;
     }
   };
 
@@ -11054,17 +17019,13 @@ process.umask = function() { return 0; };
    */
   const toggle = function (elem, condition) {
     let display = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'flex';
-    if (condition) {
-      show(elem, display);
-    } else {
-      hide(elem);
-    }
+    condition ? show(elem, display) : hide(elem);
   };
 
   /**
    * borrowed from jquery $(elem).is(':visible') implementation
    *
-   * @param {HTMLElement | null} elem
+   * @param {HTMLElement} elem
    * @returns {boolean}
    */
   const isVisible$1 = elem => !!(elem && (elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length));
@@ -11100,9 +17061,6 @@ process.umask = function() { return 0; };
   const animateTimerProgressBar = function (timer) {
     let reset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
     const timerProgressBar = getTimerProgressBar();
-    if (!timerProgressBar) {
-      return;
-    }
     if (isVisible$1(timerProgressBar)) {
       if (reset) {
         timerProgressBar.style.transition = 'none';
@@ -11116,15 +17074,48 @@ process.umask = function() { return 0; };
   };
   const stopTimerProgressBar = () => {
     const timerProgressBar = getTimerProgressBar();
-    if (!timerProgressBar) {
-      return;
-    }
     const timerProgressBarWidth = parseInt(window.getComputedStyle(timerProgressBar).width);
     timerProgressBar.style.removeProperty('transition');
     timerProgressBar.style.width = '100%';
     const timerProgressBarFullWidth = parseInt(window.getComputedStyle(timerProgressBar).width);
     const timerProgressBarPercent = timerProgressBarWidth / timerProgressBarFullWidth * 100;
+    timerProgressBar.style.removeProperty('transition');
     timerProgressBar.style.width = `${timerProgressBarPercent}%`;
+  };
+
+  const RESTORE_FOCUS_TIMEOUT = 100;
+
+  /** @type {GlobalState} */
+  const globalState = {};
+  const focusPreviousActiveElement = () => {
+    if (globalState.previousActiveElement instanceof HTMLElement) {
+      globalState.previousActiveElement.focus();
+      globalState.previousActiveElement = null;
+    } else if (document.body) {
+      document.body.focus();
+    }
+  };
+
+  /**
+   * Restore previous active (focused) element
+   *
+   * @param {boolean} returnFocus
+   * @returns {Promise}
+   */
+  const restoreActiveElement = returnFocus => {
+    return new Promise(resolve => {
+      if (!returnFocus) {
+        return resolve();
+      }
+      const x = window.scrollX;
+      const y = window.scrollY;
+      globalState.restoreFocusTimeout = setTimeout(() => {
+        focusPreviousActiveElement();
+        resolve();
+      }, RESTORE_FOCUS_TIMEOUT); // issues/900
+
+      window.scrollTo(x, y);
+    });
   };
 
   /**
@@ -11142,19 +17133,19 @@ process.umask = function() { return 0; };
    <img class="${swalClasses.image}" />
    <h2 class="${swalClasses.title}" id="${swalClasses.title}"></h2>
    <div class="${swalClasses['html-container']}" id="${swalClasses['html-container']}"></div>
-   <input class="${swalClasses.input}" id="${swalClasses.input}" />
+   <input class="${swalClasses.input}" />
    <input type="file" class="${swalClasses.file}" />
    <div class="${swalClasses.range}">
      <input type="range" />
      <output></output>
    </div>
-   <select class="${swalClasses.select}" id="${swalClasses.select}"></select>
+   <select class="${swalClasses.select}"></select>
    <div class="${swalClasses.radio}"></div>
-   <label class="${swalClasses.checkbox}">
-     <input type="checkbox" id="${swalClasses.checkbox}" />
+   <label for="${swalClasses.checkbox}" class="${swalClasses.checkbox}">
+     <input type="checkbox" />
      <span class="${swalClasses.label}"></span>
    </label>
-   <textarea class="${swalClasses.textarea}" id="${swalClasses.textarea}"></textarea>
+   <textarea class="${swalClasses.textarea}"></textarea>
    <div class="${swalClasses['validation-message']}" id="${swalClasses['validation-message']}"></div>
    <div class="${swalClasses.actions}">
      <div class="${swalClasses.loader}"></div>
@@ -11246,6 +17237,8 @@ process.umask = function() { return 0; };
   const init = params => {
     // Clean up the old popup container if it exists
     const oldContainerExisted = resetOldContainer();
+
+    /* istanbul ignore if */
     if (isNodeEnv()) {
       error('SweetAlert2 requires document to initialize');
       return;
@@ -11256,7 +17249,6 @@ process.umask = function() { return 0; };
       addClass(container, swalClasses['no-transition']);
     }
     setInnerHtml(container, sweetHTML);
-    container.dataset['swal2Theme'] = params.theme;
     const targetElement = getTarget(params.target);
     targetElement.appendChild(container);
     setupAccessibility(params);
@@ -11286,7 +17278,7 @@ process.umask = function() { return 0; };
   };
 
   /**
-   * @param {any} param
+   * @param {object} param
    * @param {HTMLElement} target
    */
   const handleObject = (param, target) => {
@@ -11303,12 +17295,12 @@ process.umask = function() { return 0; };
 
   /**
    * @param {HTMLElement} target
-   * @param {any} elem
+   * @param {HTMLElement} elem
    */
   const handleJqueryElem = (target, elem) => {
     target.textContent = '';
     if (0 in elem) {
-      for (let i = 0; i in elem; i++) {
+      for (let i = 0; (i in elem); i++) {
         target.appendChild(elem[i].cloneNode(true));
       }
     } else {
@@ -11317,15 +17309,51 @@ process.umask = function() { return 0; };
   };
 
   /**
-   * @param {SweetAlert} instance
+   * @returns {'webkitAnimationEnd' | 'animationend' | false}
+   */
+  const animationEndEvent = (() => {
+    // Prevent run in Node env
+    /* istanbul ignore if */
+    if (isNodeEnv()) {
+      return false;
+    }
+    const testEl = document.createElement('div');
+    const transEndEventNames = {
+      WebkitAnimation: 'webkitAnimationEnd',
+      // Chrome, Safari and Opera
+      animation: 'animationend' // Standard syntax
+    };
+
+    for (const i in transEndEventNames) {
+      if (Object.prototype.hasOwnProperty.call(transEndEventNames, i) && typeof testEl.style[i] !== 'undefined') {
+        return transEndEventNames[i];
+      }
+    }
+    return false;
+  })();
+
+  /**
+   * Measure scrollbar width for padding body during modal show/hide
+   * https://github.com/twbs/bootstrap/blob/master/js/src/modal.js
+   *
+   * @returns {number}
+   */
+  const measureScrollbar = () => {
+    const scrollDiv = document.createElement('div');
+    scrollDiv.className = swalClasses['scrollbar-measure'];
+    document.body.appendChild(scrollDiv);
+    const scrollbarWidth = scrollDiv.getBoundingClientRect().width - scrollDiv.clientWidth;
+    document.body.removeChild(scrollDiv);
+    return scrollbarWidth;
+  };
+
+  /**
+   * @param {SweetAlert2} instance
    * @param {SweetAlertOptions} params
    */
   const renderActions = (instance, params) => {
     const actions = getActions();
     const loader = getLoader();
-    if (!actions || !loader) {
-      return;
-    }
 
     // Actions (buttons) wrapper
     if (!params.showConfirmButton && !params.showDenyButton && !params.showCancelButton) {
@@ -11341,7 +17369,7 @@ process.umask = function() { return 0; };
     renderButtons(actions, loader, params);
 
     // Loader
-    setInnerHtml(loader, params.loaderHtml || '');
+    setInnerHtml(loader, params.loaderHtml);
     applyCustomClass(loader, params, 'loader');
   };
 
@@ -11354,9 +17382,6 @@ process.umask = function() { return 0; };
     const confirmButton = getConfirmButton();
     const denyButton = getDenyButton();
     const cancelButton = getCancelButton();
-    if (!confirmButton || !denyButton || !cancelButton) {
-      return;
-    }
 
     // Render buttons
     renderButton(confirmButton, 'confirm', params);
@@ -11409,35 +17434,32 @@ process.umask = function() { return 0; };
    * @param {SweetAlertOptions} params
    */
   function renderButton(button, buttonType, params) {
-    const buttonName = /** @type {'Confirm' | 'Deny' | 'Cancel'} */capitalizeFirstLetter(buttonType);
-    toggle(button, params[`show${buttonName}Button`], 'inline-block');
-    setInnerHtml(button, params[`${buttonType}ButtonText`] || ''); // Set caption text
-    button.setAttribute('aria-label', params[`${buttonType}ButtonAriaLabel`] || ''); // ARIA label
+    toggle(button, params[`show${capitalizeFirstLetter(buttonType)}Button`], 'inline-block');
+    setInnerHtml(button, params[`${buttonType}ButtonText`]); // Set caption text
+    button.setAttribute('aria-label', params[`${buttonType}ButtonAriaLabel`]); // ARIA label
 
     // Add buttons custom classes
     button.className = swalClasses[buttonType];
     applyCustomClass(button, params, `${buttonType}Button`);
+    addClass(button, params[`${buttonType}ButtonClass`]);
   }
 
   /**
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    * @param {SweetAlertOptions} params
    */
   const renderCloseButton = (instance, params) => {
     const closeButton = getCloseButton();
-    if (!closeButton) {
-      return;
-    }
-    setInnerHtml(closeButton, params.closeButtonHtml || '');
+    setInnerHtml(closeButton, params.closeButtonHtml);
 
     // Custom class
     applyCustomClass(closeButton, params, 'closeButton');
     toggle(closeButton, params.showCloseButton);
-    closeButton.setAttribute('aria-label', params.closeButtonAriaLabel || '');
+    closeButton.setAttribute('aria-label', params.closeButtonAriaLabel);
   };
 
   /**
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    * @param {SweetAlertOptions} params
    */
   const renderContainer = (instance, params) => {
@@ -11470,9 +17492,6 @@ process.umask = function() { return 0; };
    * @param {SweetAlertOptions['position']} position
    */
   function handlePositionParam(container, position) {
-    if (!position) {
-      return;
-    }
     if (position in swalClasses) {
       addClass(container, swalClasses[position]);
     } else {
@@ -11486,49 +17505,29 @@ process.umask = function() { return 0; };
    * @param {SweetAlertOptions['grow']} grow
    */
   function handleGrowParam(container, grow) {
-    if (!grow) {
-      return;
+    if (grow && typeof grow === 'string') {
+      const growClass = `grow-${grow}`;
+      if (growClass in swalClasses) {
+        addClass(container, swalClasses[growClass]);
+      }
     }
-    addClass(container, swalClasses[`grow-${grow}`]);
   }
 
-  /**
-   * This module contains `WeakMap`s for each effectively-"private  property" that a `Swal` has.
-   * For example, to set the private property "foo" of `this` to "bar", you can `privateProps.foo.set(this, 'bar')`
-   * This is the approach that Babel will probably take to implement private methods/fields
-   *   https://github.com/tc39/proposal-private-methods
-   *   https://github.com/babel/babel/pull/7555
-   * Once we have the changes from that PR in Babel, and our core class fits reasonable in *one module*
-   *   then we can use that language feature.
-   */
-
-  var privateProps = {
-    innerParams: new WeakMap(),
-    domCache: new WeakMap()
-  };
-
   /// <reference path="../../../../sweetalert2.d.ts"/>
-
 
   /** @type {InputClass[]} */
   const inputClasses = ['input', 'file', 'range', 'select', 'radio', 'checkbox', 'textarea'];
 
   /**
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    * @param {SweetAlertOptions} params
    */
   const renderInput = (instance, params) => {
     const popup = getPopup();
-    if (!popup) {
-      return;
-    }
     const innerParams = privateProps.innerParams.get(instance);
     const rerender = !innerParams || params.input !== innerParams.input;
     inputClasses.forEach(inputClass => {
       const inputContainer = getDirectChildByClass(popup, swalClasses[inputClass]);
-      if (!inputContainer) {
-        return;
-      }
 
       // set attributes
       setAttributes(inputClass, params.inputAttributes);
@@ -11552,26 +17551,18 @@ process.umask = function() { return 0; };
    * @param {SweetAlertOptions} params
    */
   const showInput = params => {
-    if (!params.input) {
-      return;
-    }
     if (!renderInputType[params.input]) {
-      error(`Unexpected type of input! Expected ${Object.keys(renderInputType).join(' | ')}, got "${params.input}"`);
+      error(`Unexpected type of input! Expected "text", "email", "password", "number", "tel", "select", "radio", "checkbox", "textarea", "file" or "url", got "${params.input}"`);
       return;
     }
     const inputContainer = getInputContainer(params.input);
-    if (!inputContainer) {
-      return;
-    }
     const input = renderInputType[params.input](inputContainer, params);
     show(inputContainer);
 
     // input autofocus
-    if (params.inputAutoFocus) {
-      setTimeout(() => {
-        focusInput(input);
-      });
-    }
+    setTimeout(() => {
+      focusInput(input);
+    });
   };
 
   /**
@@ -11580,7 +17571,7 @@ process.umask = function() { return 0; };
   const removeAttributes = input => {
     for (let i = 0; i < input.attributes.length; i++) {
       const attrName = input.attributes[i].name;
-      if (!['id', 'type', 'value', 'style'].includes(attrName)) {
+      if (!['type', 'value', 'style'].includes(attrName)) {
         input.removeAttribute(attrName);
       }
     }
@@ -11591,11 +17582,7 @@ process.umask = function() { return 0; };
    * @param {SweetAlertOptions['inputAttributes']} inputAttributes
    */
   const setAttributes = (inputClass, inputAttributes) => {
-    const popup = getPopup();
-    if (!popup) {
-      return;
-    }
-    const input = getInput$1(popup, inputClass);
+    const input = getInput$1(getPopup(), inputClass);
     if (!input) {
       return;
     }
@@ -11609,12 +17596,9 @@ process.umask = function() { return 0; };
    * @param {SweetAlertOptions} params
    */
   const setCustomClass = params => {
-    if (!params.input) {
-      return;
-    }
     const inputContainer = getInputContainer(params.input);
-    if (inputContainer) {
-      applyCustomClass(inputContainer, params, 'input');
+    if (typeof params.customClass === 'object') {
+      addClass(inputContainer, params.customClass.input);
     }
   };
 
@@ -11623,7 +17607,7 @@ process.umask = function() { return 0; };
    * @param {SweetAlertOptions} params
    */
   const setInputPlaceholder = (input, params) => {
-    if (!input.placeholder && params.inputPlaceholder) {
+    if (!input.placeholder || params.inputPlaceholder) {
       input.placeholder = params.inputPlaceholder;
     }
   };
@@ -11635,6 +17619,7 @@ process.umask = function() { return 0; };
    */
   const setInputLabel = (input, prependTo, params) => {
     if (params.inputLabel) {
+      input.id = swalClasses.input;
       const label = document.createElement('label');
       const labelClass = swalClasses['input-label'];
       label.setAttribute('for', input.id);
@@ -11648,15 +17633,11 @@ process.umask = function() { return 0; };
   };
 
   /**
-   * @param {SweetAlertInput} inputType
-   * @returns {HTMLElement | undefined}
+   * @param {SweetAlertOptions['input']} inputType
+   * @returns {HTMLElement}
    */
   const getInputContainer = inputType => {
-    const popup = getPopup();
-    if (!popup) {
-      return;
-    }
-    return getDirectChildByClass(popup, swalClasses[(/** @type {SwalClass} */inputType)] || swalClasses.input);
+    return getDirectChildByClass(getPopup(), swalClasses[inputType] || swalClasses.input);
   };
 
   /**
@@ -11671,7 +17652,7 @@ process.umask = function() { return 0; };
     }
   };
 
-  /** @type {Record<SweetAlertInput, (input: Input | HTMLElement, params: SweetAlertOptions) => Input>} */
+  /** @type {Record<string, (input: Input | HTMLElement, params: SweetAlertOptions) => Input>} */
   const renderInputType = {};
 
   /**
@@ -11679,8 +17660,7 @@ process.umask = function() { return 0; };
    * @param {SweetAlertOptions} params
    * @returns {HTMLInputElement}
    */
-  renderInputType.text = renderInputType.email = renderInputType.password = renderInputType.number = renderInputType.tel = renderInputType.url = renderInputType.search = renderInputType.date = renderInputType['datetime-local'] = renderInputType.time = renderInputType.week = renderInputType.month = /** @type {(input: Input | HTMLElement, params: SweetAlertOptions) => Input} */
-  (input, params) => {
+  renderInputType.text = renderInputType.email = renderInputType.password = renderInputType.number = renderInputType.tel = renderInputType.url = (input, params) => {
     checkAndSetInputValue(input, params.inputValue);
     setInputLabel(input, input, params);
     setInputPlaceholder(input, params);
@@ -11750,9 +17730,10 @@ process.umask = function() { return 0; };
   renderInputType.checkbox = (checkboxContainer, params) => {
     const checkbox = getInput$1(getPopup(), 'checkbox');
     checkbox.value = '1';
+    checkbox.id = swalClasses.checkbox;
     checkbox.checked = Boolean(params.inputValue);
     const label = checkboxContainer.querySelector('span');
-    setInnerHtml(label, params.inputPlaceholder || params.inputLabel);
+    setInnerHtml(label, params.inputPlaceholder);
     return checkbox;
   };
 
@@ -11778,15 +17759,11 @@ process.umask = function() { return 0; };
       if ('MutationObserver' in window) {
         const initialPopupWidth = parseInt(window.getComputedStyle(getPopup()).width);
         const textareaResizeHandler = () => {
-          // check if texarea is still in document (i.e. popup wasn't closed in the meantime)
-          if (!document.body.contains(textarea)) {
-            return;
-          }
           const textareaWidth = textarea.offsetWidth + getMargin(textarea);
           if (textareaWidth > initialPopupWidth) {
             getPopup().style.width = `${textareaWidth}px`;
           } else {
-            applyNumericalStyle(getPopup(), 'width', params.width);
+            getPopup().style.width = null;
           }
         };
         new MutationObserver(textareaResizeHandler).observe(textarea, {
@@ -11799,15 +17776,11 @@ process.umask = function() { return 0; };
   };
 
   /**
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    * @param {SweetAlertOptions} params
    */
   const renderContent = (instance, params) => {
     const htmlContainer = getHtmlContainer();
-    if (!htmlContainer) {
-      return;
-    }
-    showWhenInnerHtmlPresent(htmlContainer);
     applyCustomClass(htmlContainer, params, 'htmlContainer');
 
     // Content as HTML
@@ -11830,16 +17803,12 @@ process.umask = function() { return 0; };
   };
 
   /**
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    * @param {SweetAlertOptions} params
    */
   const renderFooter = (instance, params) => {
     const footer = getFooter();
-    if (!footer) {
-      return;
-    }
-    showWhenInnerHtmlPresent(footer);
-    toggle(footer, params.footer, 'block');
+    toggle(footer, params.footer);
     if (params.footer) {
       parseHtmlToContainer(params.footer, footer);
     }
@@ -11849,15 +17818,12 @@ process.umask = function() { return 0; };
   };
 
   /**
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    * @param {SweetAlertOptions} params
    */
   const renderIcon = (instance, params) => {
     const innerParams = privateProps.innerParams.get(instance);
     const icon = getIcon();
-    if (!icon) {
-      return;
-    }
 
     // if the given icon already rendered, apply the styling without re-rendering the icon
     if (innerParams && params.icon === innerParams.icon) {
@@ -11882,11 +17848,7 @@ process.umask = function() { return 0; };
     applyStyles(icon, params);
 
     // Animate icon
-    addClass(icon, params.showClass && params.showClass.icon);
-
-    // Re-adjust the success icon on system theme change
-    const colorSchemeQueryList = window.matchMedia('(prefers-color-scheme: dark)');
-    colorSchemeQueryList.addEventListener('change', adjustSuccessIconBackgroundColor);
+    addClass(icon, params.showClass.icon);
   };
 
   /**
@@ -11894,12 +17856,12 @@ process.umask = function() { return 0; };
    * @param {SweetAlertOptions} params
    */
   const applyStyles = (icon, params) => {
-    for (const [iconType, iconClassName] of Object.entries(iconTypes)) {
+    for (const iconType in iconTypes) {
       if (params.icon !== iconType) {
-        removeClass(icon, iconClassName);
+        removeClass(icon, iconTypes[iconType]);
       }
     }
-    addClass(icon, params.icon && iconTypes[params.icon]);
+    addClass(icon, iconTypes[params.icon]);
 
     // Icon color
     setColor(icon, params);
@@ -11914,9 +17876,6 @@ process.umask = function() { return 0; };
   // Adjust success icon background color to match the popup background color
   const adjustSuccessIconBackgroundColor = () => {
     const popup = getPopup();
-    if (!popup) {
-      return;
-    }
     const popupBackgroundColor = window.getComputedStyle(popup).getPropertyValue('background-color');
     /** @type {NodeListOf<HTMLElement>} */
     const successIconParts = popup.querySelectorAll('[class^=swal2-success-circular-line], .swal2-success-fix');
@@ -11942,11 +17901,8 @@ process.umask = function() { return 0; };
    * @param {SweetAlertOptions} params
    */
   const setContent = (icon, params) => {
-    if (!params.icon && !params.iconHtml) {
-      return;
-    }
     let oldContent = icon.innerHTML;
-    let newContent = '';
+    let newContent;
     if (params.iconHtml) {
       newContent = iconContent(params.iconHtml);
     } else if (params.icon === 'success') {
@@ -11954,7 +17910,7 @@ process.umask = function() { return 0; };
       oldContent = oldContent.replace(/ style=".*?"/g, ''); // undo adjustSuccessIconBackgroundColor()
     } else if (params.icon === 'error') {
       newContent = errorIconHtml;
-    } else if (params.icon) {
+    } else {
       const defaultIconHtml = {
         question: '?',
         warning: '!',
@@ -11978,9 +17934,9 @@ process.umask = function() { return 0; };
     icon.style.color = params.iconColor;
     icon.style.borderColor = params.iconColor;
     for (const sel of ['.swal2-success-line-tip', '.swal2-success-line-long', '.swal2-x-mark-line-left', '.swal2-x-mark-line-right']) {
-      setStyle(icon, sel, 'background-color', params.iconColor);
+      setStyle(icon, sel, 'backgroundColor', params.iconColor);
     }
-    setStyle(icon, '.swal2-success-ring', 'border-color', params.iconColor);
+    setStyle(icon, '.swal2-success-ring', 'borderColor', params.iconColor);
   };
 
   /**
@@ -11990,14 +17946,11 @@ process.umask = function() { return 0; };
   const iconContent = content => `<div class="${swalClasses['icon-content']}">${content}</div>`;
 
   /**
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    * @param {SweetAlertOptions} params
    */
   const renderImage = (instance, params) => {
     const image = getImage();
-    if (!image) {
-      return;
-    }
     if (!params.imageUrl) {
       hide(image);
       return;
@@ -12006,7 +17959,7 @@ process.umask = function() { return 0; };
 
     // Src, alt
     image.setAttribute('src', params.imageUrl);
-    image.setAttribute('alt', params.imageAlt || '');
+    image.setAttribute('alt', params.imageAlt);
 
     // Width, height
     applyNumericalStyle(image, 'width', params.imageWidth);
@@ -12017,112 +17970,20 @@ process.umask = function() { return 0; };
     applyCustomClass(image, params, 'image');
   };
 
-  let dragging = false;
-  let mousedownX = 0;
-  let mousedownY = 0;
-  let initialX = 0;
-  let initialY = 0;
-
   /**
-   * @param {HTMLElement} popup
-   */
-  const addDraggableListeners = popup => {
-    popup.addEventListener('mousedown', down);
-    document.body.addEventListener('mousemove', move);
-    popup.addEventListener('mouseup', up);
-    popup.addEventListener('touchstart', down);
-    document.body.addEventListener('touchmove', move);
-    popup.addEventListener('touchend', up);
-  };
-
-  /**
-   * @param {HTMLElement} popup
-   */
-  const removeDraggableListeners = popup => {
-    popup.removeEventListener('mousedown', down);
-    document.body.removeEventListener('mousemove', move);
-    popup.removeEventListener('mouseup', up);
-    popup.removeEventListener('touchstart', down);
-    document.body.removeEventListener('touchmove', move);
-    popup.removeEventListener('touchend', up);
-  };
-
-  /**
-   * @param {MouseEvent | TouchEvent} event
-   */
-  const down = event => {
-    const popup = getPopup();
-    if (event.target === popup || getIcon().contains(/** @type {HTMLElement} */event.target)) {
-      dragging = true;
-      const clientXY = getClientXY(event);
-      mousedownX = clientXY.clientX;
-      mousedownY = clientXY.clientY;
-      initialX = parseInt(popup.style.insetInlineStart) || 0;
-      initialY = parseInt(popup.style.insetBlockStart) || 0;
-      addClass(popup, 'swal2-dragging');
-    }
-  };
-
-  /**
-   * @param {MouseEvent | TouchEvent} event
-   */
-  const move = event => {
-    const popup = getPopup();
-    if (dragging) {
-      let {
-        clientX,
-        clientY
-      } = getClientXY(event);
-      popup.style.insetInlineStart = `${initialX + (clientX - mousedownX)}px`;
-      popup.style.insetBlockStart = `${initialY + (clientY - mousedownY)}px`;
-    }
-  };
-  const up = () => {
-    const popup = getPopup();
-    dragging = false;
-    removeClass(popup, 'swal2-dragging');
-  };
-
-  /**
-   * @param {MouseEvent | TouchEvent} event
-   * @returns {{ clientX: number, clientY: number }}
-   */
-  const getClientXY = event => {
-    let clientX = 0,
-      clientY = 0;
-    if (event.type.startsWith('mouse')) {
-      clientX = /** @type {MouseEvent} */event.clientX;
-      clientY = /** @type {MouseEvent} */event.clientY;
-    } else if (event.type.startsWith('touch')) {
-      clientX = /** @type {TouchEvent} */event.touches[0].clientX;
-      clientY = /** @type {TouchEvent} */event.touches[0].clientY;
-    }
-    return {
-      clientX,
-      clientY
-    };
-  };
-
-  /**
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    * @param {SweetAlertOptions} params
    */
   const renderPopup = (instance, params) => {
     const container = getContainer();
     const popup = getPopup();
-    if (!container || !popup) {
-      return;
-    }
 
     // Width
     // https://github.com/sweetalert2/sweetalert2/issues/2170
     if (params.toast) {
       applyNumericalStyle(container, 'width', params.width);
       popup.style.width = '100%';
-      const loader = getLoader();
-      if (loader) {
-        popup.insertBefore(loader, getIcon());
-      }
+      popup.insertBefore(getLoader(), getIcon());
     } else {
       applyNumericalStyle(popup, 'width', params.width);
     }
@@ -12143,13 +18004,6 @@ process.umask = function() { return 0; };
 
     // Classes
     addClasses$1(popup, params);
-    if (params.draggable && !params.toast) {
-      addClass(popup, swalClasses.draggable);
-      addDraggableListeners(popup);
-    } else {
-      removeClass(popup, swalClasses.draggable);
-      removeDraggableListeners(popup);
-    }
   };
 
   /**
@@ -12157,9 +18011,8 @@ process.umask = function() { return 0; };
    * @param {SweetAlertOptions} params
    */
   const addClasses$1 = (popup, params) => {
-    const showClass = params.showClass || {};
     // Default Class + showClass when updating Swal.update({})
-    popup.className = `${swalClasses.popup} ${isVisible$1(popup) ? showClass.popup : ''}`;
+    popup.className = `${swalClasses.popup} ${isVisible$1(popup) ? params.showClass.popup : ''}`;
     if (params.toast) {
       addClass([document.documentElement, document.body], swalClasses['toast-shown']);
       addClass(popup, swalClasses.toast);
@@ -12169,7 +18022,6 @@ process.umask = function() { return 0; };
 
     // Custom class
     applyCustomClass(popup, params, 'popup');
-    // TODO: remove in the next major
     if (typeof params.customClass === 'string') {
       addClass(popup, params.customClass);
     }
@@ -12181,34 +18033,27 @@ process.umask = function() { return 0; };
   };
 
   /**
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    * @param {SweetAlertOptions} params
    */
   const renderProgressSteps = (instance, params) => {
     const progressStepsContainer = getProgressSteps();
-    if (!progressStepsContainer) {
-      return;
-    }
-    const {
-      progressSteps,
-      currentProgressStep
-    } = params;
-    if (!progressSteps || progressSteps.length === 0 || currentProgressStep === undefined) {
+    if (!params.progressSteps || params.progressSteps.length === 0) {
       hide(progressStepsContainer);
       return;
     }
     show(progressStepsContainer);
     progressStepsContainer.textContent = '';
-    if (currentProgressStep >= progressSteps.length) {
+    if (params.currentProgressStep >= params.progressSteps.length) {
       warn('Invalid currentProgressStep parameter, it should be less than progressSteps.length ' + '(currentProgressStep like JS arrays starts from 0)');
     }
-    progressSteps.forEach((step, index) => {
+    params.progressSteps.forEach((step, index) => {
       const stepEl = createStepElement(step);
       progressStepsContainer.appendChild(stepEl);
-      if (index === currentProgressStep) {
+      if (index === params.currentProgressStep) {
         addClass(stepEl, swalClasses['active-progress-step']);
       }
-      if (index !== progressSteps.length - 1) {
+      if (index !== params.progressSteps.length - 1) {
         const lineEl = createLineElement(params);
         progressStepsContainer.appendChild(lineEl);
       }
@@ -12240,15 +18085,11 @@ process.umask = function() { return 0; };
   };
 
   /**
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    * @param {SweetAlertOptions} params
    */
   const renderTitle = (instance, params) => {
     const title = getTitle();
-    if (!title) {
-      return;
-    }
-    showWhenInnerHtmlPresent(title);
     toggle(title, params.title || params.titleText, 'block');
     if (params.title) {
       parseHtmlToContainer(params.title, title);
@@ -12262,7 +18103,7 @@ process.umask = function() { return 0; };
   };
 
   /**
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    * @param {SweetAlertOptions} params
    */
   const render = (instance, params) => {
@@ -12276,1056 +18117,8 @@ process.umask = function() { return 0; };
     renderContent(instance, params);
     renderActions(instance, params);
     renderFooter(instance, params);
-    const popup = getPopup();
-    if (typeof params.didRender === 'function' && popup) {
-      params.didRender(popup);
-    }
-    globalState.eventEmitter.emit('didRender', popup);
-  };
-
-  /*
-   * Global function to determine if SweetAlert2 popup is shown
-   */
-  const isVisible = () => {
-    return isVisible$1(getPopup());
-  };
-
-  /*
-   * Global function to click 'Confirm' button
-   */
-  const clickConfirm = () => {
-    var _dom$getConfirmButton;
-    return (_dom$getConfirmButton = getConfirmButton()) === null || _dom$getConfirmButton === void 0 ? void 0 : _dom$getConfirmButton.click();
-  };
-
-  /*
-   * Global function to click 'Deny' button
-   */
-  const clickDeny = () => {
-    var _dom$getDenyButton;
-    return (_dom$getDenyButton = getDenyButton()) === null || _dom$getDenyButton === void 0 ? void 0 : _dom$getDenyButton.click();
-  };
-
-  /*
-   * Global function to click 'Cancel' button
-   */
-  const clickCancel = () => {
-    var _dom$getCancelButton;
-    return (_dom$getCancelButton = getCancelButton()) === null || _dom$getCancelButton === void 0 ? void 0 : _dom$getCancelButton.click();
-  };
-
-  /** @typedef {'cancel' | 'backdrop' | 'close' | 'esc' | 'timer'} DismissReason */
-
-  /** @type {Record<DismissReason, DismissReason>} */
-  const DismissReason = Object.freeze({
-    cancel: 'cancel',
-    backdrop: 'backdrop',
-    close: 'close',
-    esc: 'esc',
-    timer: 'timer'
-  });
-
-  /**
-   * @param {GlobalState} globalState
-   */
-  const removeKeydownHandler = globalState => {
-    if (globalState.keydownTarget && globalState.keydownHandlerAdded) {
-      globalState.keydownTarget.removeEventListener('keydown', globalState.keydownHandler, {
-        capture: globalState.keydownListenerCapture
-      });
-      globalState.keydownHandlerAdded = false;
-    }
-  };
-
-  /**
-   * @param {GlobalState} globalState
-   * @param {SweetAlertOptions} innerParams
-   * @param {*} dismissWith
-   */
-  const addKeydownHandler = (globalState, innerParams, dismissWith) => {
-    removeKeydownHandler(globalState);
-    if (!innerParams.toast) {
-      globalState.keydownHandler = e => keydownHandler(innerParams, e, dismissWith);
-      globalState.keydownTarget = innerParams.keydownListenerCapture ? window : getPopup();
-      globalState.keydownListenerCapture = innerParams.keydownListenerCapture;
-      globalState.keydownTarget.addEventListener('keydown', globalState.keydownHandler, {
-        capture: globalState.keydownListenerCapture
-      });
-      globalState.keydownHandlerAdded = true;
-    }
-  };
-
-  /**
-   * @param {number} index
-   * @param {number} increment
-   */
-  const setFocus = (index, increment) => {
-    var _dom$getPopup;
-    const focusableElements = getFocusableElements();
-    // search for visible elements and select the next possible match
-    if (focusableElements.length) {
-      index = index + increment;
-
-      // rollover to first item
-      if (index === focusableElements.length) {
-        index = 0;
-
-        // go to last item
-      } else if (index === -1) {
-        index = focusableElements.length - 1;
-      }
-      focusableElements[index].focus();
-      return;
-    }
-    // no visible focusable elements, focus the popup
-    (_dom$getPopup = getPopup()) === null || _dom$getPopup === void 0 || _dom$getPopup.focus();
-  };
-  const arrowKeysNextButton = ['ArrowRight', 'ArrowDown'];
-  const arrowKeysPreviousButton = ['ArrowLeft', 'ArrowUp'];
-
-  /**
-   * @param {SweetAlertOptions} innerParams
-   * @param {KeyboardEvent} event
-   * @param {Function} dismissWith
-   */
-  const keydownHandler = (innerParams, event, dismissWith) => {
-    if (!innerParams) {
-      return; // This instance has already been destroyed
-    }
-
-    // Ignore keydown during IME composition
-    // https://developer.mozilla.org/en-US/docs/Web/API/Document/keydown_event#ignoring_keydown_during_ime_composition
-    // https://github.com/sweetalert2/sweetalert2/issues/720
-    // https://github.com/sweetalert2/sweetalert2/issues/2406
-    if (event.isComposing || event.keyCode === 229) {
-      return;
-    }
-    if (innerParams.stopKeydownPropagation) {
-      event.stopPropagation();
-    }
-
-    // ENTER
-    if (event.key === 'Enter') {
-      handleEnter(event, innerParams);
-    }
-
-    // TAB
-    else if (event.key === 'Tab') {
-      handleTab(event);
-    }
-
-    // ARROWS - switch focus between buttons
-    else if ([...arrowKeysNextButton, ...arrowKeysPreviousButton].includes(event.key)) {
-      handleArrows(event.key);
-    }
-
-    // ESC
-    else if (event.key === 'Escape') {
-      handleEsc(event, innerParams, dismissWith);
-    }
-  };
-
-  /**
-   * @param {KeyboardEvent} event
-   * @param {SweetAlertOptions} innerParams
-   */
-  const handleEnter = (event, innerParams) => {
-    // https://github.com/sweetalert2/sweetalert2/issues/2386
-    if (!callIfFunction(innerParams.allowEnterKey)) {
-      return;
-    }
-    const input = getInput$1(getPopup(), innerParams.input);
-    if (event.target && input && event.target instanceof HTMLElement && event.target.outerHTML === input.outerHTML) {
-      if (['textarea', 'file'].includes(innerParams.input)) {
-        return; // do not submit
-      }
-      clickConfirm();
-      event.preventDefault();
-    }
-  };
-
-  /**
-   * @param {KeyboardEvent} event
-   */
-  const handleTab = event => {
-    const targetElement = event.target;
-    const focusableElements = getFocusableElements();
-    let btnIndex = -1;
-    for (let i = 0; i < focusableElements.length; i++) {
-      if (targetElement === focusableElements[i]) {
-        btnIndex = i;
-        break;
-      }
-    }
-
-    // Cycle to the next button
-    if (!event.shiftKey) {
-      setFocus(btnIndex, 1);
-    }
-
-    // Cycle to the prev button
-    else {
-      setFocus(btnIndex, -1);
-    }
-    event.stopPropagation();
-    event.preventDefault();
-  };
-
-  /**
-   * @param {string} key
-   */
-  const handleArrows = key => {
-    const actions = getActions();
-    const confirmButton = getConfirmButton();
-    const denyButton = getDenyButton();
-    const cancelButton = getCancelButton();
-    if (!actions || !confirmButton || !denyButton || !cancelButton) {
-      return;
-    }
-    /** @type HTMLElement[] */
-    const buttons = [confirmButton, denyButton, cancelButton];
-    if (document.activeElement instanceof HTMLElement && !buttons.includes(document.activeElement)) {
-      return;
-    }
-    const sibling = arrowKeysNextButton.includes(key) ? 'nextElementSibling' : 'previousElementSibling';
-    let buttonToFocus = document.activeElement;
-    if (!buttonToFocus) {
-      return;
-    }
-    for (let i = 0; i < actions.children.length; i++) {
-      buttonToFocus = buttonToFocus[sibling];
-      if (!buttonToFocus) {
-        return;
-      }
-      if (buttonToFocus instanceof HTMLButtonElement && isVisible$1(buttonToFocus)) {
-        break;
-      }
-    }
-    if (buttonToFocus instanceof HTMLButtonElement) {
-      buttonToFocus.focus();
-    }
-  };
-
-  /**
-   * @param {KeyboardEvent} event
-   * @param {SweetAlertOptions} innerParams
-   * @param {Function} dismissWith
-   */
-  const handleEsc = (event, innerParams, dismissWith) => {
-    if (callIfFunction(innerParams.allowEscapeKey)) {
-      event.preventDefault();
-      dismissWith(DismissReason.esc);
-    }
-  };
-
-  /**
-   * This module contains `WeakMap`s for each effectively-"private  property" that a `Swal` has.
-   * For example, to set the private property "foo" of `this` to "bar", you can `privateProps.foo.set(this, 'bar')`
-   * This is the approach that Babel will probably take to implement private methods/fields
-   *   https://github.com/tc39/proposal-private-methods
-   *   https://github.com/babel/babel/pull/7555
-   * Once we have the changes from that PR in Babel, and our core class fits reasonable in *one module*
-   *   then we can use that language feature.
-   */
-
-  var privateMethods = {
-    swalPromiseResolve: new WeakMap(),
-    swalPromiseReject: new WeakMap()
-  };
-
-  // From https://developer.paciellogroup.com/blog/2018/06/the-current-state-of-modal-dialog-accessibility/
-  // Adding aria-hidden="true" to elements outside of the active modal dialog ensures that
-  // elements not within the active modal dialog will not be surfaced if a user opens a screen
-  // reader’s list of elements (headings, form controls, landmarks, etc.) in the document.
-
-  const setAriaHidden = () => {
-    const container = getContainer();
-    const bodyChildren = Array.from(document.body.children);
-    bodyChildren.forEach(el => {
-      if (el.contains(container)) {
-        return;
-      }
-      if (el.hasAttribute('aria-hidden')) {
-        el.setAttribute('data-previous-aria-hidden', el.getAttribute('aria-hidden') || '');
-      }
-      el.setAttribute('aria-hidden', 'true');
-    });
-  };
-  const unsetAriaHidden = () => {
-    const bodyChildren = Array.from(document.body.children);
-    bodyChildren.forEach(el => {
-      if (el.hasAttribute('data-previous-aria-hidden')) {
-        el.setAttribute('aria-hidden', el.getAttribute('data-previous-aria-hidden') || '');
-        el.removeAttribute('data-previous-aria-hidden');
-      } else {
-        el.removeAttribute('aria-hidden');
-      }
-    });
-  };
-
-  // @ts-ignore
-  const isSafariOrIOS = typeof window !== 'undefined' && !!window.GestureEvent; // true for Safari desktop + all iOS browsers https://stackoverflow.com/a/70585394
-
-  /**
-   * Fix iOS scrolling
-   * http://stackoverflow.com/q/39626302
-   */
-  const iOSfix = () => {
-    if (isSafariOrIOS && !hasClass(document.body, swalClasses.iosfix)) {
-      const offset = document.body.scrollTop;
-      document.body.style.top = `${offset * -1}px`;
-      addClass(document.body, swalClasses.iosfix);
-      lockBodyScroll();
-    }
-  };
-
-  /**
-   * https://github.com/sweetalert2/sweetalert2/issues/1246
-   */
-  const lockBodyScroll = () => {
-    const container = getContainer();
-    if (!container) {
-      return;
-    }
-    /** @type {boolean} */
-    let preventTouchMove;
-    /**
-     * @param {TouchEvent} event
-     */
-    container.ontouchstart = event => {
-      preventTouchMove = shouldPreventTouchMove(event);
-    };
-    /**
-     * @param {TouchEvent} event
-     */
-    container.ontouchmove = event => {
-      if (preventTouchMove) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-    };
-  };
-
-  /**
-   * @param {TouchEvent} event
-   * @returns {boolean}
-   */
-  const shouldPreventTouchMove = event => {
-    const target = event.target;
-    const container = getContainer();
-    const htmlContainer = getHtmlContainer();
-    if (!container || !htmlContainer) {
-      return false;
-    }
-    if (isStylus(event) || isZoom(event)) {
-      return false;
-    }
-    if (target === container) {
-      return true;
-    }
-    if (!isScrollable(container) && target instanceof HTMLElement && target.tagName !== 'INPUT' &&
-    // #1603
-    target.tagName !== 'TEXTAREA' &&
-    // #2266
-    !(isScrollable(htmlContainer) &&
-    // #1944
-    htmlContainer.contains(target))) {
-      return true;
-    }
-    return false;
-  };
-
-  /**
-   * https://github.com/sweetalert2/sweetalert2/issues/1786
-   *
-   * @param {*} event
-   * @returns {boolean}
-   */
-  const isStylus = event => {
-    return event.touches && event.touches.length && event.touches[0].touchType === 'stylus';
-  };
-
-  /**
-   * https://github.com/sweetalert2/sweetalert2/issues/1891
-   *
-   * @param {TouchEvent} event
-   * @returns {boolean}
-   */
-  const isZoom = event => {
-    return event.touches && event.touches.length > 1;
-  };
-  const undoIOSfix = () => {
-    if (hasClass(document.body, swalClasses.iosfix)) {
-      const offset = parseInt(document.body.style.top, 10);
-      removeClass(document.body, swalClasses.iosfix);
-      document.body.style.top = '';
-      document.body.scrollTop = offset * -1;
-    }
-  };
-
-  /**
-   * Measure scrollbar width for padding body during modal show/hide
-   * https://github.com/twbs/bootstrap/blob/master/js/src/modal.js
-   *
-   * @returns {number}
-   */
-  const measureScrollbar = () => {
-    const scrollDiv = document.createElement('div');
-    scrollDiv.className = swalClasses['scrollbar-measure'];
-    document.body.appendChild(scrollDiv);
-    const scrollbarWidth = scrollDiv.getBoundingClientRect().width - scrollDiv.clientWidth;
-    document.body.removeChild(scrollDiv);
-    return scrollbarWidth;
-  };
-
-  /**
-   * Remember state in cases where opening and handling a modal will fiddle with it.
-   * @type {number | null}
-   */
-  let previousBodyPadding = null;
-
-  /**
-   * @param {string} initialBodyOverflow
-   */
-  const replaceScrollbarWithPadding = initialBodyOverflow => {
-    // for queues, do not do this more than once
-    if (previousBodyPadding !== null) {
-      return;
-    }
-    // if the body has overflow
-    if (document.body.scrollHeight > window.innerHeight || initialBodyOverflow === 'scroll' // https://github.com/sweetalert2/sweetalert2/issues/2663
-    ) {
-      // add padding so the content doesn't shift after removal of scrollbar
-      previousBodyPadding = parseInt(window.getComputedStyle(document.body).getPropertyValue('padding-right'));
-      document.body.style.paddingRight = `${previousBodyPadding + measureScrollbar()}px`;
-    }
-  };
-  const undoReplaceScrollbarWithPadding = () => {
-    if (previousBodyPadding !== null) {
-      document.body.style.paddingRight = `${previousBodyPadding}px`;
-      previousBodyPadding = null;
-    }
-  };
-
-  /**
-   * @param {SweetAlert} instance
-   * @param {HTMLElement} container
-   * @param {boolean} returnFocus
-   * @param {Function} didClose
-   */
-  function removePopupAndResetState(instance, container, returnFocus, didClose) {
-    if (isToast()) {
-      triggerDidCloseAndDispose(instance, didClose);
-    } else {
-      restoreActiveElement(returnFocus).then(() => triggerDidCloseAndDispose(instance, didClose));
-      removeKeydownHandler(globalState);
-    }
-
-    // workaround for https://github.com/sweetalert2/sweetalert2/issues/2088
-    // for some reason removing the container in Safari will scroll the document to bottom
-    if (isSafariOrIOS) {
-      container.setAttribute('style', 'display:none !important');
-      container.removeAttribute('class');
-      container.innerHTML = '';
-    } else {
-      container.remove();
-    }
-    if (isModal()) {
-      undoReplaceScrollbarWithPadding();
-      undoIOSfix();
-      unsetAriaHidden();
-    }
-    removeBodyClasses();
-  }
-
-  /**
-   * Remove SweetAlert2 classes from body
-   */
-  function removeBodyClasses() {
-    removeClass([document.documentElement, document.body], [swalClasses.shown, swalClasses['height-auto'], swalClasses['no-backdrop'], swalClasses['toast-shown']]);
-  }
-
-  /**
-   * Instance method to close sweetAlert
-   *
-   * @param {any} resolveValue
-   */
-  function close(resolveValue) {
-    resolveValue = prepareResolveValue(resolveValue);
-    const swalPromiseResolve = privateMethods.swalPromiseResolve.get(this);
-    const didClose = triggerClosePopup(this);
-    if (this.isAwaitingPromise) {
-      // A swal awaiting for a promise (after a click on Confirm or Deny) cannot be dismissed anymore #2335
-      if (!resolveValue.isDismissed) {
-        handleAwaitingPromise(this);
-        swalPromiseResolve(resolveValue);
-      }
-    } else if (didClose) {
-      // Resolve Swal promise
-      swalPromiseResolve(resolveValue);
-    }
-  }
-  const triggerClosePopup = instance => {
-    const popup = getPopup();
-    if (!popup) {
-      return false;
-    }
-    const innerParams = privateProps.innerParams.get(instance);
-    if (!innerParams || hasClass(popup, innerParams.hideClass.popup)) {
-      return false;
-    }
-    removeClass(popup, innerParams.showClass.popup);
-    addClass(popup, innerParams.hideClass.popup);
-    const backdrop = getContainer();
-    removeClass(backdrop, innerParams.showClass.backdrop);
-    addClass(backdrop, innerParams.hideClass.backdrop);
-    handlePopupAnimation(instance, popup, innerParams);
-    return true;
-  };
-
-  /**
-   * @param {any} error
-   */
-  function rejectPromise(error) {
-    const rejectPromise = privateMethods.swalPromiseReject.get(this);
-    handleAwaitingPromise(this);
-    if (rejectPromise) {
-      // Reject Swal promise
-      rejectPromise(error);
-    }
-  }
-
-  /**
-   * @param {SweetAlert} instance
-   */
-  const handleAwaitingPromise = instance => {
-    if (instance.isAwaitingPromise) {
-      delete instance.isAwaitingPromise;
-      // The instance might have been previously partly destroyed, we must resume the destroy process in this case #2335
-      if (!privateProps.innerParams.get(instance)) {
-        instance._destroy();
-      }
-    }
-  };
-
-  /**
-   * @param {any} resolveValue
-   * @returns {SweetAlertResult}
-   */
-  const prepareResolveValue = resolveValue => {
-    // When user calls Swal.close()
-    if (typeof resolveValue === 'undefined') {
-      return {
-        isConfirmed: false,
-        isDenied: false,
-        isDismissed: true
-      };
-    }
-    return Object.assign({
-      isConfirmed: false,
-      isDenied: false,
-      isDismissed: false
-    }, resolveValue);
-  };
-
-  /**
-   * @param {SweetAlert} instance
-   * @param {HTMLElement} popup
-   * @param {SweetAlertOptions} innerParams
-   */
-  const handlePopupAnimation = (instance, popup, innerParams) => {
-    var _globalState$eventEmi;
-    const container = getContainer();
-    // If animation is supported, animate
-    const animationIsSupported = hasCssAnimation(popup);
-    if (typeof innerParams.willClose === 'function') {
-      innerParams.willClose(popup);
-    }
-    (_globalState$eventEmi = globalState.eventEmitter) === null || _globalState$eventEmi === void 0 || _globalState$eventEmi.emit('willClose', popup);
-    if (animationIsSupported) {
-      animatePopup(instance, popup, container, innerParams.returnFocus, innerParams.didClose);
-    } else {
-      // Otherwise, remove immediately
-      removePopupAndResetState(instance, container, innerParams.returnFocus, innerParams.didClose);
-    }
-  };
-
-  /**
-   * @param {SweetAlert} instance
-   * @param {HTMLElement} popup
-   * @param {HTMLElement} container
-   * @param {boolean} returnFocus
-   * @param {Function} didClose
-   */
-  const animatePopup = (instance, popup, container, returnFocus, didClose) => {
-    globalState.swalCloseEventFinishedCallback = removePopupAndResetState.bind(null, instance, container, returnFocus, didClose);
-    /**
-     * @param {AnimationEvent | TransitionEvent} e
-     */
-    const swalCloseAnimationFinished = function (e) {
-      if (e.target === popup) {
-        var _globalState$swalClos;
-        (_globalState$swalClos = globalState.swalCloseEventFinishedCallback) === null || _globalState$swalClos === void 0 || _globalState$swalClos.call(globalState);
-        delete globalState.swalCloseEventFinishedCallback;
-        popup.removeEventListener('animationend', swalCloseAnimationFinished);
-        popup.removeEventListener('transitionend', swalCloseAnimationFinished);
-      }
-    };
-    popup.addEventListener('animationend', swalCloseAnimationFinished);
-    popup.addEventListener('transitionend', swalCloseAnimationFinished);
-  };
-
-  /**
-   * @param {SweetAlert} instance
-   * @param {Function} didClose
-   */
-  const triggerDidCloseAndDispose = (instance, didClose) => {
-    setTimeout(() => {
-      var _globalState$eventEmi2;
-      if (typeof didClose === 'function') {
-        didClose.bind(instance.params)();
-      }
-      (_globalState$eventEmi2 = globalState.eventEmitter) === null || _globalState$eventEmi2 === void 0 || _globalState$eventEmi2.emit('didClose');
-      // instance might have been destroyed already
-      if (instance._destroy) {
-        instance._destroy();
-      }
-    });
-  };
-
-  /**
-   * Shows loader (spinner), this is useful with AJAX requests.
-   * By default the loader be shown instead of the "Confirm" button.
-   *
-   * @param {HTMLButtonElement | null} [buttonToReplace]
-   */
-  const showLoading = buttonToReplace => {
-    let popup = getPopup();
-    if (!popup) {
-      new Swal();
-    }
-    popup = getPopup();
-    if (!popup) {
-      return;
-    }
-    const loader = getLoader();
-    if (isToast()) {
-      hide(getIcon());
-    } else {
-      replaceButton(popup, buttonToReplace);
-    }
-    show(loader);
-    popup.setAttribute('data-loading', 'true');
-    popup.setAttribute('aria-busy', 'true');
-    popup.focus();
-  };
-
-  /**
-   * @param {HTMLElement} popup
-   * @param {HTMLButtonElement | null} [buttonToReplace]
-   */
-  const replaceButton = (popup, buttonToReplace) => {
-    const actions = getActions();
-    const loader = getLoader();
-    if (!actions || !loader) {
-      return;
-    }
-    if (!buttonToReplace && isVisible$1(getConfirmButton())) {
-      buttonToReplace = getConfirmButton();
-    }
-    show(actions);
-    if (buttonToReplace) {
-      hide(buttonToReplace);
-      loader.setAttribute('data-button-to-replace', buttonToReplace.className);
-      actions.insertBefore(loader, buttonToReplace);
-    }
-    addClass([popup, actions], swalClasses.loading);
-  };
-
-  /**
-   * @param {SweetAlert} instance
-   * @param {SweetAlertOptions} params
-   */
-  const handleInputOptionsAndValue = (instance, params) => {
-    if (params.input === 'select' || params.input === 'radio') {
-      handleInputOptions(instance, params);
-    } else if (['text', 'email', 'number', 'tel', 'textarea'].some(i => i === params.input) && (hasToPromiseFn(params.inputValue) || isPromise(params.inputValue))) {
-      showLoading(getConfirmButton());
-      handleInputValue(instance, params);
-    }
-  };
-
-  /**
-   * @param {SweetAlert} instance
-   * @param {SweetAlertOptions} innerParams
-   * @returns {SweetAlertInputValue}
-   */
-  const getInputValue = (instance, innerParams) => {
-    const input = instance.getInput();
-    if (!input) {
-      return null;
-    }
-    switch (innerParams.input) {
-      case 'checkbox':
-        return getCheckboxValue(input);
-      case 'radio':
-        return getRadioValue(input);
-      case 'file':
-        return getFileValue(input);
-      default:
-        return innerParams.inputAutoTrim ? input.value.trim() : input.value;
-    }
-  };
-
-  /**
-   * @param {HTMLInputElement} input
-   * @returns {number}
-   */
-  const getCheckboxValue = input => input.checked ? 1 : 0;
-
-  /**
-   * @param {HTMLInputElement} input
-   * @returns {string | null}
-   */
-  const getRadioValue = input => input.checked ? input.value : null;
-
-  /**
-   * @param {HTMLInputElement} input
-   * @returns {FileList | File | null}
-   */
-  const getFileValue = input => input.files && input.files.length ? input.getAttribute('multiple') !== null ? input.files : input.files[0] : null;
-
-  /**
-   * @param {SweetAlert} instance
-   * @param {SweetAlertOptions} params
-   */
-  const handleInputOptions = (instance, params) => {
-    const popup = getPopup();
-    if (!popup) {
-      return;
-    }
-    /**
-     * @param {Record<string, any>} inputOptions
-     */
-    const processInputOptions = inputOptions => {
-      if (params.input === 'select') {
-        populateSelectOptions(popup, formatInputOptions(inputOptions), params);
-      } else if (params.input === 'radio') {
-        populateRadioOptions(popup, formatInputOptions(inputOptions), params);
-      }
-    };
-    if (hasToPromiseFn(params.inputOptions) || isPromise(params.inputOptions)) {
-      showLoading(getConfirmButton());
-      asPromise(params.inputOptions).then(inputOptions => {
-        instance.hideLoading();
-        processInputOptions(inputOptions);
-      });
-    } else if (typeof params.inputOptions === 'object') {
-      processInputOptions(params.inputOptions);
-    } else {
-      error(`Unexpected type of inputOptions! Expected object, Map or Promise, got ${typeof params.inputOptions}`);
-    }
-  };
-
-  /**
-   * @param {SweetAlert} instance
-   * @param {SweetAlertOptions} params
-   */
-  const handleInputValue = (instance, params) => {
-    const input = instance.getInput();
-    if (!input) {
-      return;
-    }
-    hide(input);
-    asPromise(params.inputValue).then(inputValue => {
-      input.value = params.input === 'number' ? `${parseFloat(inputValue) || 0}` : `${inputValue}`;
-      show(input);
-      input.focus();
-      instance.hideLoading();
-    }).catch(err => {
-      error(`Error in inputValue promise: ${err}`);
-      input.value = '';
-      show(input);
-      input.focus();
-      instance.hideLoading();
-    });
-  };
-
-  /**
-   * @param {HTMLElement} popup
-   * @param {InputOptionFlattened[]} inputOptions
-   * @param {SweetAlertOptions} params
-   */
-  function populateSelectOptions(popup, inputOptions, params) {
-    const select = getDirectChildByClass(popup, swalClasses.select);
-    if (!select) {
-      return;
-    }
-    /**
-     * @param {HTMLElement} parent
-     * @param {string} optionLabel
-     * @param {string} optionValue
-     */
-    const renderOption = (parent, optionLabel, optionValue) => {
-      const option = document.createElement('option');
-      option.value = optionValue;
-      setInnerHtml(option, optionLabel);
-      option.selected = isSelected(optionValue, params.inputValue);
-      parent.appendChild(option);
-    };
-    inputOptions.forEach(inputOption => {
-      const optionValue = inputOption[0];
-      const optionLabel = inputOption[1];
-      // <optgroup> spec:
-      // https://www.w3.org/TR/html401/interact/forms.html#h-17.6
-      // "...all OPTGROUP elements must be specified directly within a SELECT element (i.e., groups may not be nested)..."
-      // check whether this is a <optgroup>
-      if (Array.isArray(optionLabel)) {
-        // if it is an array, then it is an <optgroup>
-        const optgroup = document.createElement('optgroup');
-        optgroup.label = optionValue;
-        optgroup.disabled = false; // not configurable for now
-        select.appendChild(optgroup);
-        optionLabel.forEach(o => renderOption(optgroup, o[1], o[0]));
-      } else {
-        // case of <option>
-        renderOption(select, optionLabel, optionValue);
-      }
-    });
-    select.focus();
-  }
-
-  /**
-   * @param {HTMLElement} popup
-   * @param {InputOptionFlattened[]} inputOptions
-   * @param {SweetAlertOptions} params
-   */
-  function populateRadioOptions(popup, inputOptions, params) {
-    const radio = getDirectChildByClass(popup, swalClasses.radio);
-    if (!radio) {
-      return;
-    }
-    inputOptions.forEach(inputOption => {
-      const radioValue = inputOption[0];
-      const radioLabel = inputOption[1];
-      const radioInput = document.createElement('input');
-      const radioLabelElement = document.createElement('label');
-      radioInput.type = 'radio';
-      radioInput.name = swalClasses.radio;
-      radioInput.value = radioValue;
-      if (isSelected(radioValue, params.inputValue)) {
-        radioInput.checked = true;
-      }
-      const label = document.createElement('span');
-      setInnerHtml(label, radioLabel);
-      label.className = swalClasses.label;
-      radioLabelElement.appendChild(radioInput);
-      radioLabelElement.appendChild(label);
-      radio.appendChild(radioLabelElement);
-    });
-    const radios = radio.querySelectorAll('input');
-    if (radios.length) {
-      radios[0].focus();
-    }
-  }
-
-  /**
-   * Converts `inputOptions` into an array of `[value, label]`s
-   *
-   * @param {Record<string, any>} inputOptions
-   * @typedef {string[]} InputOptionFlattened
-   * @returns {InputOptionFlattened[]}
-   */
-  const formatInputOptions = inputOptions => {
-    /** @type {InputOptionFlattened[]} */
-    const result = [];
-    if (inputOptions instanceof Map) {
-      inputOptions.forEach((value, key) => {
-        let valueFormatted = value;
-        if (typeof valueFormatted === 'object') {
-          // case of <optgroup>
-          valueFormatted = formatInputOptions(valueFormatted);
-        }
-        result.push([key, valueFormatted]);
-      });
-    } else {
-      Object.keys(inputOptions).forEach(key => {
-        let valueFormatted = inputOptions[key];
-        if (typeof valueFormatted === 'object') {
-          // case of <optgroup>
-          valueFormatted = formatInputOptions(valueFormatted);
-        }
-        result.push([key, valueFormatted]);
-      });
-    }
-    return result;
-  };
-
-  /**
-   * @param {string} optionValue
-   * @param {SweetAlertInputValue} inputValue
-   * @returns {boolean}
-   */
-  const isSelected = (optionValue, inputValue) => {
-    return !!inputValue && inputValue.toString() === optionValue.toString();
-  };
-
-  /**
-   * @param {SweetAlert} instance
-   */
-  const handleConfirmButtonClick = instance => {
-    const innerParams = privateProps.innerParams.get(instance);
-    instance.disableButtons();
-    if (innerParams.input) {
-      handleConfirmOrDenyWithInput(instance, 'confirm');
-    } else {
-      confirm(instance, true);
-    }
-  };
-
-  /**
-   * @param {SweetAlert} instance
-   */
-  const handleDenyButtonClick = instance => {
-    const innerParams = privateProps.innerParams.get(instance);
-    instance.disableButtons();
-    if (innerParams.returnInputValueOnDeny) {
-      handleConfirmOrDenyWithInput(instance, 'deny');
-    } else {
-      deny(instance, false);
-    }
-  };
-
-  /**
-   * @param {SweetAlert} instance
-   * @param {Function} dismissWith
-   */
-  const handleCancelButtonClick = (instance, dismissWith) => {
-    instance.disableButtons();
-    dismissWith(DismissReason.cancel);
-  };
-
-  /**
-   * @param {SweetAlert} instance
-   * @param {'confirm' | 'deny'} type
-   */
-  const handleConfirmOrDenyWithInput = (instance, type) => {
-    const innerParams = privateProps.innerParams.get(instance);
-    if (!innerParams.input) {
-      error(`The "input" parameter is needed to be set when using returnInputValueOn${capitalizeFirstLetter(type)}`);
-      return;
-    }
-    const input = instance.getInput();
-    const inputValue = getInputValue(instance, innerParams);
-    if (innerParams.inputValidator) {
-      handleInputValidator(instance, inputValue, type);
-    } else if (input && !input.checkValidity()) {
-      instance.enableButtons();
-      instance.showValidationMessage(innerParams.validationMessage || input.validationMessage);
-    } else if (type === 'deny') {
-      deny(instance, inputValue);
-    } else {
-      confirm(instance, inputValue);
-    }
-  };
-
-  /**
-   * @param {SweetAlert} instance
-   * @param {SweetAlertInputValue} inputValue
-   * @param {'confirm' | 'deny'} type
-   */
-  const handleInputValidator = (instance, inputValue, type) => {
-    const innerParams = privateProps.innerParams.get(instance);
-    instance.disableInput();
-    const validationPromise = Promise.resolve().then(() => asPromise(innerParams.inputValidator(inputValue, innerParams.validationMessage)));
-    validationPromise.then(validationMessage => {
-      instance.enableButtons();
-      instance.enableInput();
-      if (validationMessage) {
-        instance.showValidationMessage(validationMessage);
-      } else if (type === 'deny') {
-        deny(instance, inputValue);
-      } else {
-        confirm(instance, inputValue);
-      }
-    });
-  };
-
-  /**
-   * @param {SweetAlert} instance
-   * @param {any} value
-   */
-  const deny = (instance, value) => {
-    const innerParams = privateProps.innerParams.get(instance || undefined);
-    if (innerParams.showLoaderOnDeny) {
-      showLoading(getDenyButton());
-    }
-    if (innerParams.preDeny) {
-      instance.isAwaitingPromise = true; // Flagging the instance as awaiting a promise so it's own promise's reject/resolve methods doesn't get destroyed until the result from this preDeny's promise is received
-      const preDenyPromise = Promise.resolve().then(() => asPromise(innerParams.preDeny(value, innerParams.validationMessage)));
-      preDenyPromise.then(preDenyValue => {
-        if (preDenyValue === false) {
-          instance.hideLoading();
-          handleAwaitingPromise(instance);
-        } else {
-          instance.close({
-            isDenied: true,
-            value: typeof preDenyValue === 'undefined' ? value : preDenyValue
-          });
-        }
-      }).catch(error => rejectWith(instance || undefined, error));
-    } else {
-      instance.close({
-        isDenied: true,
-        value
-      });
-    }
-  };
-
-  /**
-   * @param {SweetAlert} instance
-   * @param {any} value
-   */
-  const succeedWith = (instance, value) => {
-    instance.close({
-      isConfirmed: true,
-      value
-    });
-  };
-
-  /**
-   *
-   * @param {SweetAlert} instance
-   * @param {string} error
-   */
-  const rejectWith = (instance, error) => {
-    instance.rejectPromise(error);
-  };
-
-  /**
-   *
-   * @param {SweetAlert} instance
-   * @param {any} value
-   */
-  const confirm = (instance, value) => {
-    const innerParams = privateProps.innerParams.get(instance || undefined);
-    if (innerParams.showLoaderOnConfirm) {
-      showLoading();
-    }
-    if (innerParams.preConfirm) {
-      instance.resetValidationMessage();
-      instance.isAwaitingPromise = true; // Flagging the instance as awaiting a promise so it's own promise's reject/resolve methods doesn't get destroyed until the result from this preConfirm's promise is received
-      const preConfirmPromise = Promise.resolve().then(() => asPromise(innerParams.preConfirm(value, innerParams.validationMessage)));
-      preConfirmPromise.then(preConfirmValue => {
-        if (isVisible$1(getValidationMessage()) || preConfirmValue === false) {
-          instance.hideLoading();
-          handleAwaitingPromise(instance);
-        } else {
-          succeedWith(instance, typeof preConfirmValue === 'undefined' ? value : preConfirmValue);
-        }
-      }).catch(error => rejectWith(instance || undefined, error));
-    } else {
-      succeedWith(instance, value);
+    if (typeof params.didRender === 'function') {
+      params.didRender(getPopup());
     }
   };
 
@@ -13366,19 +18159,539 @@ process.umask = function() { return 0; };
   /**
    * Gets the input DOM node, this method works with input parameter.
    *
-   * @returns {HTMLInputElement | null}
+   * @param {SweetAlert2} instance
+   * @returns {HTMLElement | null}
    */
-  function getInput() {
-    const innerParams = privateProps.innerParams.get(this);
-    const domCache = privateProps.domCache.get(this);
+  function getInput(instance) {
+    const innerParams = privateProps.innerParams.get(instance || this);
+    const domCache = privateProps.domCache.get(instance || this);
     if (!domCache) {
       return null;
     }
     return getInput$1(domCache.popup, innerParams.input);
   }
 
+  /*
+   * Global function to determine if SweetAlert2 popup is shown
+   */
+  const isVisible = () => {
+    return isVisible$1(getPopup());
+  };
+
+  /*
+   * Global function to click 'Confirm' button
+   */
+  const clickConfirm = () => getConfirmButton() && getConfirmButton().click();
+
+  /*
+   * Global function to click 'Deny' button
+   */
+  const clickDeny = () => getDenyButton() && getDenyButton().click();
+
+  /*
+   * Global function to click 'Cancel' button
+   */
+  const clickCancel = () => getCancelButton() && getCancelButton().click();
+
+  const DismissReason = Object.freeze({
+    cancel: 'cancel',
+    backdrop: 'backdrop',
+    close: 'close',
+    esc: 'esc',
+    timer: 'timer'
+  });
+
   /**
-   * @param {SweetAlert} instance
+   * @param {GlobalState} globalState
+   */
+  const removeKeydownHandler = globalState => {
+    if (globalState.keydownTarget && globalState.keydownHandlerAdded) {
+      globalState.keydownTarget.removeEventListener('keydown', globalState.keydownHandler, {
+        capture: globalState.keydownListenerCapture
+      });
+      globalState.keydownHandlerAdded = false;
+    }
+  };
+
+  /**
+   * @param {SweetAlert2} instance
+   * @param {GlobalState} globalState
+   * @param {SweetAlertOptions} innerParams
+   * @param {*} dismissWith
+   */
+  const addKeydownHandler = (instance, globalState, innerParams, dismissWith) => {
+    removeKeydownHandler(globalState);
+    if (!innerParams.toast) {
+      globalState.keydownHandler = e => keydownHandler(instance, e, dismissWith);
+      globalState.keydownTarget = innerParams.keydownListenerCapture ? window : getPopup();
+      globalState.keydownListenerCapture = innerParams.keydownListenerCapture;
+      globalState.keydownTarget.addEventListener('keydown', globalState.keydownHandler, {
+        capture: globalState.keydownListenerCapture
+      });
+      globalState.keydownHandlerAdded = true;
+    }
+  };
+
+  /**
+   * @param {SweetAlertOptions} innerParams
+   * @param {number} index
+   * @param {number} increment
+   */
+  const setFocus = (innerParams, index, increment) => {
+    const focusableElements = getFocusableElements();
+    // search for visible elements and select the next possible match
+    if (focusableElements.length) {
+      index = index + increment;
+
+      // rollover to first item
+      if (index === focusableElements.length) {
+        index = 0;
+
+        // go to last item
+      } else if (index === -1) {
+        index = focusableElements.length - 1;
+      }
+      return focusableElements[index].focus();
+    }
+    // no visible focusable elements, focus the popup
+    getPopup().focus();
+  };
+  const arrowKeysNextButton = ['ArrowRight', 'ArrowDown'];
+  const arrowKeysPreviousButton = ['ArrowLeft', 'ArrowUp'];
+
+  /**
+   * @param {SweetAlert2} instance
+   * @param {KeyboardEvent} e
+   * @param {function} dismissWith
+   */
+  const keydownHandler = (instance, e, dismissWith) => {
+    const innerParams = privateProps.innerParams.get(instance);
+    if (!innerParams) {
+      return; // This instance has already been destroyed
+    }
+
+    // Ignore keydown during IME composition
+    // https://developer.mozilla.org/en-US/docs/Web/API/Document/keydown_event#ignoring_keydown_during_ime_composition
+    // https://github.com/sweetalert2/sweetalert2/issues/720
+    // https://github.com/sweetalert2/sweetalert2/issues/2406
+    if (e.isComposing || e.keyCode === 229) {
+      return;
+    }
+    if (innerParams.stopKeydownPropagation) {
+      e.stopPropagation();
+    }
+
+    // ENTER
+    if (e.key === 'Enter') {
+      handleEnter(instance, e, innerParams);
+    }
+
+    // TAB
+    else if (e.key === 'Tab') {
+      handleTab(e, innerParams);
+    }
+
+    // ARROWS - switch focus between buttons
+    else if ([...arrowKeysNextButton, ...arrowKeysPreviousButton].includes(e.key)) {
+      handleArrows(e.key);
+    }
+
+    // ESC
+    else if (e.key === 'Escape') {
+      handleEsc(e, innerParams, dismissWith);
+    }
+  };
+
+  /**
+   * @param {SweetAlert2} instance
+   * @param {KeyboardEvent} e
+   * @param {SweetAlertOptions} innerParams
+   */
+  const handleEnter = (instance, e, innerParams) => {
+    // https://github.com/sweetalert2/sweetalert2/issues/2386
+    if (!callIfFunction(innerParams.allowEnterKey)) {
+      return;
+    }
+    if (e.target && instance.getInput() && e.target instanceof HTMLElement && e.target.outerHTML === instance.getInput().outerHTML) {
+      if (['textarea', 'file'].includes(innerParams.input)) {
+        return; // do not submit
+      }
+
+      clickConfirm();
+      e.preventDefault();
+    }
+  };
+
+  /**
+   * @param {KeyboardEvent} e
+   * @param {SweetAlertOptions} innerParams
+   */
+  const handleTab = (e, innerParams) => {
+    const targetElement = e.target;
+    const focusableElements = getFocusableElements();
+    let btnIndex = -1;
+    for (let i = 0; i < focusableElements.length; i++) {
+      if (targetElement === focusableElements[i]) {
+        btnIndex = i;
+        break;
+      }
+    }
+
+    // Cycle to the next button
+    if (!e.shiftKey) {
+      setFocus(innerParams, btnIndex, 1);
+    }
+
+    // Cycle to the prev button
+    else {
+      setFocus(innerParams, btnIndex, -1);
+    }
+    e.stopPropagation();
+    e.preventDefault();
+  };
+
+  /**
+   * @param {string} key
+   */
+  const handleArrows = key => {
+    const confirmButton = getConfirmButton();
+    const denyButton = getDenyButton();
+    const cancelButton = getCancelButton();
+    if (document.activeElement instanceof HTMLElement && ![confirmButton, denyButton, cancelButton].includes(document.activeElement)) {
+      return;
+    }
+    const sibling = arrowKeysNextButton.includes(key) ? 'nextElementSibling' : 'previousElementSibling';
+    let buttonToFocus = document.activeElement;
+    for (let i = 0; i < getActions().children.length; i++) {
+      buttonToFocus = buttonToFocus[sibling];
+      if (!buttonToFocus) {
+        return;
+      }
+      if (buttonToFocus instanceof HTMLButtonElement && isVisible$1(buttonToFocus)) {
+        break;
+      }
+    }
+    if (buttonToFocus instanceof HTMLButtonElement) {
+      buttonToFocus.focus();
+    }
+  };
+
+  /**
+   * @param {KeyboardEvent} e
+   * @param {SweetAlertOptions} innerParams
+   * @param {function} dismissWith
+   */
+  const handleEsc = (e, innerParams, dismissWith) => {
+    if (callIfFunction(innerParams.allowEscapeKey)) {
+      e.preventDefault();
+      dismissWith(DismissReason.esc);
+    }
+  };
+
+  /**
+   * This module contains `WeakMap`s for each effectively-"private  property" that a `Swal` has.
+   * For example, to set the private property "foo" of `this` to "bar", you can `privateProps.foo.set(this, 'bar')`
+   * This is the approach that Babel will probably take to implement private methods/fields
+   *   https://github.com/tc39/proposal-private-methods
+   *   https://github.com/babel/babel/pull/7555
+   * Once we have the changes from that PR in Babel, and our core class fits reasonable in *one module*
+   *   then we can use that language feature.
+   */
+
+  var privateMethods = {
+    swalPromiseResolve: new WeakMap(),
+    swalPromiseReject: new WeakMap()
+  };
+
+  // From https://developer.paciellogroup.com/blog/2018/06/the-current-state-of-modal-dialog-accessibility/
+  // Adding aria-hidden="true" to elements outside of the active modal dialog ensures that
+  // elements not within the active modal dialog will not be surfaced if a user opens a screen
+  // reader’s list of elements (headings, form controls, landmarks, etc.) in the document.
+
+  const setAriaHidden = () => {
+    const bodyChildren = Array.from(document.body.children);
+    bodyChildren.forEach(el => {
+      if (el === getContainer() || el.contains(getContainer())) {
+        return;
+      }
+      if (el.hasAttribute('aria-hidden')) {
+        el.setAttribute('data-previous-aria-hidden', el.getAttribute('aria-hidden'));
+      }
+      el.setAttribute('aria-hidden', 'true');
+    });
+  };
+  const unsetAriaHidden = () => {
+    const bodyChildren = Array.from(document.body.children);
+    bodyChildren.forEach(el => {
+      if (el.hasAttribute('data-previous-aria-hidden')) {
+        el.setAttribute('aria-hidden', el.getAttribute('data-previous-aria-hidden'));
+        el.removeAttribute('data-previous-aria-hidden');
+      } else {
+        el.removeAttribute('aria-hidden');
+      }
+    });
+  };
+
+  /* istanbul ignore file */
+
+  // Fix iOS scrolling http://stackoverflow.com/q/39626302
+
+  const iOSfix = () => {
+    const iOS =
+    // @ts-ignore
+    /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream || navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+    if (iOS && !hasClass(document.body, swalClasses.iosfix)) {
+      const offset = document.body.scrollTop;
+      document.body.style.top = `${offset * -1}px`;
+      addClass(document.body, swalClasses.iosfix);
+      lockBodyScroll();
+      addBottomPaddingForTallPopups();
+    }
+  };
+
+  /**
+   * https://github.com/sweetalert2/sweetalert2/issues/1948
+   */
+  const addBottomPaddingForTallPopups = () => {
+    const ua = navigator.userAgent;
+    const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+    const webkit = !!ua.match(/WebKit/i);
+    const iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
+    if (iOSSafari) {
+      const bottomPanelHeight = 44;
+      if (getPopup().scrollHeight > window.innerHeight - bottomPanelHeight) {
+        getContainer().style.paddingBottom = `${bottomPanelHeight}px`;
+      }
+    }
+  };
+
+  /**
+   * https://github.com/sweetalert2/sweetalert2/issues/1246
+   */
+  const lockBodyScroll = () => {
+    const container = getContainer();
+    let preventTouchMove;
+    /**
+     * @param {TouchEvent} e
+     */
+    container.ontouchstart = e => {
+      preventTouchMove = shouldPreventTouchMove(e);
+    };
+    /**
+     * @param {TouchEvent} e
+     */
+    container.ontouchmove = e => {
+      if (preventTouchMove) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+  };
+
+  /**
+   * @param {TouchEvent} event
+   * @returns {boolean}
+   */
+  const shouldPreventTouchMove = event => {
+    const target = event.target;
+    const container = getContainer();
+    if (isStylus(event) || isZoom(event)) {
+      return false;
+    }
+    if (target === container) {
+      return true;
+    }
+    if (!isScrollable(container) && target instanceof HTMLElement && target.tagName !== 'INPUT' &&
+    // #1603
+    target.tagName !== 'TEXTAREA' &&
+    // #2266
+    !(isScrollable(getHtmlContainer()) &&
+    // #1944
+    getHtmlContainer().contains(target))) {
+      return true;
+    }
+    return false;
+  };
+
+  /**
+   * https://github.com/sweetalert2/sweetalert2/issues/1786
+   *
+   * @param {*} event
+   * @returns {boolean}
+   */
+  const isStylus = event => {
+    return event.touches && event.touches.length && event.touches[0].touchType === 'stylus';
+  };
+
+  /**
+   * https://github.com/sweetalert2/sweetalert2/issues/1891
+   *
+   * @param {TouchEvent} event
+   * @returns {boolean}
+   */
+  const isZoom = event => {
+    return event.touches && event.touches.length > 1;
+  };
+  const undoIOSfix = () => {
+    if (hasClass(document.body, swalClasses.iosfix)) {
+      const offset = parseInt(document.body.style.top, 10);
+      removeClass(document.body, swalClasses.iosfix);
+      document.body.style.top = '';
+      document.body.scrollTop = offset * -1;
+    }
+  };
+
+  const fixScrollbar = () => {
+    // for queues, do not do this more than once
+    if (states.previousBodyPadding !== null) {
+      return;
+    }
+    // if the body has overflow
+    if (document.body.scrollHeight > window.innerHeight) {
+      // add padding so the content doesn't shift after removal of scrollbar
+      states.previousBodyPadding = parseInt(window.getComputedStyle(document.body).getPropertyValue('padding-right'));
+      document.body.style.paddingRight = `${states.previousBodyPadding + measureScrollbar()}px`;
+    }
+  };
+  const undoScrollbar = () => {
+    if (states.previousBodyPadding !== null) {
+      document.body.style.paddingRight = `${states.previousBodyPadding}px`;
+      states.previousBodyPadding = null;
+    }
+  };
+
+  /*
+   * Instance method to close sweetAlert
+   */
+
+  function removePopupAndResetState(instance, container, returnFocus, didClose) {
+    if (isToast()) {
+      triggerDidCloseAndDispose(instance, didClose);
+    } else {
+      restoreActiveElement(returnFocus).then(() => triggerDidCloseAndDispose(instance, didClose));
+      removeKeydownHandler(globalState);
+    }
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    // workaround for #2088
+    // for some reason removing the container in Safari will scroll the document to bottom
+    if (isSafari) {
+      container.setAttribute('style', 'display:none !important');
+      container.removeAttribute('class');
+      container.innerHTML = '';
+    } else {
+      container.remove();
+    }
+    if (isModal()) {
+      undoScrollbar();
+      undoIOSfix();
+      unsetAriaHidden();
+    }
+    removeBodyClasses();
+  }
+  function removeBodyClasses() {
+    removeClass([document.documentElement, document.body], [swalClasses.shown, swalClasses['height-auto'], swalClasses['no-backdrop'], swalClasses['toast-shown']]);
+  }
+  function close(resolveValue) {
+    resolveValue = prepareResolveValue(resolveValue);
+    const swalPromiseResolve = privateMethods.swalPromiseResolve.get(this);
+    const didClose = triggerClosePopup(this);
+    if (this.isAwaitingPromise()) {
+      // A swal awaiting for a promise (after a click on Confirm or Deny) cannot be dismissed anymore #2335
+      if (!resolveValue.isDismissed) {
+        handleAwaitingPromise(this);
+        swalPromiseResolve(resolveValue);
+      }
+    } else if (didClose) {
+      // Resolve Swal promise
+      swalPromiseResolve(resolveValue);
+    }
+  }
+  function isAwaitingPromise() {
+    return !!privateProps.awaitingPromise.get(this);
+  }
+  const triggerClosePopup = instance => {
+    const popup = getPopup();
+    if (!popup) {
+      return false;
+    }
+    const innerParams = privateProps.innerParams.get(instance);
+    if (!innerParams || hasClass(popup, innerParams.hideClass.popup)) {
+      return false;
+    }
+    removeClass(popup, innerParams.showClass.popup);
+    addClass(popup, innerParams.hideClass.popup);
+    const backdrop = getContainer();
+    removeClass(backdrop, innerParams.showClass.backdrop);
+    addClass(backdrop, innerParams.hideClass.backdrop);
+    handlePopupAnimation(instance, popup, innerParams);
+    return true;
+  };
+  function rejectPromise(error) {
+    const rejectPromise = privateMethods.swalPromiseReject.get(this);
+    handleAwaitingPromise(this);
+    if (rejectPromise) {
+      // Reject Swal promise
+      rejectPromise(error);
+    }
+  }
+  const handleAwaitingPromise = instance => {
+    if (instance.isAwaitingPromise()) {
+      privateProps.awaitingPromise.delete(instance);
+      // The instance might have been previously partly destroyed, we must resume the destroy process in this case #2335
+      if (!privateProps.innerParams.get(instance)) {
+        instance._destroy();
+      }
+    }
+  };
+  const prepareResolveValue = resolveValue => {
+    // When user calls Swal.close()
+    if (typeof resolveValue === 'undefined') {
+      return {
+        isConfirmed: false,
+        isDenied: false,
+        isDismissed: true
+      };
+    }
+    return Object.assign({
+      isConfirmed: false,
+      isDenied: false,
+      isDismissed: false
+    }, resolveValue);
+  };
+  const handlePopupAnimation = (instance, popup, innerParams) => {
+    const container = getContainer();
+    // If animation is supported, animate
+    const animationIsSupported = animationEndEvent && hasCssAnimation(popup);
+    if (typeof innerParams.willClose === 'function') {
+      innerParams.willClose(popup);
+    }
+    if (animationIsSupported) {
+      animatePopup(instance, popup, container, innerParams.returnFocus, innerParams.didClose);
+    } else {
+      // Otherwise, remove immediately
+      removePopupAndResetState(instance, container, innerParams.returnFocus, innerParams.didClose);
+    }
+  };
+  const animatePopup = (instance, popup, container, returnFocus, didClose) => {
+    globalState.swalCloseEventFinishedCallback = removePopupAndResetState.bind(null, instance, container, returnFocus, didClose);
+    popup.addEventListener(animationEndEvent, function (e) {
+      if (e.target === popup) {
+        globalState.swalCloseEventFinishedCallback();
+        delete globalState.swalCloseEventFinishedCallback;
+      }
+    });
+  };
+  const triggerDidCloseAndDispose = (instance, didClose) => {
+    setTimeout(() => {
+      if (typeof didClose === 'function') {
+        didClose.bind(instance.params)();
+      }
+      instance._destroy();
+    });
+  };
+
+  /**
+   * @param {SweetAlert2} instance
    * @param {string[]} buttons
    * @param {boolean} disabled
    */
@@ -13390,17 +18703,16 @@ process.umask = function() { return 0; };
   }
 
   /**
-   * @param {HTMLInputElement | null} input
+   * @param {HTMLInputElement} input
    * @param {boolean} disabled
    */
   function setInputDisabled(input, disabled) {
-    const popup = getPopup();
-    if (!popup || !input) {
+    if (!input) {
       return;
     }
     if (input.type === 'radio') {
-      /** @type {NodeListOf<HTMLInputElement>} */
-      const radios = popup.querySelectorAll(`[name="${swalClasses.radio}"]`);
+      const radiosContainer = input.parentNode.parentNode;
+      const radios = radiosContainer.querySelectorAll('input');
       for (let i = 0; i < radios.length; i++) {
         radios[i].disabled = disabled;
       }
@@ -13408,35 +18720,15 @@ process.umask = function() { return 0; };
       input.disabled = disabled;
     }
   }
-
-  /**
-   * Enable all the buttons
-   * @this {SweetAlert}
-   */
   function enableButtons() {
     setButtonsDisabled(this, ['confirmButton', 'denyButton', 'cancelButton'], false);
   }
-
-  /**
-   * Disable all the buttons
-   * @this {SweetAlert}
-   */
   function disableButtons() {
     setButtonsDisabled(this, ['confirmButton', 'denyButton', 'cancelButton'], true);
   }
-
-  /**
-   * Enable the input field
-   * @this {SweetAlert}
-   */
   function enableInput() {
     setInputDisabled(this.getInput(), false);
   }
-
-  /**
-   * Disable the input field
-   * @this {SweetAlert}
-   */
   function disableInput() {
     setInputDisabled(this.getInput(), true);
   }
@@ -13445,7 +18737,6 @@ process.umask = function() { return 0; };
    * Show block with validation message
    *
    * @param {string} error
-   * @this {SweetAlert}
    */
   function showValidationMessage(error) {
     const domCache = privateProps.domCache.get(this);
@@ -13458,7 +18749,7 @@ process.umask = function() { return 0; };
     show(domCache.validationMessage);
     const input = this.getInput();
     if (input) {
-      input.setAttribute('aria-invalid', 'true');
+      input.setAttribute('aria-invalid', true);
       input.setAttribute('aria-describedby', swalClasses['validation-message']);
       focusInput(input);
       addClass(input, swalClasses.inputerror);
@@ -13467,8 +18758,6 @@ process.umask = function() { return 0; };
 
   /**
    * Hide block with validation message
-   *
-   * @this {SweetAlert}
    */
   function resetValidationMessage() {
     const domCache = privateProps.domCache.get(this);
@@ -13494,9 +18783,6 @@ process.umask = function() { return 0; };
     iconHtml: undefined,
     template: undefined,
     toast: false,
-    draggable: false,
-    animation: true,
-    theme: 'light',
     showClass: {
       popup: 'swal2-show',
       backdrop: 'swal2-backdrop-show',
@@ -13557,7 +18843,6 @@ process.umask = function() { return 0; };
     inputLabel: '',
     inputValue: '',
     inputOptions: {},
-    inputAutoFocus: true,
     inputAutoTrim: true,
     inputAttributes: {},
     inputValidator: undefined,
@@ -13576,13 +18861,9 @@ process.umask = function() { return 0; };
     didDestroy: undefined,
     scrollbarPadding: true
   };
-  const updatableParams = ['allowEscapeKey', 'allowOutsideClick', 'background', 'buttonsStyling', 'cancelButtonAriaLabel', 'cancelButtonColor', 'cancelButtonText', 'closeButtonAriaLabel', 'closeButtonHtml', 'color', 'confirmButtonAriaLabel', 'confirmButtonColor', 'confirmButtonText', 'currentProgressStep', 'customClass', 'denyButtonAriaLabel', 'denyButtonColor', 'denyButtonText', 'didClose', 'didDestroy', 'draggable', 'footer', 'hideClass', 'html', 'icon', 'iconColor', 'iconHtml', 'imageAlt', 'imageHeight', 'imageUrl', 'imageWidth', 'preConfirm', 'preDeny', 'progressSteps', 'returnFocus', 'reverseButtons', 'showCancelButton', 'showCloseButton', 'showConfirmButton', 'showDenyButton', 'text', 'title', 'titleText', 'theme', 'willClose'];
-
-  /** @type {Record<string, string | undefined>} */
-  const deprecatedParams = {
-    allowEnterKey: undefined
-  };
-  const toastIncompatibleParams = ['allowOutsideClick', 'allowEnterKey', 'backdrop', 'draggable', 'focusConfirm', 'focusDeny', 'focusCancel', 'returnFocus', 'heightAuto', 'keydownListenerCapture'];
+  const updatableParams = ['allowEscapeKey', 'allowOutsideClick', 'background', 'buttonsStyling', 'cancelButtonAriaLabel', 'cancelButtonColor', 'cancelButtonText', 'closeButtonAriaLabel', 'closeButtonHtml', 'color', 'confirmButtonAriaLabel', 'confirmButtonColor', 'confirmButtonText', 'currentProgressStep', 'customClass', 'denyButtonAriaLabel', 'denyButtonColor', 'denyButtonText', 'didClose', 'didDestroy', 'footer', 'hideClass', 'html', 'icon', 'iconColor', 'iconHtml', 'imageAlt', 'imageHeight', 'imageUrl', 'imageWidth', 'preConfirm', 'preDeny', 'progressSteps', 'returnFocus', 'reverseButtons', 'showCancelButton', 'showCloseButton', 'showConfirmButton', 'showDenyButton', 'text', 'title', 'titleText', 'willClose'];
+  const deprecatedParams = {};
+  const toastIncompatibleParams = ['allowOutsideClick', 'allowEnterKey', 'backdrop', 'focusConfirm', 'focusDeny', 'focusCancel', 'returnFocus', 'heightAuto', 'keydownListenerCapture'];
 
   /**
    * Is valid parameter
@@ -13636,9 +18917,8 @@ process.umask = function() { return 0; };
    * @param {string} param
    */
   const checkIfParamIsDeprecated = param => {
-    const isDeprecated = isDeprecatedParameter(param);
-    if (isDeprecated) {
-      warnAboutDeprecation(param, isDeprecated);
+    if (isDeprecatedParameter(param)) {
+      warnAboutDeprecation(param, isDeprecatedParameter(param));
     }
   };
 
@@ -13650,9 +18930,6 @@ process.umask = function() { return 0; };
   const showWarningsForParams = params => {
     if (params.backdrop === false && params.allowOutsideClick) {
       warn('"allowOutsideClick" parameter requires `backdrop` parameter to be set to `true`');
-    }
-    if (params.theme && !['light', 'dark', 'auto', 'borderless'].includes(params.theme)) {
-      warn(`Invalid theme "${params.theme}". Expected "light", "dark", "auto", or "borderless"`);
     }
     for (const param in params) {
       checkIfParamIsValid(param);
@@ -13669,7 +18946,6 @@ process.umask = function() { return 0; };
    * @param {SweetAlertOptions} params
    */
   function update(params) {
-    const container = getContainer();
     const popup = getPopup();
     const innerParams = privateProps.innerParams.get(this);
     if (!popup || hasClass(popup, innerParams.hideClass.popup)) {
@@ -13678,8 +18954,6 @@ process.umask = function() { return 0; };
     }
     const validUpdatableParams = filterValidParams(params);
     const updatedParams = Object.assign({}, innerParams, validUpdatableParams);
-    showWarningsForParams(updatedParams);
-    container.dataset['swal2Theme'] = updatedParams.theme;
     render(this, updatedParams);
     privateProps.innerParams.set(this, updatedParams);
     Object.defineProperties(this, {
@@ -13707,9 +18981,6 @@ process.umask = function() { return 0; };
     return validUpdatableParams;
   };
 
-  /**
-   * Dispose the current SweetAlert2 instance
-   */
   function _destroy() {
     const domCache = privateProps.domCache.get(this);
     const innerParams = privateProps.innerParams.get(this);
@@ -13726,16 +18997,16 @@ process.umask = function() { return 0; };
     if (typeof innerParams.didDestroy === 'function') {
       innerParams.didDestroy();
     }
-    globalState.eventEmitter.emit('didDestroy');
     disposeSwal(this);
   }
 
   /**
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    */
   const disposeSwal = instance => {
     disposeWeakMaps(instance);
     // Unset this.params so GC will dispose it (#1569)
+    // @ts-ignore
     delete instance.params;
     // Unset globalState props so GC will dispose globalState (#1569)
     delete globalState.keydownHandler;
@@ -13745,40 +19016,23 @@ process.umask = function() { return 0; };
   };
 
   /**
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    */
   const disposeWeakMaps = instance => {
     // If the current instance is awaiting a promise result, we keep the privateMethods to call them once the promise result is retrieved #2335
-    if (instance.isAwaitingPromise) {
+    // @ts-ignore
+    if (instance.isAwaitingPromise()) {
       unsetWeakMaps(privateProps, instance);
-      instance.isAwaitingPromise = true;
+      privateProps.awaitingPromise.set(instance, true);
     } else {
       unsetWeakMaps(privateMethods, instance);
       unsetWeakMaps(privateProps, instance);
-      delete instance.isAwaitingPromise;
-      // Unset instance methods
-      delete instance.disableButtons;
-      delete instance.enableButtons;
-      delete instance.getInput;
-      delete instance.disableInput;
-      delete instance.enableInput;
-      delete instance.hideLoading;
-      delete instance.disableLoading;
-      delete instance.showValidationMessage;
-      delete instance.resetValidationMessage;
-      delete instance.close;
-      delete instance.closePopup;
-      delete instance.closeModal;
-      delete instance.closeToast;
-      delete instance.rejectPromise;
-      delete instance.update;
-      delete instance._destroy;
     }
   };
 
   /**
    * @param {object} obj
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    */
   const unsetWeakMaps = (obj, instance) => {
     for (const i in obj) {
@@ -13788,33 +19042,440 @@ process.umask = function() { return 0; };
 
   var instanceMethods = /*#__PURE__*/Object.freeze({
     __proto__: null,
-    _destroy: _destroy,
-    close: close,
-    closeModal: close,
-    closePopup: close,
-    closeToast: close,
-    disableButtons: disableButtons,
-    disableInput: disableInput,
-    disableLoading: hideLoading,
-    enableButtons: enableButtons,
-    enableInput: enableInput,
-    getInput: getInput,
-    handleAwaitingPromise: handleAwaitingPromise,
     hideLoading: hideLoading,
+    disableLoading: hideLoading,
+    getInput: getInput,
+    close: close,
+    isAwaitingPromise: isAwaitingPromise,
     rejectPromise: rejectPromise,
-    resetValidationMessage: resetValidationMessage,
+    handleAwaitingPromise: handleAwaitingPromise,
+    closePopup: close,
+    closeModal: close,
+    closeToast: close,
+    enableButtons: enableButtons,
+    disableButtons: disableButtons,
+    enableInput: enableInput,
+    disableInput: disableInput,
     showValidationMessage: showValidationMessage,
-    update: update
+    resetValidationMessage: resetValidationMessage,
+    update: update,
+    _destroy: _destroy
   });
 
   /**
+   * Shows loader (spinner), this is useful with AJAX requests.
+   * By default the loader be shown instead of the "Confirm" button.
+   */
+  const showLoading = buttonToReplace => {
+    let popup = getPopup();
+    if (!popup) {
+      new Swal(); // eslint-disable-line no-new
+    }
+
+    popup = getPopup();
+    const loader = getLoader();
+    if (isToast()) {
+      hide(getIcon());
+    } else {
+      replaceButton(popup, buttonToReplace);
+    }
+    show(loader);
+    popup.setAttribute('data-loading', 'true');
+    popup.setAttribute('aria-busy', 'true');
+    popup.focus();
+  };
+  const replaceButton = (popup, buttonToReplace) => {
+    const actions = getActions();
+    const loader = getLoader();
+    if (!buttonToReplace && isVisible$1(getConfirmButton())) {
+      buttonToReplace = getConfirmButton();
+    }
+    show(actions);
+    if (buttonToReplace) {
+      hide(buttonToReplace);
+      loader.setAttribute('data-button-to-replace', buttonToReplace.className);
+    }
+    loader.parentNode.insertBefore(loader, buttonToReplace);
+    addClass([popup, actions], swalClasses.loading);
+  };
+
+  /**
+   * @typedef { string | number | boolean } InputValue
+   */
+
+  /**
+   * @param {SweetAlert2} instance
+   * @param {SweetAlertOptions} params
+   */
+  const handleInputOptionsAndValue = (instance, params) => {
+    if (params.input === 'select' || params.input === 'radio') {
+      handleInputOptions(instance, params);
+    } else if (['text', 'email', 'number', 'tel', 'textarea'].includes(params.input) && (hasToPromiseFn(params.inputValue) || isPromise(params.inputValue))) {
+      showLoading(getConfirmButton());
+      handleInputValue(instance, params);
+    }
+  };
+
+  /**
+   * @param {SweetAlert2} instance
    * @param {SweetAlertOptions} innerParams
-   * @param {DomCache} domCache
+   * @returns {string | number | File | FileList | null}
+   */
+  const getInputValue = (instance, innerParams) => {
+    const input = instance.getInput();
+    if (!input) {
+      return null;
+    }
+    switch (innerParams.input) {
+      case 'checkbox':
+        return getCheckboxValue(input);
+      case 'radio':
+        return getRadioValue(input);
+      case 'file':
+        return getFileValue(input);
+      default:
+        return innerParams.inputAutoTrim ? input.value.trim() : input.value;
+    }
+  };
+
+  /**
+   * @param {HTMLInputElement} input
+   * @returns {number}
+   */
+  const getCheckboxValue = input => input.checked ? 1 : 0;
+
+  /**
+   * @param {HTMLInputElement} input
+   * @returns {string | null}
+   */
+  const getRadioValue = input => input.checked ? input.value : null;
+
+  /**
+   * @param {HTMLInputElement} input
+   * @returns {FileList | File | null}
+   */
+  const getFileValue = input => input.files.length ? input.getAttribute('multiple') !== null ? input.files : input.files[0] : null;
+
+  /**
+   * @param {SweetAlert2} instance
+   * @param {SweetAlertOptions} params
+   */
+  const handleInputOptions = (instance, params) => {
+    const popup = getPopup();
+    /**
+     * @param {Record<string, any>} inputOptions
+     */
+    const processInputOptions = inputOptions => {
+      populateInputOptions[params.input](popup, formatInputOptions(inputOptions), params);
+    };
+    if (hasToPromiseFn(params.inputOptions) || isPromise(params.inputOptions)) {
+      showLoading(getConfirmButton());
+      asPromise(params.inputOptions).then(inputOptions => {
+        instance.hideLoading();
+        processInputOptions(inputOptions);
+      });
+    } else if (typeof params.inputOptions === 'object') {
+      processInputOptions(params.inputOptions);
+    } else {
+      error(`Unexpected type of inputOptions! Expected object, Map or Promise, got ${typeof params.inputOptions}`);
+    }
+  };
+
+  /**
+   * @param {SweetAlert2} instance
+   * @param {SweetAlertOptions} params
+   */
+  const handleInputValue = (instance, params) => {
+    const input = instance.getInput();
+    hide(input);
+    asPromise(params.inputValue).then(inputValue => {
+      input.value = params.input === 'number' ? `${parseFloat(inputValue) || 0}` : `${inputValue}`;
+      show(input);
+      input.focus();
+      instance.hideLoading();
+    }).catch(err => {
+      error(`Error in inputValue promise: ${err}`);
+      input.value = '';
+      show(input);
+      input.focus();
+      instance.hideLoading();
+    });
+  };
+  const populateInputOptions = {
+    /**
+     * @param {HTMLElement} popup
+     * @param {Record<string, any>} inputOptions
+     * @param {SweetAlertOptions} params
+     */
+    select: (popup, inputOptions, params) => {
+      const select = getDirectChildByClass(popup, swalClasses.select);
+      /**
+       * @param {HTMLElement} parent
+       * @param {string} optionLabel
+       * @param {string} optionValue
+       */
+      const renderOption = (parent, optionLabel, optionValue) => {
+        const option = document.createElement('option');
+        option.value = optionValue;
+        setInnerHtml(option, optionLabel);
+        option.selected = isSelected(optionValue, params.inputValue);
+        parent.appendChild(option);
+      };
+      inputOptions.forEach(inputOption => {
+        const optionValue = inputOption[0];
+        const optionLabel = inputOption[1];
+        // <optgroup> spec:
+        // https://www.w3.org/TR/html401/interact/forms.html#h-17.6
+        // "...all OPTGROUP elements must be specified directly within a SELECT element (i.e., groups may not be nested)..."
+        // check whether this is a <optgroup>
+        if (Array.isArray(optionLabel)) {
+          // if it is an array, then it is an <optgroup>
+          const optgroup = document.createElement('optgroup');
+          optgroup.label = optionValue;
+          optgroup.disabled = false; // not configurable for now
+          select.appendChild(optgroup);
+          optionLabel.forEach(o => renderOption(optgroup, o[1], o[0]));
+        } else {
+          // case of <option>
+          renderOption(select, optionLabel, optionValue);
+        }
+      });
+      select.focus();
+    },
+    /**
+     * @param {HTMLElement} popup
+     * @param {Record<string, any>} inputOptions
+     * @param {SweetAlertOptions} params
+     */
+    radio: (popup, inputOptions, params) => {
+      const radio = getDirectChildByClass(popup, swalClasses.radio);
+      inputOptions.forEach(inputOption => {
+        const radioValue = inputOption[0];
+        const radioLabel = inputOption[1];
+        const radioInput = document.createElement('input');
+        const radioLabelElement = document.createElement('label');
+        radioInput.type = 'radio';
+        radioInput.name = swalClasses.radio;
+        radioInput.value = radioValue;
+        if (isSelected(radioValue, params.inputValue)) {
+          radioInput.checked = true;
+        }
+        const label = document.createElement('span');
+        setInnerHtml(label, radioLabel);
+        label.className = swalClasses.label;
+        radioLabelElement.appendChild(radioInput);
+        radioLabelElement.appendChild(label);
+        radio.appendChild(radioLabelElement);
+      });
+      const radios = radio.querySelectorAll('input');
+      if (radios.length) {
+        radios[0].focus();
+      }
+    }
+  };
+
+  /**
+   * Converts `inputOptions` into an array of `[value, label]`s
+   *
+   * @param {Record<string, any>} inputOptions
+   * @returns {Array<Array<string>>}
+   */
+  const formatInputOptions = inputOptions => {
+    const result = [];
+    if (typeof Map !== 'undefined' && inputOptions instanceof Map) {
+      inputOptions.forEach((value, key) => {
+        let valueFormatted = value;
+        if (typeof valueFormatted === 'object') {
+          // case of <optgroup>
+          valueFormatted = formatInputOptions(valueFormatted);
+        }
+        result.push([key, valueFormatted]);
+      });
+    } else {
+      Object.keys(inputOptions).forEach(key => {
+        let valueFormatted = inputOptions[key];
+        if (typeof valueFormatted === 'object') {
+          // case of <optgroup>
+          valueFormatted = formatInputOptions(valueFormatted);
+        }
+        result.push([key, valueFormatted]);
+      });
+    }
+    return result;
+  };
+
+  /**
+   * @param {string} optionValue
+   * @param {InputValue | Promise<InputValue> | { toPromise: () => InputValue }} inputValue
+   * @returns {boolean}
+   */
+  const isSelected = (optionValue, inputValue) => {
+    return inputValue && inputValue.toString() === optionValue.toString();
+  };
+
+  /**
+   * @param {SweetAlert2} instance
+   */
+  const handleConfirmButtonClick = instance => {
+    const innerParams = privateProps.innerParams.get(instance);
+    instance.disableButtons();
+    if (innerParams.input) {
+      handleConfirmOrDenyWithInput(instance, 'confirm');
+    } else {
+      confirm(instance, true);
+    }
+  };
+
+  /**
+   * @param {SweetAlert2} instance
+   */
+  const handleDenyButtonClick = instance => {
+    const innerParams = privateProps.innerParams.get(instance);
+    instance.disableButtons();
+    if (innerParams.returnInputValueOnDeny) {
+      handleConfirmOrDenyWithInput(instance, 'deny');
+    } else {
+      deny(instance, false);
+    }
+  };
+
+  /**
+   * @param {SweetAlert2} instance
    * @param {Function} dismissWith
    */
-  const handlePopupClick = (innerParams, domCache, dismissWith) => {
+  const handleCancelButtonClick = (instance, dismissWith) => {
+    instance.disableButtons();
+    dismissWith(DismissReason.cancel);
+  };
+
+  /**
+   * @param {SweetAlert2} instance
+   * @param {'confirm' | 'deny'} type
+   */
+  const handleConfirmOrDenyWithInput = (instance, type) => {
+    const innerParams = privateProps.innerParams.get(instance);
+    if (!innerParams.input) {
+      error(`The "input" parameter is needed to be set when using returnInputValueOn${capitalizeFirstLetter(type)}`);
+      return;
+    }
+    const inputValue = getInputValue(instance, innerParams);
+    if (innerParams.inputValidator) {
+      handleInputValidator(instance, inputValue, type);
+    } else if (!instance.getInput().checkValidity()) {
+      instance.enableButtons();
+      instance.showValidationMessage(innerParams.validationMessage);
+    } else if (type === 'deny') {
+      deny(instance, inputValue);
+    } else {
+      confirm(instance, inputValue);
+    }
+  };
+
+  /**
+   * @param {SweetAlert2} instance
+   * @param {string | number | File | FileList | null} inputValue
+   * @param {'confirm' | 'deny'} type
+   */
+  const handleInputValidator = (instance, inputValue, type) => {
+    const innerParams = privateProps.innerParams.get(instance);
+    instance.disableInput();
+    const validationPromise = Promise.resolve().then(() => asPromise(innerParams.inputValidator(inputValue, innerParams.validationMessage)));
+    validationPromise.then(validationMessage => {
+      instance.enableButtons();
+      instance.enableInput();
+      if (validationMessage) {
+        instance.showValidationMessage(validationMessage);
+      } else if (type === 'deny') {
+        deny(instance, inputValue);
+      } else {
+        confirm(instance, inputValue);
+      }
+    });
+  };
+
+  /**
+   * @param {SweetAlert2} instance
+   * @param {any} value
+   */
+  const deny = (instance, value) => {
+    const innerParams = privateProps.innerParams.get(instance || undefined);
+    if (innerParams.showLoaderOnDeny) {
+      showLoading(getDenyButton());
+    }
+    if (innerParams.preDeny) {
+      privateProps.awaitingPromise.set(instance || undefined, true); // Flagging the instance as awaiting a promise so it's own promise's reject/resolve methods doesn't get destroyed until the result from this preDeny's promise is received
+      const preDenyPromise = Promise.resolve().then(() => asPromise(innerParams.preDeny(value, innerParams.validationMessage)));
+      preDenyPromise.then(preDenyValue => {
+        if (preDenyValue === false) {
+          instance.hideLoading();
+          handleAwaitingPromise(instance);
+        } else {
+          instance.close({
+            isDenied: true,
+            value: typeof preDenyValue === 'undefined' ? value : preDenyValue
+          });
+        }
+      }).catch(error => rejectWith(instance || undefined, error));
+    } else {
+      instance.close({
+        isDenied: true,
+        value
+      });
+    }
+  };
+
+  /**
+   * @param {SweetAlert2} instance
+   * @param {any} value
+   */
+  const succeedWith = (instance, value) => {
+    instance.close({
+      isConfirmed: true,
+      value
+    });
+  };
+
+  /**
+   *
+   * @param {SweetAlert2} instance
+   * @param {string} error
+   */
+  const rejectWith = (instance, error) => {
+    // @ts-ignore
+    instance.rejectPromise(error);
+  };
+
+  /**
+   *
+   * @param {SweetAlert2} instance
+   * @param {any} value
+   */
+  const confirm = (instance, value) => {
+    const innerParams = privateProps.innerParams.get(instance || undefined);
+    if (innerParams.showLoaderOnConfirm) {
+      showLoading();
+    }
+    if (innerParams.preConfirm) {
+      instance.resetValidationMessage();
+      privateProps.awaitingPromise.set(instance || undefined, true); // Flagging the instance as awaiting a promise so it's own promise's reject/resolve methods doesn't get destroyed until the result from this preConfirm's promise is received
+      const preConfirmPromise = Promise.resolve().then(() => asPromise(innerParams.preConfirm(value, innerParams.validationMessage)));
+      preConfirmPromise.then(preConfirmValue => {
+        if (isVisible$1(getValidationMessage()) || preConfirmValue === false) {
+          instance.hideLoading();
+          handleAwaitingPromise(instance);
+        } else {
+          succeedWith(instance, typeof preConfirmValue === 'undefined' ? value : preConfirmValue);
+        }
+      }).catch(error => rejectWith(instance || undefined, error));
+    } else {
+      succeedWith(instance, value);
+    }
+  };
+
+  const handlePopupClick = (instance, domCache, dismissWith) => {
+    const innerParams = privateProps.innerParams.get(instance);
     if (innerParams.toast) {
-      handleToastClick(innerParams, domCache, dismissWith);
+      handleToastClick(instance, domCache, dismissWith);
     } else {
       // Ignore click events that had mousedown on the popup but mouseup on the container
       // This can happen when the user drags a slider
@@ -13822,18 +19483,13 @@ process.umask = function() { return 0; };
 
       // Ignore click events that had mousedown on the container but mouseup on the popup
       handleContainerMousedown(domCache);
-      handleModalClick(innerParams, domCache, dismissWith);
+      handleModalClick(instance, domCache, dismissWith);
     }
   };
-
-  /**
-   * @param {SweetAlertOptions} innerParams
-   * @param {DomCache} domCache
-   * @param {Function} dismissWith
-   */
-  const handleToastClick = (innerParams, domCache, dismissWith) => {
+  const handleToastClick = (instance, domCache, dismissWith) => {
     // Closing toast by internal click
     domCache.popup.onclick = () => {
+      const innerParams = privateProps.innerParams.get(instance);
       if (innerParams && (isAnyButtonShown(innerParams) || innerParams.timer || innerParams.input)) {
         return;
       }
@@ -13842,21 +19498,17 @@ process.umask = function() { return 0; };
   };
 
   /**
-   * @param {SweetAlertOptions} innerParams
+   * @param {*} innerParams
    * @returns {boolean}
    */
   const isAnyButtonShown = innerParams => {
-    return !!(innerParams.showConfirmButton || innerParams.showDenyButton || innerParams.showCancelButton || innerParams.showCloseButton);
+    return innerParams.showConfirmButton || innerParams.showDenyButton || innerParams.showCancelButton || innerParams.showCloseButton;
   };
   let ignoreOutsideClick = false;
-
-  /**
-   * @param {DomCache} domCache
-   */
   const handleModalMousedown = domCache => {
     domCache.popup.onmousedown = () => {
       domCache.container.onmouseup = function (e) {
-        domCache.container.onmouseup = () => {};
+        domCache.container.onmouseup = undefined;
         // We only check if the mouseup target is the container because usually it doesn't
         // have any other direct children aside of the popup
         if (e.target === domCache.container) {
@@ -13865,33 +19517,20 @@ process.umask = function() { return 0; };
       };
     };
   };
-
-  /**
-   * @param {DomCache} domCache
-   */
   const handleContainerMousedown = domCache => {
-    domCache.container.onmousedown = e => {
-      // prevent the modal text from being selected on double click on the container (allowOutsideClick: false)
-      if (e.target === domCache.container) {
-        e.preventDefault();
-      }
+    domCache.container.onmousedown = () => {
       domCache.popup.onmouseup = function (e) {
-        domCache.popup.onmouseup = () => {};
+        domCache.popup.onmouseup = undefined;
         // We also need to check if the mouseup target is a child of the popup
-        if (e.target === domCache.popup || e.target instanceof HTMLElement && domCache.popup.contains(e.target)) {
+        if (e.target === domCache.popup || domCache.popup.contains(e.target)) {
           ignoreOutsideClick = true;
         }
       };
     };
   };
-
-  /**
-   * @param {SweetAlertOptions} innerParams
-   * @param {DomCache} domCache
-   * @param {Function} dismissWith
-   */
-  const handleModalClick = (innerParams, domCache, dismissWith) => {
+  const handleModalClick = (instance, domCache, dismissWith) => {
     domCache.container.onclick = e => {
+      const innerParams = privateProps.innerParams.get(instance);
       if (ignoreOutsideClick) {
         ignoreOutsideClick = false;
         return;
@@ -13921,17 +19560,12 @@ process.umask = function() { return 0; };
     return params;
   };
 
-  /**
-   * Main method to create a new SweetAlert2 popup
-   *
-   * @param  {...SweetAlertOptions} args
-   * @returns {Promise<SweetAlertResult>}
-   */
   function fire() {
+    const Swal = this; // eslint-disable-line @typescript-eslint/no-this-alias
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    return new this(...args);
+    return new Swal(...args);
   }
 
   /**
@@ -13950,8 +19584,7 @@ process.umask = function() { return 0; };
    * const {value: firstName} = await TextPrompt('What is your first name?')
    * const {value: lastName} = await TextPrompt('What is your last name?')
    *
-   * @param {SweetAlertOptions} mixinParams
-   * @returns {SweetAlert}
+   * @param mixinParams
    */
   function mixin(mixinParams) {
     class MixinSwal extends this {
@@ -13959,7 +19592,6 @@ process.umask = function() { return 0; };
         return super._main(params, Object.assign({}, mixinParams, priorityMixinParams));
       }
     }
-    // @ts-ignore
     return MixinSwal;
   }
 
@@ -14015,12 +19647,12 @@ process.umask = function() { return 0; };
    * Increase timer. Returns number of milliseconds of an updated timer.
    * If `timer` parameter isn't set, returns undefined.
    *
-   * @param {number} ms
+   * @param {number} n
    * @returns {number | undefined}
    */
-  const increaseTimer = ms => {
+  const increaseTimer = n => {
     if (globalState.timeout) {
-      const remaining = globalState.timeout.increase(ms);
+      const remaining = globalState.timeout.increase(n);
       animateTimerProgressBar(remaining, true);
       return remaining;
     }
@@ -14034,7 +19666,7 @@ process.umask = function() { return 0; };
    * @returns {boolean}
    */
   const isTimerRunning = () => {
-    return !!(globalState.timeout && globalState.timeout.isRunning());
+    return globalState.timeout && globalState.timeout.isRunning();
   };
 
   let bodyClickListenerAdded = false;
@@ -14065,185 +19697,47 @@ process.umask = function() { return 0; };
     }
   };
 
-  // Source: https://gist.github.com/mudge/5830382?permalink_comment_id=2691957#gistcomment-2691957
-
-  class EventEmitter {
-    constructor() {
-      /** @type {Events} */
-      this.events = {};
-    }
-
-    /**
-     * @param {string} eventName
-     * @returns {EventHandlers}
-     */
-    _getHandlersByEventName(eventName) {
-      if (typeof this.events[eventName] === 'undefined') {
-        // not Set because we need to keep the FIFO order
-        // https://github.com/sweetalert2/sweetalert2/pull/2763#discussion_r1748990334
-        this.events[eventName] = [];
-      }
-      return this.events[eventName];
-    }
-
-    /**
-     * @param {string} eventName
-     * @param {EventHandler} eventHandler
-     */
-    on(eventName, eventHandler) {
-      const currentHandlers = this._getHandlersByEventName(eventName);
-      if (!currentHandlers.includes(eventHandler)) {
-        currentHandlers.push(eventHandler);
-      }
-    }
-
-    /**
-     * @param {string} eventName
-     * @param {EventHandler} eventHandler
-     */
-    once(eventName, eventHandler) {
-      var _this = this;
-      /**
-       * @param {Array} args
-       */
-      const onceFn = function () {
-        _this.removeListener(eventName, onceFn);
-        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
-        eventHandler.apply(_this, args);
-      };
-      this.on(eventName, onceFn);
-    }
-
-    /**
-     * @param {string} eventName
-     * @param {Array} args
-     */
-    emit(eventName) {
-      for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-        args[_key2 - 1] = arguments[_key2];
-      }
-      this._getHandlersByEventName(eventName).forEach(
-      /**
-       * @param {EventHandler} eventHandler
-       */
-      eventHandler => {
-        try {
-          eventHandler.apply(this, args);
-        } catch (error) {
-          console.error(error);
-        }
-      });
-    }
-
-    /**
-     * @param {string} eventName
-     * @param {EventHandler} eventHandler
-     */
-    removeListener(eventName, eventHandler) {
-      const currentHandlers = this._getHandlersByEventName(eventName);
-      const index = currentHandlers.indexOf(eventHandler);
-      if (index > -1) {
-        currentHandlers.splice(index, 1);
-      }
-    }
-
-    /**
-     * @param {string} eventName
-     */
-    removeAllListeners(eventName) {
-      if (this.events[eventName] !== undefined) {
-        // https://github.com/sweetalert2/sweetalert2/pull/2763#discussion_r1749239222
-        this.events[eventName].length = 0;
-      }
-    }
-    reset() {
-      this.events = {};
-    }
-  }
-
-  globalState.eventEmitter = new EventEmitter();
-
-  /**
-   * @param {string} eventName
-   * @param {EventHandler} eventHandler
-   */
-  const on = (eventName, eventHandler) => {
-    globalState.eventEmitter.on(eventName, eventHandler);
-  };
-
-  /**
-   * @param {string} eventName
-   * @param {EventHandler} eventHandler
-   */
-  const once = (eventName, eventHandler) => {
-    globalState.eventEmitter.once(eventName, eventHandler);
-  };
-
-  /**
-   * @param {string} [eventName]
-   * @param {EventHandler} [eventHandler]
-   */
-  const off = (eventName, eventHandler) => {
-    // Remove all handlers for all events
-    if (!eventName) {
-      globalState.eventEmitter.reset();
-      return;
-    }
-    if (eventHandler) {
-      // Remove a specific handler
-      globalState.eventEmitter.removeListener(eventName, eventHandler);
-    } else {
-      // Remove all handlers for a specific event
-      globalState.eventEmitter.removeAllListeners(eventName);
-    }
-  };
-
   var staticMethods = /*#__PURE__*/Object.freeze({
     __proto__: null,
+    isValidParameter: isValidParameter,
+    isUpdatableParameter: isUpdatableParameter,
+    isDeprecatedParameter: isDeprecatedParameter,
     argsToParams: argsToParams,
-    bindClickHandler: bindClickHandler,
-    clickCancel: clickCancel,
-    clickConfirm: clickConfirm,
-    clickDeny: clickDeny,
-    enableLoading: showLoading,
-    fire: fire,
-    getActions: getActions,
-    getCancelButton: getCancelButton,
-    getCloseButton: getCloseButton,
-    getConfirmButton: getConfirmButton,
     getContainer: getContainer,
-    getDenyButton: getDenyButton,
-    getFocusableElements: getFocusableElements,
-    getFooter: getFooter,
+    getPopup: getPopup,
+    getTitle: getTitle,
     getHtmlContainer: getHtmlContainer,
+    getImage: getImage,
     getIcon: getIcon,
     getIconContent: getIconContent,
-    getImage: getImage,
     getInputLabel: getInputLabel,
+    getCloseButton: getCloseButton,
+    getActions: getActions,
+    getConfirmButton: getConfirmButton,
+    getDenyButton: getDenyButton,
+    getCancelButton: getCancelButton,
     getLoader: getLoader,
-    getPopup: getPopup,
-    getProgressSteps: getProgressSteps,
-    getTimerLeft: getTimerLeft,
+    getFooter: getFooter,
     getTimerProgressBar: getTimerProgressBar,
-    getTitle: getTitle,
+    getFocusableElements: getFocusableElements,
     getValidationMessage: getValidationMessage,
-    increaseTimer: increaseTimer,
-    isDeprecatedParameter: isDeprecatedParameter,
+    getProgressSteps: getProgressSteps,
     isLoading: isLoading,
-    isTimerRunning: isTimerRunning,
-    isUpdatableParameter: isUpdatableParameter,
-    isValidParameter: isValidParameter,
     isVisible: isVisible,
+    clickConfirm: clickConfirm,
+    clickDeny: clickDeny,
+    clickCancel: clickCancel,
+    fire: fire,
     mixin: mixin,
-    off: off,
-    on: on,
-    once: once,
-    resumeTimer: resumeTimer,
     showLoading: showLoading,
+    enableLoading: showLoading,
+    getTimerLeft: getTimerLeft,
     stopTimer: stopTimer,
-    toggleTimer: toggleTimer
+    resumeTimer: resumeTimer,
+    toggleTimer: toggleTimer,
+    increaseTimer: increaseTimer,
+    isTimerRunning: isTimerRunning,
+    bindClickHandler: bindClickHandler
   });
 
   class Timer {
@@ -14257,10 +19751,6 @@ process.umask = function() { return 0; };
       this.running = false;
       this.start();
     }
-
-    /**
-     * @returns {number}
-     */
     start() {
       if (!this.running) {
         this.running = true;
@@ -14269,23 +19759,14 @@ process.umask = function() { return 0; };
       }
       return this.remaining;
     }
-
-    /**
-     * @returns {number}
-     */
     stop() {
-      if (this.started && this.running) {
+      if (this.running) {
         this.running = false;
         clearTimeout(this.id);
         this.remaining -= new Date().getTime() - this.started.getTime();
       }
       return this.remaining;
     }
-
-    /**
-     * @param {number} n
-     * @returns {number}
-     */
     increase(n) {
       const running = this.running;
       if (running) {
@@ -14297,10 +19778,6 @@ process.umask = function() { return 0; };
       }
       return this.remaining;
     }
-
-    /**
-     * @returns {number}
-     */
     getTimerLeft() {
       if (this.running) {
         this.stop();
@@ -14308,10 +19785,6 @@ process.umask = function() { return 0; };
       }
       return this.remaining;
     }
-
-    /**
-     * @returns {boolean}
-     */
     isRunning() {
       return this.running;
     }
@@ -14324,7 +19797,8 @@ process.umask = function() { return 0; };
    * @returns {SweetAlertOptions}
    */
   const getTemplateParams = params => {
-    const template = typeof params.template === 'string' ? (/** @type {HTMLTemplateElement} */document.querySelector(params.template)) : params.template;
+    /** @type {HTMLTemplateElement} */
+    const template = typeof params.template === 'string' ? document.querySelector(params.template) : params.template;
     if (!template) {
       return {};
     }
@@ -14337,20 +19811,16 @@ process.umask = function() { return 0; };
 
   /**
    * @param {DocumentFragment} templateContent
-   * @returns {Record<string, any>}
+   * @returns {SweetAlertOptions}
    */
   const getSwalParams = templateContent => {
-    /** @type {Record<string, any>} */
     const result = {};
     /** @type {HTMLElement[]} */
     const swalParams = Array.from(templateContent.querySelectorAll('swal-param'));
     swalParams.forEach(param => {
       showWarningsForAttributes(param, ['name', 'value']);
-      const paramName = /** @type {keyof SweetAlertOptions} */param.getAttribute('name');
+      const paramName = param.getAttribute('name');
       const value = param.getAttribute('value');
-      if (!paramName || !value) {
-        return;
-      }
       if (typeof defaultParams[paramName] === 'boolean') {
         result[paramName] = value !== 'false';
       } else if (typeof defaultParams[paramName] === 'object') {
@@ -14364,19 +19834,15 @@ process.umask = function() { return 0; };
 
   /**
    * @param {DocumentFragment} templateContent
-   * @returns {Record<string, any>}
+   * @returns {SweetAlertOptions}
    */
   const getSwalFunctionParams = templateContent => {
-    /** @type {Record<string, any>} */
     const result = {};
     /** @type {HTMLElement[]} */
     const swalFunctions = Array.from(templateContent.querySelectorAll('swal-function-param'));
     swalFunctions.forEach(param => {
-      const paramName = /** @type {keyof SweetAlertOptions} */param.getAttribute('name');
+      const paramName = param.getAttribute('name');
       const value = param.getAttribute('value');
-      if (!paramName || !value) {
-        return;
-      }
       result[paramName] = new Function(`return ${value}`)();
     });
     return result;
@@ -14384,19 +19850,15 @@ process.umask = function() { return 0; };
 
   /**
    * @param {DocumentFragment} templateContent
-   * @returns {Record<string, any>}
+   * @returns {SweetAlertOptions}
    */
   const getSwalButtons = templateContent => {
-    /** @type {Record<string, any>} */
     const result = {};
     /** @type {HTMLElement[]} */
     const swalButtons = Array.from(templateContent.querySelectorAll('swal-button'));
     swalButtons.forEach(button => {
       showWarningsForAttributes(button, ['type', 'color', 'aria-label']);
       const type = button.getAttribute('type');
-      if (!type || !['confirm', 'cancel', 'deny'].includes(type)) {
-        return;
-      }
       result[`${type}ButtonText`] = button.innerHTML;
       result[`show${capitalizeFirstLetter(type)}Button`] = true;
       if (button.hasAttribute('color')) {
@@ -14411,25 +19873,25 @@ process.umask = function() { return 0; };
 
   /**
    * @param {DocumentFragment} templateContent
-   * @returns {Pick<SweetAlertOptions, 'imageUrl' | 'imageWidth' | 'imageHeight' | 'imageAlt'>}
+   * @returns {SweetAlertOptions}
    */
   const getSwalImage = templateContent => {
     const result = {};
-    /** @type {HTMLElement | null} */
+    /** @type {HTMLElement} */
     const image = templateContent.querySelector('swal-image');
     if (image) {
       showWarningsForAttributes(image, ['src', 'width', 'height', 'alt']);
       if (image.hasAttribute('src')) {
-        result.imageUrl = image.getAttribute('src') || undefined;
+        result.imageUrl = image.getAttribute('src');
       }
       if (image.hasAttribute('width')) {
-        result.imageWidth = image.getAttribute('width') || undefined;
+        result.imageWidth = image.getAttribute('width');
       }
       if (image.hasAttribute('height')) {
-        result.imageHeight = image.getAttribute('height') || undefined;
+        result.imageHeight = image.getAttribute('height');
       }
       if (image.hasAttribute('alt')) {
-        result.imageAlt = image.getAttribute('alt') || undefined;
+        result.imageAlt = image.getAttribute('alt');
       }
     }
     return result;
@@ -14437,15 +19899,17 @@ process.umask = function() { return 0; };
 
   /**
    * @param {DocumentFragment} templateContent
-   * @returns {Record<string, any>}
+   * @returns {SweetAlertOptions}
    */
   const getSwalIcon = templateContent => {
     const result = {};
-    /** @type {HTMLElement | null} */
+    /** @type {HTMLElement} */
     const icon = templateContent.querySelector('swal-icon');
     if (icon) {
       showWarningsForAttributes(icon, ['type', 'color']);
       if (icon.hasAttribute('type')) {
+        /** @type {SweetAlertIcon} */
+        // @ts-ignore
         result.icon = icon.getAttribute('type');
       }
       if (icon.hasAttribute('color')) {
@@ -14458,15 +19922,16 @@ process.umask = function() { return 0; };
 
   /**
    * @param {DocumentFragment} templateContent
-   * @returns {Record<string, any>}
+   * @returns {SweetAlertOptions}
    */
   const getSwalInput = templateContent => {
-    /** @type {Record<string, any>} */
     const result = {};
-    /** @type {HTMLElement | null} */
+    /** @type {HTMLElement} */
     const input = templateContent.querySelector('swal-input');
     if (input) {
       showWarningsForAttributes(input, ['type', 'label', 'placeholder', 'value']);
+      /** @type {SweetAlertInput} */
+      // @ts-ignore
       result.input = input.getAttribute('type') || 'text';
       if (input.hasAttribute('label')) {
         result.inputLabel = input.getAttribute('label');
@@ -14485,9 +19950,6 @@ process.umask = function() { return 0; };
       inputOptions.forEach(option => {
         showWarningsForAttributes(option, ['value']);
         const optionValue = option.getAttribute('value');
-        if (!optionValue) {
-          return;
-        }
         const optionName = option.innerHTML;
         result.inputOptions[optionValue] = optionName;
       });
@@ -14498,14 +19960,13 @@ process.umask = function() { return 0; };
   /**
    * @param {DocumentFragment} templateContent
    * @param {string[]} paramNames
-   * @returns {Record<string, any>}
+   * @returns {SweetAlertOptions}
    */
   const getSwalStringParams = (templateContent, paramNames) => {
-    /** @type {Record<string, any>} */
     const result = {};
     for (const i in paramNames) {
       const paramName = paramNames[i];
-      /** @type {HTMLElement | null} */
+      /** @type {HTMLElement} */
       const tag = templateContent.querySelector(paramName);
       if (tag) {
         showWarningsForAttributes(tag, []);
@@ -14553,7 +20014,6 @@ process.umask = function() { return 0; };
     if (typeof params.willOpen === 'function') {
       params.willOpen(popup);
     }
-    globalState.eventEmitter.emit('willOpen', popup);
     const bodyStyles = window.getComputedStyle(document.body);
     const initialBodyOverflow = bodyStyles.overflowY;
     addClasses(container, popup, params);
@@ -14572,7 +20032,6 @@ process.umask = function() { return 0; };
     if (typeof params.didOpen === 'function') {
       setTimeout(() => params.didOpen(popup));
     }
-    globalState.eventEmitter.emit('didOpen', popup);
     removeClass(container, swalClasses['no-transition']);
   };
 
@@ -14585,8 +20044,7 @@ process.umask = function() { return 0; };
       return;
     }
     const container = getContainer();
-    popup.removeEventListener('animationend', swalOpenAnimationFinished);
-    popup.removeEventListener('transitionend', swalOpenAnimationFinished);
+    popup.removeEventListener(animationEndEvent, swalOpenAnimationFinished);
     container.style.overflowY = 'auto';
   };
 
@@ -14595,10 +20053,9 @@ process.umask = function() { return 0; };
    * @param {HTMLElement} popup
    */
   const setScrollingVisibility = (container, popup) => {
-    if (hasCssAnimation(popup)) {
+    if (animationEndEvent && hasCssAnimation(popup)) {
       container.style.overflowY = 'hidden';
-      popup.addEventListener('animationend', swalOpenAnimationFinished);
-      popup.addEventListener('transitionend', swalOpenAnimationFinished);
+      popup.addEventListener(animationEndEvent, swalOpenAnimationFinished);
     } else {
       container.style.overflowY = 'auto';
     }
@@ -14612,7 +20069,7 @@ process.umask = function() { return 0; };
   const fixScrollContainer = (container, scrollbarPadding, initialBodyOverflow) => {
     iOSfix();
     if (scrollbarPadding && initialBodyOverflow !== 'hidden') {
-      replaceScrollbarWithPadding(initialBodyOverflow);
+      fixScrollbar();
     }
 
     // sweetalert2/issues/1247
@@ -14628,19 +20085,16 @@ process.umask = function() { return 0; };
    */
   const addClasses = (container, popup, params) => {
     addClass(container, params.showClass.backdrop);
-    if (params.animation) {
-      // this workaround with opacity is needed for https://github.com/sweetalert2/sweetalert2/issues/2059
-      popup.style.setProperty('opacity', '0', 'important');
-      show(popup, 'grid');
-      setTimeout(() => {
-        // Animate popup right after showing it
-        addClass(popup, params.showClass.popup);
-        // and remove the opacity workaround
-        popup.style.removeProperty('opacity');
-      }, SHOW_CLASS_TIMEOUT); // 10ms in order to fix #2062
-    } else {
-      show(popup, 'grid');
-    }
+    // this workaround with opacity is needed for https://github.com/sweetalert2/sweetalert2/issues/2059
+    popup.style.setProperty('opacity', '0', 'important');
+    show(popup, 'grid');
+    setTimeout(() => {
+      // Animate popup right after showing it
+      addClass(popup, params.showClass.popup);
+      // and remove the opacity workaround
+      popup.style.removeProperty('opacity');
+    }, SHOW_CLASS_TIMEOUT); // 10ms in order to fix #2062
+
     addClass([document.documentElement, document.body], swalClasses.shown);
     if (params.heightAuto && params.backdrop && !params.toast) {
       addClass([document.documentElement, document.body], swalClasses['height-auto']);
@@ -14650,16 +20104,16 @@ process.umask = function() { return 0; };
   var defaultInputValidators = {
     /**
      * @param {string} string
-     * @param {string} [validationMessage]
-     * @returns {Promise<string | void>}
+     * @param {string} validationMessage
+     * @returns {Promise<void | string>}
      */
     email: (string, validationMessage) => {
-      return /^[a-zA-Z0-9.+_'-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]+$/.test(string) ? Promise.resolve() : Promise.resolve(validationMessage || 'Invalid email address');
+      return /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(string) ? Promise.resolve() : Promise.resolve(validationMessage || 'Invalid email address');
     },
     /**
      * @param {string} string
-     * @param {string} [validationMessage]
-     * @returns {Promise<string | void>}
+     * @param {string} validationMessage
+     * @returns {Promise<void | string>}
      */
     url: (string, validationMessage) => {
       // taken from https://stackoverflow.com/a/3809435 with a small change from #1306 and #2013
@@ -14672,14 +20126,12 @@ process.umask = function() { return 0; };
    */
   function setDefaultInputValidators(params) {
     // Use default `inputValidator` for supported input types if not provided
-    if (params.inputValidator) {
-      return;
-    }
-    if (params.input === 'email') {
-      params.inputValidator = defaultInputValidators['email'];
-    }
-    if (params.input === 'url') {
-      params.inputValidator = defaultInputValidators['url'];
+    if (!params.inputValidator) {
+      Object.keys(defaultInputValidators).forEach(key => {
+        if (params.input === key) {
+          params.inputValidator = defaultInputValidators[key];
+        }
+      });
     }
   }
 
@@ -14715,19 +20167,9 @@ process.umask = function() { return 0; };
     init(params);
   }
 
-  /** @type {SweetAlert} */
   let currentInstance;
-  var _promise = /*#__PURE__*/new WeakMap();
   class SweetAlert {
-    /**
-     * @param {...any} args
-     * @this {SweetAlert}
-     */
     constructor() {
-      /**
-       * @type {Promise<SweetAlertResult>}
-       */
-      _classPrivateFieldInitSpec(this, _promise, void 0);
       // Prevent run in Node env
       if (typeof window === 'undefined') {
         return;
@@ -14739,28 +20181,25 @@ process.umask = function() { return 0; };
         args[_key] = arguments[_key];
       }
       const outerParams = Object.freeze(this.constructor.argsToParams(args));
+      Object.defineProperties(this, {
+        params: {
+          value: outerParams,
+          writable: false,
+          enumerable: true,
+          configurable: true
+        }
+      });
 
-      /** @type {Readonly<SweetAlertOptions>} */
-      this.params = outerParams;
-
-      /** @type {boolean} */
-      this.isAwaitingPromise = false;
-      _classPrivateFieldSet2(_promise, this, this._main(currentInstance.params));
+      // @ts-ignore
+      const promise = currentInstance._main(currentInstance.params);
+      privateProps.promise.set(this, promise);
     }
     _main(userParams) {
       let mixinParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       showWarningsForParams(Object.assign({}, mixinParams, userParams));
       if (globalState.currentInstance) {
-        const swalPromiseResolve = privateMethods.swalPromiseResolve.get(globalState.currentInstance);
-        const {
-          isAwaitingPromise
-        } = globalState.currentInstance;
+        // @ts-ignore
         globalState.currentInstance._destroy();
-        if (!isAwaitingPromise) {
-          swalPromiseResolve({
-            isDismissed: true
-          });
-        }
         if (isModal()) {
           unsetAriaHidden();
         }
@@ -14786,15 +20225,17 @@ process.umask = function() { return 0; };
 
     // `catch` cannot be the name of a module export, so we define our thenable methods here instead
     then(onFulfilled) {
-      return _classPrivateFieldGet2(_promise, this).then(onFulfilled);
+      const promise = privateProps.promise.get(this);
+      return promise.then(onFulfilled);
     }
     finally(onFinally) {
-      return _classPrivateFieldGet2(_promise, this).finally(onFinally);
+      const promise = privateProps.promise.get(this);
+      return promise.finally(onFinally);
     }
   }
 
   /**
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    * @param {DomCache} domCache
    * @param {SweetAlertOptions} innerParams
    * @returns {Promise}
@@ -14806,6 +20247,7 @@ process.umask = function() { return 0; };
        * @param {DismissReason} dismiss
        */
       const dismissWith = dismiss => {
+        // @ts-ignore
         instance.close({
           isDismissed: true,
           dismiss
@@ -14823,10 +20265,11 @@ process.umask = function() { return 0; };
         handleCancelButtonClick(instance, dismissWith);
       };
       domCache.closeButton.onclick = () => {
+        // @ts-ignore
         dismissWith(DismissReason.close);
       };
-      handlePopupClick(innerParams, domCache, dismissWith);
-      addKeydownHandler(globalState, innerParams, dismissWith);
+      handlePopupClick(instance, domCache, dismissWith);
+      addKeydownHandler(instance, globalState, innerParams, dismissWith);
       handleInputOptionsAndValue(instance, innerParams);
       openPopup(innerParams);
       setupTimer(globalState, innerParams, dismissWith);
@@ -14849,17 +20292,11 @@ process.umask = function() { return 0; };
     const params = Object.assign({}, defaultParams, mixinParams, templateParams, userParams); // precedence is described in #2131
     params.showClass = Object.assign({}, defaultParams.showClass, params.showClass);
     params.hideClass = Object.assign({}, defaultParams.hideClass, params.hideClass);
-    if (params.animation === false) {
-      params.showClass = {
-        backdrop: 'swal2-noanimation'
-      };
-      params.hideClass = {};
-    }
     return params;
   };
 
   /**
-   * @param {SweetAlert} instance
+   * @param {SweetAlert2} instance
    * @returns {DomCache}
    */
   const populateDomCache = instance => {
@@ -14906,15 +20343,6 @@ process.umask = function() { return 0; };
   };
 
   /**
-   * Initialize focus in the popup:
-   *
-   * 1. If `toast` is `true`, don't steal focus from the document.
-   * 2. Else if there is an [autofocus] element, focus it.
-   * 3. Else if `focusConfirm` is `true` and confirm button is visible, focus it.
-   * 4. Else if `focusDeny` is `true` and deny button is visible, focus it.
-   * 5. Else if `focusCancel` is `true` and cancel button is visible, focus it.
-   * 6. Else focus the first focusable element in a popup (if any).
-   *
    * @param {DomCache} domCache
    * @param {SweetAlertOptions} innerParams
    */
@@ -14922,34 +20350,13 @@ process.umask = function() { return 0; };
     if (innerParams.toast) {
       return;
     }
-    // TODO: this is dumb, remove `allowEnterKey` param in the next major version
     if (!callIfFunction(innerParams.allowEnterKey)) {
-      warnAboutDeprecation('allowEnterKey');
       blurActiveElement();
       return;
     }
-    if (focusAutofocus(domCache)) {
-      return;
+    if (!focusButton(domCache, innerParams)) {
+      setFocus(innerParams, -1, 1);
     }
-    if (focusButton(domCache, innerParams)) {
-      return;
-    }
-    setFocus(-1, 1);
-  };
-
-  /**
-   * @param {DomCache} domCache
-   * @returns {boolean}
-   */
-  const focusAutofocus = domCache => {
-    const autofocusElements = Array.from(domCache.popup.querySelectorAll('[autofocus]'));
-    for (const autofocusElement of autofocusElements) {
-      if (autofocusElement instanceof HTMLElement && isVisible$1(autofocusElement)) {
-        autofocusElement.focus();
-        return true;
-      }
-    }
-    return false;
   };
 
   /**
@@ -14979,7 +20386,7 @@ process.umask = function() { return 0; };
   };
 
   // Dear russian users visiting russian sites. Let's have fun.
-  if (typeof window !== 'undefined' && /^ru\b/.test(navigator.language) && location.host.match(/\.(ru|su|by|xn--p1ai)$/)) {
+  if (typeof window !== 'undefined' && /^ru\b/.test(navigator.language) && location.host.match(/\.(ru|su|xn--p1ai)$/)) {
     const now = new Date();
     const initiationDate = localStorage.getItem('swal-initiation');
     if (!initiationDate) {
@@ -15001,22 +20408,7 @@ process.umask = function() { return 0; };
   }
 
   // Assign instance methods from src/instanceMethods/*.js to prototype
-  SweetAlert.prototype.disableButtons = disableButtons;
-  SweetAlert.prototype.enableButtons = enableButtons;
-  SweetAlert.prototype.getInput = getInput;
-  SweetAlert.prototype.disableInput = disableInput;
-  SweetAlert.prototype.enableInput = enableInput;
-  SweetAlert.prototype.hideLoading = hideLoading;
-  SweetAlert.prototype.disableLoading = hideLoading;
-  SweetAlert.prototype.showValidationMessage = showValidationMessage;
-  SweetAlert.prototype.resetValidationMessage = resetValidationMessage;
-  SweetAlert.prototype.close = close;
-  SweetAlert.prototype.closePopup = close;
-  SweetAlert.prototype.closeModal = close;
-  SweetAlert.prototype.closeToast = close;
-  SweetAlert.prototype.rejectPromise = rejectPromise;
-  SweetAlert.prototype.update = update;
-  SweetAlert.prototype._destroy = _destroy;
+  Object.assign(SweetAlert.prototype, instanceMethods);
 
   // Assign static methods from src/staticMethods/*.js to constructor
   Object.assign(SweetAlert, staticMethods);
@@ -15025,17 +20417,16 @@ process.umask = function() { return 0; };
   Object.keys(instanceMethods).forEach(key => {
     /**
      * @param {...any} args
-     * @returns {any | undefined}
+     * @returns {any}
      */
     SweetAlert[key] = function () {
-      if (currentInstance && currentInstance[key]) {
+      if (currentInstance) {
         return currentInstance[key](...arguments);
       }
-      return null;
     };
   });
   SweetAlert.DismissReason = DismissReason;
-  SweetAlert.version = '11.17.2';
+  SweetAlert.version = '11.6.13';
 
   const Swal = SweetAlert;
   // @ts-ignore
@@ -15045,7 +20436,7 @@ process.umask = function() { return 0; };
 
 }));
 if (typeof this !== 'undefined' && this.Sweetalert2){this.swal = this.sweetAlert = this.Swal = this.SweetAlert = this.Sweetalert2}
-"undefined"!=typeof document&&function(e,t){var n=e.createElement("style");if(e.getElementsByTagName("head")[0].appendChild(n),n.styleSheet)n.styleSheet.disabled||(n.styleSheet.cssText=t);else try{n.innerHTML=t}catch(e){n.innerText=t}}(document,":root{--swal2-container-padding: 0.625em;--swal2-backdrop: rgba(0, 0, 0, 0.4);--swal2-width: 32em;--swal2-padding: 0 0 1.25em;--swal2-border: none;--swal2-border-radius: 0.3125rem;--swal2-background: white;--swal2-color: #545454;--swal2-footer-border-color: #eee;--swal2-show-animation: swal2-show 0.3s;--swal2-hide-animation: swal2-hide 0.15s forwards;--swal2-input-background: transparent;--swal2-progress-step-background: #add8e6;--swal2-validation-message-background: #f0f0f0;--swal2-validation-message-color: #666;--swal2-close-button-position: initial;--swal2-close-button-inset: auto;--swal2-close-button-font-size: 2.5em;--swal2-close-button-color: #ccc}[data-swal2-theme=dark]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white)}@media(prefers-color-scheme: dark){[data-swal2-theme=auto]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white)}}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto !important}body.swal2-no-backdrop .swal2-container{background-color:rgba(0,0,0,0) !important;pointer-events:none}body.swal2-no-backdrop .swal2-container .swal2-popup{pointer-events:all}body.swal2-no-backdrop .swal2-container .swal2-modal{box-shadow:0 0 10px var(--swal2-backdrop)}body.swal2-toast-shown .swal2-container{box-sizing:border-box;width:360px;max-width:100%;background-color:rgba(0,0,0,0);pointer-events:none}body.swal2-toast-shown .swal2-container.swal2-top{inset:0 auto auto 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{inset:0 0 auto auto}body.swal2-toast-shown .swal2-container.swal2-top-start,body.swal2-toast-shown .swal2-container.swal2-top-left{inset:0 auto auto 0}body.swal2-toast-shown .swal2-container.swal2-center-start,body.swal2-toast-shown .swal2-container.swal2-center-left{inset:50% auto auto 0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{inset:50% auto auto 50%;transform:translate(-50%, -50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{inset:50% 0 auto auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-start,body.swal2-toast-shown .swal2-container.swal2-bottom-left{inset:auto auto 0 0}body.swal2-toast-shown .swal2-container.swal2-bottom{inset:auto auto 0 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{inset:auto 0 0 auto}@media print{body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow-y:scroll !important}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown) .swal2-container{position:static !important}}div:where(.swal2-container){display:grid;position:fixed;z-index:1060;inset:0;box-sizing:border-box;grid-template-areas:\"top-start     top            top-end\" \"center-start  center         center-end\" \"bottom-start  bottom-center  bottom-end\";grid-template-rows:minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);height:100%;padding:var(--swal2-container-padding);overflow-x:hidden;transition:background-color .1s;-webkit-overflow-scrolling:touch}div:where(.swal2-container).swal2-backdrop-show,div:where(.swal2-container).swal2-noanimation{background:var(--swal2-backdrop)}div:where(.swal2-container).swal2-backdrop-hide{background:rgba(0,0,0,0) !important}div:where(.swal2-container).swal2-top-start,div:where(.swal2-container).swal2-center-start,div:where(.swal2-container).swal2-bottom-start{grid-template-columns:minmax(0, 1fr) auto auto}div:where(.swal2-container).swal2-top,div:where(.swal2-container).swal2-center,div:where(.swal2-container).swal2-bottom{grid-template-columns:auto minmax(0, 1fr) auto}div:where(.swal2-container).swal2-top-end,div:where(.swal2-container).swal2-center-end,div:where(.swal2-container).swal2-bottom-end{grid-template-columns:auto auto minmax(0, 1fr)}div:where(.swal2-container).swal2-top-start>.swal2-popup{align-self:start}div:where(.swal2-container).swal2-top>.swal2-popup{grid-column:2;place-self:start center}div:where(.swal2-container).swal2-top-end>.swal2-popup,div:where(.swal2-container).swal2-top-right>.swal2-popup{grid-column:3;place-self:start end}div:where(.swal2-container).swal2-center-start>.swal2-popup,div:where(.swal2-container).swal2-center-left>.swal2-popup{grid-row:2;align-self:center}div:where(.swal2-container).swal2-center>.swal2-popup{grid-column:2;grid-row:2;place-self:center center}div:where(.swal2-container).swal2-center-end>.swal2-popup,div:where(.swal2-container).swal2-center-right>.swal2-popup{grid-column:3;grid-row:2;place-self:center end}div:where(.swal2-container).swal2-bottom-start>.swal2-popup,div:where(.swal2-container).swal2-bottom-left>.swal2-popup{grid-column:1;grid-row:3;align-self:end}div:where(.swal2-container).swal2-bottom>.swal2-popup{grid-column:2;grid-row:3;place-self:end center}div:where(.swal2-container).swal2-bottom-end>.swal2-popup,div:where(.swal2-container).swal2-bottom-right>.swal2-popup{grid-column:3;grid-row:3;place-self:end end}div:where(.swal2-container).swal2-grow-row>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-column:1/4;width:100%}div:where(.swal2-container).swal2-grow-column>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-row:1/4;align-self:stretch}div:where(.swal2-container).swal2-no-transition{transition:none !important}div:where(.swal2-container) div:where(.swal2-popup){display:none;position:relative;box-sizing:border-box;grid-template-columns:minmax(0, 100%);width:var(--swal2-width);max-width:100%;padding:var(--swal2-padding);border:var(--swal2-border);border-radius:var(--swal2-border-radius);background:var(--swal2-background);color:var(--swal2-color);font-family:inherit;font-size:1rem}div:where(.swal2-container) div:where(.swal2-popup):focus{outline:none}div:where(.swal2-container) div:where(.swal2-popup).swal2-loading{overflow-y:hidden}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable{cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable div:where(.swal2-icon){cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging{cursor:grabbing}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging div:where(.swal2-icon){cursor:grabbing}div:where(.swal2-container) h2:where(.swal2-title){position:relative;max-width:100%;margin:0;padding:.8em 1em 0;color:inherit;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;word-wrap:break-word;cursor:initial}div:where(.swal2-container) div:where(.swal2-actions){display:flex;z-index:1;box-sizing:border-box;flex-wrap:wrap;align-items:center;justify-content:center;width:auto;margin:1.25em auto 0;padding:0}div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled[disabled]{opacity:.4}div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled:hover{background-image:linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1))}div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled:active{background-image:linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2))}div:where(.swal2-container) div:where(.swal2-loader){display:none;align-items:center;justify-content:center;width:2.2em;height:2.2em;margin:0 1.875em;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border-width:.25em;border-style:solid;border-radius:100%;border-color:#2778c4 rgba(0,0,0,0) #2778c4 rgba(0,0,0,0)}div:where(.swal2-container) button:where(.swal2-styled){margin:.3125em;padding:.625em 1.1em;transition:box-shadow .1s;box-shadow:0 0 0 3px rgba(0,0,0,0);font-weight:500}div:where(.swal2-container) button:where(.swal2-styled):not([disabled]){cursor:pointer}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){border:0;border-radius:.25em;background:initial;background-color:#7066e0;color:#fff;font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):focus-visible{box-shadow:0 0 0 3px rgba(112,102,224,.5)}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny){border:0;border-radius:.25em;background:initial;background-color:#dc3741;color:#fff;font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):focus-visible{box-shadow:0 0 0 3px rgba(220,55,65,.5)}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel){border:0;border-radius:.25em;background:initial;background-color:#6e7881;color:#fff;font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):focus-visible{box-shadow:0 0 0 3px rgba(110,120,129,.5)}div:where(.swal2-container) button:where(.swal2-styled).swal2-default-outline:focus-visible{box-shadow:0 0 0 3px rgba(100,150,200,.5)}div:where(.swal2-container) button:where(.swal2-styled):focus-visible{outline:none}div:where(.swal2-container) button:where(.swal2-styled)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-footer){margin:1em 0 0;padding:1em 1em 0;border-top:1px solid var(--swal2-footer-border-color);color:inherit;font-size:1em;text-align:center;cursor:initial}div:where(.swal2-container) .swal2-timer-progress-bar-container{position:absolute;right:0;bottom:0;left:0;grid-column:auto !important;overflow:hidden;border-bottom-right-radius:var(--swal2-border-radius);border-bottom-left-radius:var(--swal2-border-radius)}div:where(.swal2-container) div:where(.swal2-timer-progress-bar){width:100%;height:.25em;background:rgba(0,0,0,.2)}div:where(.swal2-container) img:where(.swal2-image){max-width:100%;margin:2em auto 1em;cursor:initial}div:where(.swal2-container) button:where(.swal2-close){position:var(--swal2-close-button-position);inset:var(--swal2-close-button-inset);z-index:2;align-items:center;justify-content:center;width:1.2em;height:1.2em;margin-top:0;margin-right:0;margin-bottom:-1.2em;padding:0;overflow:hidden;transition:color .1s,box-shadow .1s;border:none;border-radius:var(--swal2-border-radius);background:rgba(0,0,0,0);color:var(--swal2-close-button-color);font-family:monospace;font-size:var(--swal2-close-button-font-size);cursor:pointer;justify-self:end}div:where(.swal2-container) button:where(.swal2-close):hover{transform:none;background:rgba(0,0,0,0);color:#f27474}div:where(.swal2-container) button:where(.swal2-close):focus-visible{outline:none;box-shadow:inset 0 0 0 3px rgba(100,150,200,.5)}div:where(.swal2-container) button:where(.swal2-close)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-html-container){z-index:1;justify-content:center;margin:0;padding:1em 1.6em .3em;overflow:auto;color:inherit;font-size:1.125em;font-weight:normal;line-height:normal;text-align:center;word-wrap:break-word;word-break:break-word;cursor:initial}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea),div:where(.swal2-container) select:where(.swal2-select),div:where(.swal2-container) div:where(.swal2-radio),div:where(.swal2-container) label:where(.swal2-checkbox){margin:1em 2em 3px}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea){box-sizing:border-box;width:auto;transition:border-color .1s,box-shadow .1s;border:1px solid #d9d9d9;border-radius:.1875em;background:var(--swal2-input-background);box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(0,0,0,0);color:inherit;font-size:1.125em}div:where(.swal2-container) input:where(.swal2-input).swal2-inputerror,div:where(.swal2-container) input:where(.swal2-file).swal2-inputerror,div:where(.swal2-container) textarea:where(.swal2-textarea).swal2-inputerror{border-color:#f27474 !important;box-shadow:0 0 2px #f27474 !important}div:where(.swal2-container) input:where(.swal2-input):focus,div:where(.swal2-container) input:where(.swal2-file):focus,div:where(.swal2-container) textarea:where(.swal2-textarea):focus{border:1px solid #b4dbed;outline:none;box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(100,150,200,.5)}div:where(.swal2-container) input:where(.swal2-input)::placeholder,div:where(.swal2-container) input:where(.swal2-file)::placeholder,div:where(.swal2-container) textarea:where(.swal2-textarea)::placeholder{color:#ccc}div:where(.swal2-container) .swal2-range{margin:1em 2em 3px;background:var(--swal2-background)}div:where(.swal2-container) .swal2-range input{width:80%}div:where(.swal2-container) .swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}div:where(.swal2-container) .swal2-range input,div:where(.swal2-container) .swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}div:where(.swal2-container) .swal2-input{height:2.625em;padding:0 .75em}div:where(.swal2-container) .swal2-file{width:75%;margin-right:auto;margin-left:auto;background:var(--swal2-input-background);font-size:1.125em}div:where(.swal2-container) .swal2-textarea{height:6.75em;padding:.75em}div:where(.swal2-container) .swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:var(--swal2-input-background);color:inherit;font-size:1.125em}div:where(.swal2-container) .swal2-radio,div:where(.swal2-container) .swal2-checkbox{align-items:center;justify-content:center;background:var(--swal2-background);color:inherit}div:where(.swal2-container) .swal2-radio label,div:where(.swal2-container) .swal2-checkbox label{margin:0 .6em;font-size:1.125em}div:where(.swal2-container) .swal2-radio input,div:where(.swal2-container) .swal2-checkbox input{flex-shrink:0;margin:0 .4em}div:where(.swal2-container) label:where(.swal2-input-label){display:flex;justify-content:center;margin:1em auto 0}div:where(.swal2-container) div:where(.swal2-validation-message){align-items:center;justify-content:center;margin:1em 0 0;padding:.625em;overflow:hidden;background:var(--swal2-validation-message-background);color:var(--swal2-validation-message-color);font-size:1em;font-weight:300}div:where(.swal2-container) div:where(.swal2-validation-message)::before{content:\"!\";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}div:where(.swal2-container) .swal2-progress-steps{flex-wrap:wrap;align-items:center;max-width:100%;margin:1.25em auto;padding:0;background:rgba(0,0,0,0);font-weight:600}div:where(.swal2-container) .swal2-progress-steps li{display:inline-block;position:relative}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step{z-index:20;flex-shrink:0;width:2em;height:2em;border-radius:2em;background:#2778c4;color:#fff;line-height:2em;text-align:center}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#2778c4}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:var(--swal2-progress-step-background);color:#fff}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:var(--swal2-progress-step-background)}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step-line{z-index:10;flex-shrink:0;width:2.5em;height:.4em;margin:0 -1px;background:#2778c4}div:where(.swal2-icon){position:relative;box-sizing:content-box;justify-content:center;width:5em;height:5em;margin:2.5em auto .6em;border:.25em solid rgba(0,0,0,0);border-radius:50%;border-color:#000;font-family:inherit;line-height:5em;cursor:default;user-select:none}div:where(.swal2-icon) .swal2-icon-content{display:flex;align-items:center;font-size:3.75em}div:where(.swal2-icon).swal2-error{border-color:#f27474;color:#f27474}div:where(.swal2-icon).swal2-error .swal2-x-mark{position:relative;flex-grow:1}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-error.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-error.swal2-icon-show .swal2-x-mark{animation:swal2-animate-error-x-mark .5s}div:where(.swal2-icon).swal2-warning{border-color:#f8bb86;color:#f8bb86}div:where(.swal2-icon).swal2-warning.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-warning.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .5s}div:where(.swal2-icon).swal2-info{border-color:#3fc3ee;color:#3fc3ee}div:where(.swal2-icon).swal2-info.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-info.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .8s}div:where(.swal2-icon).swal2-question{border-color:#87adbd;color:#87adbd}div:where(.swal2-icon).swal2-question.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-question.swal2-icon-show .swal2-icon-content{animation:swal2-animate-question-mark .8s}div:where(.swal2-icon).swal2-success{border-color:#a5dc86;color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;border-radius:50%}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.4375em;left:-2.0635em;transform:rotate(-45deg);transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.6875em;left:1.875em;transform:rotate(-45deg);transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}div:where(.swal2-icon).swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-0.25em;left:-0.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}div:where(.swal2-icon).swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.8125em;width:1.5625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-animate-success-line-tip .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-animate-success-line-long .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-circular-line-right{animation:swal2-rotate-success-circular-line 4.25s ease-in}[class^=swal2]{-webkit-tap-highlight-color:rgba(0,0,0,0)}.swal2-show{animation:var(--swal2-show-animation)}.swal2-hide{animation:var(--swal2-hide-animation)}.swal2-noanimation{transition:none}.swal2-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}.swal2-rtl .swal2-close{margin-right:initial;margin-left:0}.swal2-rtl .swal2-timer-progress-bar{right:0;left:auto}.swal2-toast{box-sizing:border-box;grid-column:1/4 !important;grid-row:1/4 !important;grid-template-columns:min-content auto min-content;padding:1em;overflow-y:hidden;background:var(--swal2-background);box-shadow:0 0 1px rgba(0,0,0,.075),0 1px 2px rgba(0,0,0,.075),1px 2px 4px rgba(0,0,0,.075),1px 3px 8px rgba(0,0,0,.075),2px 4px 16px rgba(0,0,0,.075);pointer-events:all}.swal2-toast>*{grid-column:2}.swal2-toast h2:where(.swal2-title){margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-toast .swal2-loading{justify-content:center}.swal2-toast input:where(.swal2-input){height:2em;margin:.5em;font-size:1em}.swal2-toast .swal2-validation-message{font-size:1em}.swal2-toast div:where(.swal2-footer){margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-toast button:where(.swal2-close){grid-column:3/3;grid-row:1/99;align-self:center;width:.8em;height:.8em;margin:0;font-size:2em}.swal2-toast div:where(.swal2-html-container){margin:.5em 1em;padding:0;overflow:initial;font-size:1em;text-align:initial}.swal2-toast div:where(.swal2-html-container):empty{padding:0}.swal2-toast .swal2-loader{grid-column:1;grid-row:1/99;align-self:center;width:2em;height:2em;margin:.25em}.swal2-toast .swal2-icon{grid-column:1;grid-row:1/99;align-self:center;width:2em;min-width:2em;height:2em;margin:0 .5em 0 0}.swal2-toast .swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:1.8em;font-weight:bold}.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-toast div:where(.swal2-actions){justify-content:flex-start;height:auto;margin:0;margin-top:.5em;padding:0 .5em}.swal2-toast button:where(.swal2-styled){margin:.25em .5em;padding:.4em .6em;font-size:1em}.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;border-radius:50%}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.8em;left:-0.5em;transform:rotate(-45deg);transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.25em;left:.9375em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-toast-animate-success-line-tip .75s}.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-toast-animate-success-line-long .75s}.swal2-toast.swal2-show{animation:swal2-toast-show .5s}.swal2-toast.swal2-hide{animation:swal2-toast-hide .1s forwards}@keyframes swal2-show{0%{transform:scale(0.7)}45%{transform:scale(1.05)}80%{transform:scale(0.95)}100%{transform:scale(1)}}@keyframes swal2-hide{0%{transform:scale(1);opacity:1}100%{transform:scale(0.5);opacity:0}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-0.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(0.4);opacity:0}50%{margin-top:1.625em;transform:scale(0.4);opacity:0}80%{margin-top:-0.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0deg);opacity:1}}@keyframes swal2-rotate-loading{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}@keyframes swal2-toast-show{0%{transform:translateY(-0.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(0.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0deg)}}@keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-0.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}");
+"undefined"!=typeof document&&function(e,t){var n=e.createElement("style");if(e.getElementsByTagName("head")[0].appendChild(n),n.styleSheet)n.styleSheet.disabled||(n.styleSheet.cssText=t);else try{n.innerHTML=t}catch(e){n.innerText=t}}(document,".swal2-popup.swal2-toast{box-sizing:border-box;grid-column:1/4 !important;grid-row:1/4 !important;grid-template-columns:min-content auto min-content;padding:1em;overflow-y:hidden;background:#fff;box-shadow:0 0 1px rgba(0,0,0,.075),0 1px 2px rgba(0,0,0,.075),1px 2px 4px rgba(0,0,0,.075),1px 3px 8px rgba(0,0,0,.075),2px 4px 16px rgba(0,0,0,.075);pointer-events:all}.swal2-popup.swal2-toast>*{grid-column:2}.swal2-popup.swal2-toast .swal2-title{margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-popup.swal2-toast .swal2-loading{justify-content:center}.swal2-popup.swal2-toast .swal2-input{height:2em;margin:.5em;font-size:1em}.swal2-popup.swal2-toast .swal2-validation-message{font-size:1em}.swal2-popup.swal2-toast .swal2-footer{margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-popup.swal2-toast .swal2-close{grid-column:3/3;grid-row:1/99;align-self:center;width:.8em;height:.8em;margin:0;font-size:2em}.swal2-popup.swal2-toast .swal2-html-container{margin:.5em 1em;padding:0;overflow:initial;font-size:1em;text-align:initial}.swal2-popup.swal2-toast .swal2-html-container:empty{padding:0}.swal2-popup.swal2-toast .swal2-loader{grid-column:1;grid-row:1/99;align-self:center;width:2em;height:2em;margin:.25em}.swal2-popup.swal2-toast .swal2-icon{grid-column:1;grid-row:1/99;align-self:center;width:2em;min-width:2em;height:2em;margin:0 .5em 0 0}.swal2-popup.swal2-toast .swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:1.8em;font-weight:bold}.swal2-popup.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-popup.swal2-toast .swal2-actions{justify-content:flex-start;height:auto;margin:0;margin-top:.5em;padding:0 .5em}.swal2-popup.swal2-toast .swal2-styled{margin:.25em .5em;padding:.4em .6em;font-size:1em}.swal2-popup.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;transform:rotate(45deg);border-radius:50%}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.8em;left:-0.5em;transform:rotate(-45deg);transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.25em;left:.9375em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-popup.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-toast-animate-success-line-tip .75s}.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-toast-animate-success-line-long .75s}.swal2-popup.swal2-toast.swal2-show{animation:swal2-toast-show .5s}.swal2-popup.swal2-toast.swal2-hide{animation:swal2-toast-hide .1s forwards}.swal2-container{display:grid;position:fixed;z-index:1060;top:0;right:0;bottom:0;left:0;box-sizing:border-box;grid-template-areas:\"top-start     top            top-end\" \"center-start  center         center-end\" \"bottom-start  bottom-center  bottom-end\";grid-template-rows:minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);height:100%;padding:.625em;overflow-x:hidden;transition:background-color .1s;-webkit-overflow-scrolling:touch}.swal2-container.swal2-backdrop-show,.swal2-container.swal2-noanimation{background:rgba(0,0,0,.4)}.swal2-container.swal2-backdrop-hide{background:rgba(0,0,0,0) !important}.swal2-container.swal2-top-start,.swal2-container.swal2-center-start,.swal2-container.swal2-bottom-start{grid-template-columns:minmax(0, 1fr) auto auto}.swal2-container.swal2-top,.swal2-container.swal2-center,.swal2-container.swal2-bottom{grid-template-columns:auto minmax(0, 1fr) auto}.swal2-container.swal2-top-end,.swal2-container.swal2-center-end,.swal2-container.swal2-bottom-end{grid-template-columns:auto auto minmax(0, 1fr)}.swal2-container.swal2-top-start>.swal2-popup{align-self:start}.swal2-container.swal2-top>.swal2-popup{grid-column:2;align-self:start;justify-self:center}.swal2-container.swal2-top-end>.swal2-popup,.swal2-container.swal2-top-right>.swal2-popup{grid-column:3;align-self:start;justify-self:end}.swal2-container.swal2-center-start>.swal2-popup,.swal2-container.swal2-center-left>.swal2-popup{grid-row:2;align-self:center}.swal2-container.swal2-center>.swal2-popup{grid-column:2;grid-row:2;align-self:center;justify-self:center}.swal2-container.swal2-center-end>.swal2-popup,.swal2-container.swal2-center-right>.swal2-popup{grid-column:3;grid-row:2;align-self:center;justify-self:end}.swal2-container.swal2-bottom-start>.swal2-popup,.swal2-container.swal2-bottom-left>.swal2-popup{grid-column:1;grid-row:3;align-self:end}.swal2-container.swal2-bottom>.swal2-popup{grid-column:2;grid-row:3;justify-self:center;align-self:end}.swal2-container.swal2-bottom-end>.swal2-popup,.swal2-container.swal2-bottom-right>.swal2-popup{grid-column:3;grid-row:3;align-self:end;justify-self:end}.swal2-container.swal2-grow-row>.swal2-popup,.swal2-container.swal2-grow-fullscreen>.swal2-popup{grid-column:1/4;width:100%}.swal2-container.swal2-grow-column>.swal2-popup,.swal2-container.swal2-grow-fullscreen>.swal2-popup{grid-row:1/4;align-self:stretch}.swal2-container.swal2-no-transition{transition:none !important}.swal2-popup{display:none;position:relative;box-sizing:border-box;grid-template-columns:minmax(0, 100%);width:32em;max-width:100%;padding:0 0 1.25em;border:none;border-radius:5px;background:#fff;color:#545454;font-family:inherit;font-size:1rem}.swal2-popup:focus{outline:none}.swal2-popup.swal2-loading{overflow-y:hidden}.swal2-title{position:relative;max-width:100%;margin:0;padding:.8em 1em 0;color:inherit;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;word-wrap:break-word}.swal2-actions{display:flex;z-index:1;box-sizing:border-box;flex-wrap:wrap;align-items:center;justify-content:center;width:auto;margin:1.25em auto 0;padding:0}.swal2-actions:not(.swal2-loading) .swal2-styled[disabled]{opacity:.4}.swal2-actions:not(.swal2-loading) .swal2-styled:hover{background-image:linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1))}.swal2-actions:not(.swal2-loading) .swal2-styled:active{background-image:linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2))}.swal2-loader{display:none;align-items:center;justify-content:center;width:2.2em;height:2.2em;margin:0 1.875em;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border-width:.25em;border-style:solid;border-radius:100%;border-color:#2778c4 rgba(0,0,0,0) #2778c4 rgba(0,0,0,0)}.swal2-styled{margin:.3125em;padding:.625em 1.1em;transition:box-shadow .1s;box-shadow:0 0 0 3px rgba(0,0,0,0);font-weight:500}.swal2-styled:not([disabled]){cursor:pointer}.swal2-styled.swal2-confirm{border:0;border-radius:.25em;background:initial;background-color:#7066e0;color:#fff;font-size:1em}.swal2-styled.swal2-confirm:focus{box-shadow:0 0 0 3px rgba(112,102,224,.5)}.swal2-styled.swal2-deny{border:0;border-radius:.25em;background:initial;background-color:#dc3741;color:#fff;font-size:1em}.swal2-styled.swal2-deny:focus{box-shadow:0 0 0 3px rgba(220,55,65,.5)}.swal2-styled.swal2-cancel{border:0;border-radius:.25em;background:initial;background-color:#6e7881;color:#fff;font-size:1em}.swal2-styled.swal2-cancel:focus{box-shadow:0 0 0 3px rgba(110,120,129,.5)}.swal2-styled.swal2-default-outline:focus{box-shadow:0 0 0 3px rgba(100,150,200,.5)}.swal2-styled:focus{outline:none}.swal2-styled::-moz-focus-inner{border:0}.swal2-footer{justify-content:center;margin:1em 0 0;padding:1em 1em 0;border-top:1px solid #eee;color:inherit;font-size:1em}.swal2-timer-progress-bar-container{position:absolute;right:0;bottom:0;left:0;grid-column:auto !important;overflow:hidden;border-bottom-right-radius:5px;border-bottom-left-radius:5px}.swal2-timer-progress-bar{width:100%;height:.25em;background:rgba(0,0,0,.2)}.swal2-image{max-width:100%;margin:2em auto 1em}.swal2-close{z-index:2;align-items:center;justify-content:center;width:1.2em;height:1.2em;margin-top:0;margin-right:0;margin-bottom:-1.2em;padding:0;overflow:hidden;transition:color .1s,box-shadow .1s;border:none;border-radius:5px;background:rgba(0,0,0,0);color:#ccc;font-family:serif;font-family:monospace;font-size:2.5em;cursor:pointer;justify-self:end}.swal2-close:hover{transform:none;background:rgba(0,0,0,0);color:#f27474}.swal2-close:focus{outline:none;box-shadow:inset 0 0 0 3px rgba(100,150,200,.5)}.swal2-close::-moz-focus-inner{border:0}.swal2-html-container{z-index:1;justify-content:center;margin:1em 1.6em .3em;padding:0;overflow:auto;color:inherit;font-size:1.125em;font-weight:normal;line-height:normal;text-align:center;word-wrap:break-word;word-break:break-word}.swal2-input,.swal2-file,.swal2-textarea,.swal2-select,.swal2-radio,.swal2-checkbox{margin:1em 2em 3px}.swal2-input,.swal2-file,.swal2-textarea{box-sizing:border-box;width:auto;transition:border-color .1s,box-shadow .1s;border:1px solid #d9d9d9;border-radius:.1875em;background:rgba(0,0,0,0);box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(0,0,0,0);color:inherit;font-size:1.125em}.swal2-input.swal2-inputerror,.swal2-file.swal2-inputerror,.swal2-textarea.swal2-inputerror{border-color:#f27474 !important;box-shadow:0 0 2px #f27474 !important}.swal2-input:focus,.swal2-file:focus,.swal2-textarea:focus{border:1px solid #b4dbed;outline:none;box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(100,150,200,.5)}.swal2-input::placeholder,.swal2-file::placeholder,.swal2-textarea::placeholder{color:#ccc}.swal2-range{margin:1em 2em 3px;background:#fff}.swal2-range input{width:80%}.swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}.swal2-range input,.swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}.swal2-input{height:2.625em;padding:0 .75em}.swal2-file{width:75%;margin-right:auto;margin-left:auto;background:rgba(0,0,0,0);font-size:1.125em}.swal2-textarea{height:6.75em;padding:.75em}.swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:rgba(0,0,0,0);color:inherit;font-size:1.125em}.swal2-radio,.swal2-checkbox{align-items:center;justify-content:center;background:#fff;color:inherit}.swal2-radio label,.swal2-checkbox label{margin:0 .6em;font-size:1.125em}.swal2-radio input,.swal2-checkbox input{flex-shrink:0;margin:0 .4em}.swal2-input-label{display:flex;justify-content:center;margin:1em auto 0}.swal2-validation-message{align-items:center;justify-content:center;margin:1em 0 0;padding:.625em;overflow:hidden;background:#f0f0f0;color:#666;font-size:1em;font-weight:300}.swal2-validation-message::before{content:\"!\";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}.swal2-icon{position:relative;box-sizing:content-box;justify-content:center;width:5em;height:5em;margin:2.5em auto .6em;border:0.25em solid rgba(0,0,0,0);border-radius:50%;border-color:#000;font-family:inherit;line-height:5em;cursor:default;user-select:none}.swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:3.75em}.swal2-icon.swal2-error{border-color:#f27474;color:#f27474}.swal2-icon.swal2-error .swal2-x-mark{position:relative;flex-grow:1}.swal2-icon.swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;transform:rotate(45deg)}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;transform:rotate(-45deg)}.swal2-icon.swal2-error.swal2-icon-show{animation:swal2-animate-error-icon .5s}.swal2-icon.swal2-error.swal2-icon-show .swal2-x-mark{animation:swal2-animate-error-x-mark .5s}.swal2-icon.swal2-warning{border-color:#facea8;color:#f8bb86}.swal2-icon.swal2-warning.swal2-icon-show{animation:swal2-animate-error-icon .5s}.swal2-icon.swal2-warning.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .5s}.swal2-icon.swal2-info{border-color:#9de0f6;color:#3fc3ee}.swal2-icon.swal2-info.swal2-icon-show{animation:swal2-animate-error-icon .5s}.swal2-icon.swal2-info.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .8s}.swal2-icon.swal2-question{border-color:#c9dae1;color:#87adbd}.swal2-icon.swal2-question.swal2-icon-show{animation:swal2-animate-error-icon .5s}.swal2-icon.swal2-question.swal2-icon-show .swal2-icon-content{animation:swal2-animate-question-mark .8s}.swal2-icon.swal2-success{border-color:#a5dc86;color:#a5dc86}.swal2-icon.swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;transform:rotate(45deg);border-radius:50%}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.4375em;left:-2.0635em;transform:rotate(-45deg);transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.6875em;left:1.875em;transform:rotate(-45deg);transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}.swal2-icon.swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-0.25em;left:-0.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}.swal2-icon.swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;transform:rotate(-45deg)}.swal2-icon.swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}.swal2-icon.swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.8125em;width:1.5625em;transform:rotate(45deg)}.swal2-icon.swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;transform:rotate(-45deg)}.swal2-icon.swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-animate-success-line-tip .75s}.swal2-icon.swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-animate-success-line-long .75s}.swal2-icon.swal2-success.swal2-icon-show .swal2-success-circular-line-right{animation:swal2-rotate-success-circular-line 4.25s ease-in}.swal2-progress-steps{flex-wrap:wrap;align-items:center;max-width:100%;margin:1.25em auto;padding:0;background:rgba(0,0,0,0);font-weight:600}.swal2-progress-steps li{display:inline-block;position:relative}.swal2-progress-steps .swal2-progress-step{z-index:20;flex-shrink:0;width:2em;height:2em;border-radius:2em;background:#2778c4;color:#fff;line-height:2em;text-align:center}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#2778c4}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:#add8e6;color:#fff}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:#add8e6}.swal2-progress-steps .swal2-progress-step-line{z-index:10;flex-shrink:0;width:2.5em;height:.4em;margin:0 -1px;background:#2778c4}[class^=swal2]{-webkit-tap-highlight-color:rgba(0,0,0,0)}.swal2-show{animation:swal2-show .3s}.swal2-hide{animation:swal2-hide .15s forwards}.swal2-noanimation{transition:none}.swal2-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}.swal2-rtl .swal2-close{margin-right:initial;margin-left:0}.swal2-rtl .swal2-timer-progress-bar{right:0;left:auto}@keyframes swal2-toast-show{0%{transform:translateY(-0.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(0.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0deg)}}@keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-0.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}@keyframes swal2-show{0%{transform:scale(0.7)}45%{transform:scale(1.05)}80%{transform:scale(0.95)}100%{transform:scale(1)}}@keyframes swal2-hide{0%{transform:scale(1);opacity:1}100%{transform:scale(0.5);opacity:0}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-0.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(0.4);opacity:0}50%{margin-top:1.625em;transform:scale(0.4);opacity:0}80%{margin-top:-0.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0deg);opacity:1}}@keyframes swal2-rotate-loading{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto !important}body.swal2-no-backdrop .swal2-container{background-color:rgba(0,0,0,0) !important;pointer-events:none}body.swal2-no-backdrop .swal2-container .swal2-popup{pointer-events:all}body.swal2-no-backdrop .swal2-container .swal2-modal{box-shadow:0 0 10px rgba(0,0,0,.4)}@media print{body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow-y:scroll !important}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) .swal2-container{position:static !important}}body.swal2-toast-shown .swal2-container{box-sizing:border-box;width:360px;max-width:100%;background-color:rgba(0,0,0,0);pointer-events:none}body.swal2-toast-shown .swal2-container.swal2-top{top:0;right:auto;bottom:auto;left:50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{top:0;right:0;bottom:auto;left:auto}body.swal2-toast-shown .swal2-container.swal2-top-start,body.swal2-toast-shown .swal2-container.swal2-top-left{top:0;right:auto;bottom:auto;left:0}body.swal2-toast-shown .swal2-container.swal2-center-start,body.swal2-toast-shown .swal2-container.swal2-center-left{top:50%;right:auto;bottom:auto;left:0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{top:50%;right:auto;bottom:auto;left:50%;transform:translate(-50%, -50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{top:50%;right:0;bottom:auto;left:auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-start,body.swal2-toast-shown .swal2-container.swal2-bottom-left{top:auto;right:auto;bottom:0;left:0}body.swal2-toast-shown .swal2-container.swal2-bottom{top:auto;right:auto;bottom:0;left:50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{top:auto;right:0;bottom:0;left:auto}");
 
 /***/ }),
 
@@ -15078,9 +20469,41 @@ alpinejs__WEBPACK_IMPORTED_MODULE_2__["default"].start();
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _echo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./echo */ "./resources/js/echo.js");
 
 window.axios = axios__WEBPACK_IMPORTED_MODULE_0__["default"];
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+/**
+ * Echo exposes an expressive API for subscribing to channels and listening
+ * for events that are broadcast by Laravel. Echo and event broadcasting
+ * allow your team to quickly build robust real-time web applications.
+ */
+
+
+
+/***/ }),
+
+/***/ "./resources/js/echo.js":
+/*!******************************!*\
+  !*** ./resources/js/echo.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+/* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
+/* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(pusher_js__WEBPACK_IMPORTED_MODULE_1__);
+
+
+window.Pusher = (pusher_js__WEBPACK_IMPORTED_MODULE_1___default());
+window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
+  broadcaster: 'pusher',
+  key: "360798122e0784357770",
+  cluster: "eu",
+  forceTLS: true
+});
 
 /***/ }),
 

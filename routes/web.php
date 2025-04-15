@@ -13,8 +13,8 @@ use App\Http\Controllers\MistralController;
 use App\Services\MistralService;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GroupeController;
-use App\Http\Controllers\RetrosColumnsController;
 use App\Http\Controllers\RetrosDataController;
+use App\Http\Controllers\RetrosColumnsController;
 
 // Redirect the root path to /dashboard
 Route::redirect('/', 'dashboard');
@@ -70,9 +70,9 @@ Route::group(['middleware' => ['web']], function(){
     Route::get('/retros/{retro}', [RetroController::class, 'show'])->name('retros.show');
     Route::delete('/retros/{retro}', [RetroController::class, 'destroy'])->name('retros.destroy');
 
-    Route::post('retros/{retro}/columns', [RetrosColumnsController::class, 'store'])->name('retros.columns.create');
     Route::post('retros/data', [RetrosDataController::class, 'store'])->name('retros.data.create');
-
+    Route::post('/retros/{retro}/columns', [RetrosColumnsController::class, 'store'])->name('retros.columns.create');
+    
 
 });
 
