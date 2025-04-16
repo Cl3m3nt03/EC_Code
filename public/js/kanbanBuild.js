@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
         Echo.channel('retro.' + retro_id)
         .listen('.retros-column-created', (e) => {
             console.log("Colonne reçue via event :", e);
-            console.log(e.column.id , e.column.name);
             KanbanTest.addBoards([{
                 id: String(e.column.id),
                 title: e.column.name,

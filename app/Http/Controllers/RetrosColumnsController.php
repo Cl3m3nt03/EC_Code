@@ -24,8 +24,10 @@ class RetrosColumnsController extends Controller
          $column = $retro->columns()->create([
              'name' => $validated['name'],
          ]);
+
+         $retro = $column->retro_id;
      
-         broadcast(new RetrosColumnCreated($column));
+         broadcast(new RetrosColumnCreated($column , $retro));
      
          return response()->json([
              'message' => 'Column created successfully',
