@@ -15,11 +15,18 @@
 }
 
 .kanban-board {
-  position: relative;
-  float: left;
-  background: #e2e4e6;
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 20px;
+    transition: all 0.3s ease;
 }
+
+.kanban-board:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
 
 .kanban-board.disabled-board {
   opacity: 0.3;
@@ -60,16 +67,19 @@
   display: block;
   content: "";
 }
-
 .kanban-item {
-  background: #fff;
-  padding: 15px;
-  margin-bottom: 20px;
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .kanban-item:hover {
-  cursor: move;
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .kanban-item:last-child {
@@ -146,4 +156,19 @@
 
 .drag_handler_icon:after {
     bottom: 6px;
+}
+
+.add-card-button {
+  background-color: #574caf;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.add-card-button:hover {
+  background-color: #6b45a0;
 }

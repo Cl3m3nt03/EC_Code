@@ -22,28 +22,10 @@
 
 
 
-    <form id="formCreateGroup" method="POST">
-        @csrf
-        <input type="hidden" name="retro_id" value="{{ $retro->id }}">
-        <label>Nom de la colonne</label>
-        <input type="text" name="name" id="nameInput" required />
-        <button type="submit">Créer une colonne</button>
-    </form>
+    <button id="createColumnBtn">➕ Créer une colonne</button>
 
-    <div class="card mt-5">
-
-    <form id="formCreateCard">
-    @csrf
-    <label>Nom de la carte</label>
-    <input type="text" name="name" id="nameInputCard" required />
-
-    <label>Description</label>
-    <input type="hidden" name="column_id" id="columnIdInputCard" value="1" />
-
-    <button type="button" id="submitBtn">Créer une carte</button>
-</form>
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="{{ asset('css/jkanban.css') }}">
     <script src="{{ asset('js/jkanban.min.js') }}"></script>
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.3/dist/echo.iife.js"></script>

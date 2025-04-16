@@ -18,10 +18,13 @@ class RetrosDataController extends Controller
 
      public function store(Request $request)
      {
+
+
          $validated = $request->validate([
              'column_id' => 'required|exists:retros_columns,id',
              'name' => 'required|string|max:255',
          ]);
+
 
          $retrosData = RetrosData::create([
              'column_id' => $validated['column_id'],
@@ -32,7 +35,7 @@ class RetrosDataController extends Controller
          
          broadcast(new RetrosDataCreate( $retrosData , $retro_id));
 
-     
+
          return response()->json([
              'message' => 'Carte créée avec succès',
              'data' => $retrosData

@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\RetrosColumns;
+use App\Models\RetrosData;
+use Illuminate\Http\JsonResponse;
+use App\Models\RetrosColumn;
+use App\Events\CardMoovUpdate;
 
 class RetroController extends Controller
 {
@@ -95,6 +99,28 @@ class RetroController extends Controller
         });
         return response()->json([
             'boards' => $formated,
+        ]);
+    }
+
+
+    public function moveCard(Request $request): JsonResponse
+    {
+        $card_id = $request->input('card_id');
+        $column_id = $request->input('column_id');
+
+        $card = RetrosData::find($card_id);
+        $column = RetrosColumns::find($column_id);
+
+        $old_column_id = $card->column_id;
+
+        $card->column_id = $column_id;
+        $card->save();
+
+        broadcast(new CardMoovUpdate($card, $old_column_id, $column->retro_id));
+
+        return response()->json([
+            'message' => 'Card moved successfully',
+            'data' => $card
         ]);
     }
 }

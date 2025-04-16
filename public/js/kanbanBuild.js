@@ -21,7 +21,40 @@ document.addEventListener('DOMContentLoaded', function () {
         element: '#kanban',
         gutter: '15px',
         widthBoard: '300px',
-        boards: window.columnsFromServer || []
+        boards: window.columnsFromServer || [],
+        dropEl: function (el, target, source, sibling) {
+            const cardId = el.dataset.eid;
+            const newColumnId = target.parentElement.dataset.id;
+            updateCardDatabase(cardId, newColumnId);
+        },
+        buttonClick: function (el, boardId) {
+            Swal.fire({
+                title: 'Ajouter une carte',
+                input: 'text',
+                inputLabel: 'Nom de la carte',
+                inputPlaceholder: 'Nom de la carte...',
+                showCancelButton: true,
+                confirmButtonText: 'Ajouter',
+                cancelButtonText: 'Annuler',
+                preConfirm: () => {
+                    const title = Swal.getInput().value;
+                    if (!title) {
+                        Swal.showValidationMessage('Veuillez entrer un nom pour la carte');
+                    }
+                    return title;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    createCardInDatabase(boardId, result.value);
+                }
+            });
+        },
+        itemAddOptions: {
+            enabled: true,
+            content: '+ Ajouter une carte',
+            class: 'add-card-button',
+            footer: true
+        }
     });
 
     initKanban(retro_id);
@@ -47,35 +80,67 @@ document.addEventListener('DOMContentLoaded', function () {
             title: e.data.name + ' - ' + e.data.description
         });
     });
+
+        Echo.channel('retro.' + retro_id)
+        .listen('.card-move-update', (e) => {
+            console.log("📡 Carte déplacée via Pusher :", e);
+        
+            KanbanTest.removeElement(String(e.id));
+        
+            KanbanTest.addElement(String(e.column_id), {
+                id: String(e.id),
+                title: e.name
+            });
+        });
         
         
         // Gérer la création de colonne via AJAX
-        document.getElementById('formCreateGroup').addEventListener('submit', function (e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('nameInput').value;
-            const retroId = document.querySelector('input[name="retro_id"]').value;
-            
-            const formData = new FormData();
-            formData.append('name', name);
-            
-            fetch(`/retros/${retroId}/columns`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.column) {
-                    document.getElementById('nameInput').value = '';
-                } else {
-                    console.error('Erreur lors de la création de la colonne (data) :', data);
+        document.getElementById('createColumnBtn').addEventListener('click', function () {
+            Swal.fire({
+                title: 'Ajouter une colonne',
+                input: 'text',
+                inputLabel: 'Nom de la colonne',
+                inputPlaceholder: 'Entrer un nom...',
+                showCancelButton: true,
+                confirmButtonText: 'Créer',
+                cancelButtonText: 'Annuler',
+                preConfirm: (value) => {
+                    if (!value) {
+                        Swal.showValidationMessage('Le nom est requis');
+                    }
+                    return value;
                 }
-            })
-            .catch(err => console.error('Erreur AJAX :', err));
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const name = result.value;
+                    const retroId = document.getElementById('retro_id').getAttribute('data-id');
+        
+                    const formData = new FormData();
+                    formData.append('name', name);
+        
+                    fetch(`/retros/${retroId}/columns`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.column) {
+                            Swal.fire('✅ Colonne créée !', '', 'success');
+                        } else {
+                            Swal.fire('❌ Erreur !', 'Impossible de créer la colonne', 'error');
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        Swal.fire('❌ Erreur AJAX', '', 'error');
+                    });
+                }
+            });
         });
+        
         
         //ajax for initialization
         function initKanban(id){
@@ -102,33 +167,39 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         }
 
-        // For Card creation
-    
-        document.getElementById('submitBtn').addEventListener('click', function (e) {
-            e.preventDefault();  // Empêche l'action par défaut du bouton
-        
-            const name = document.getElementById('nameInputCard').value;
-            const columnId = document.getElementById('columnIdInputCard').value;
-        
-            fetch(`/retros/data`, {
-                method: 'POST',
+        function updateCardDatabase(cardId, columnId) {
+            fetch(`/retros/data/move`, {
+                method: 'PUT',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'Content-Type': 'application/json',  // Indiquer que le corps est en JSON
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    name: name,
-                    column_id: 247,
-                })
+                body: JSON.stringify({ column_id: columnId, card_id: cardId })
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erreur réseau avec statut ' + response.status);
-                }  // Si la réponse est ok, on la parse en JSON
-            })
-            .catch(err => console.error('Erreur AJAX :', err));
-        });
-        
+        }
 
-    
 });
+
+function createCardInDatabase(boardId, name) {
+    fetch(`/retros/data`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: name,
+            column_id: boardId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.card) {
+            KanbanTest.addElement(String(boardId), {
+                id: String(data.card.id),
+                title: data.card.name
+            });
+        } else {
+        }
+    })
+}
