@@ -71,7 +71,6 @@ Route::group(['middleware' => ['web']], function(){
     Route::get('/retros/{retro}', [RetroController::class, 'show'])->name('retros.show');
     Route::delete('/retros/{retro}', [RetroController::class, 'destroy'])->name('retros.destroy');
 
-    Route::post('retros/data', [RetrosDataController::class, 'store'])->name('retros.data.create');
     
     Route::post('/retros/{retro}/columns', [RetrosColumnsController::class, 'store'])->name('retros.columns.create');
     Broadcast::channel('retro', function ($user) {
@@ -79,6 +78,8 @@ Route::group(['middleware' => ['web']], function(){
     });
 
     Route::get('/retros/{id}/fetch', [RetroController::class, 'fetch'])->name('retros.fetch');
+    Route::post('/retros/data', [RetrosDataController::class, 'store'])->name('retros.data.store');
+
     
 });
 

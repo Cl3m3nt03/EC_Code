@@ -30,7 +30,19 @@
         <button type="submit">Créer une colonne</button>
     </form>
 
-    
+    <div class="card mt-5">
+
+    <form id="formCreateCard">
+    @csrf
+    <label>Nom de la carte</label>
+    <input type="text" name="name" id="nameInputCard" required />
+
+    <label>Description</label>
+    <input type="hidden" name="column_id" id="columnIdInputCard" value="1" />
+
+    <button type="button" id="submitBtn">Créer une carte</button>
+</form>
+    </div>
 
     <script src="{{ asset('js/jkanban.min.js') }}"></script>
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>

@@ -37,7 +37,16 @@ document.addEventListener('DOMContentLoaded', function () {
             }]);
             
         });
+        
+        Echo.channel('retro.' + retro_id)
+        .listen('.retros-data-created', (e) => {
+        console.log("Carte reçue :", e.data);
 
+        KanbanTest.addElement(String(e.data.column_id), {
+            id: String(e.data.id),
+            title: e.data.name + ' - ' + e.data.description
+        });
+    });
         
         
         // Gérer la création de colonne via AJAX
@@ -92,5 +101,34 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.error('Erreur lors de la récupération des colonnes :', error);
                 });
         }
+
+        // For Card creation
+    
+        document.getElementById('submitBtn').addEventListener('click', function (e) {
+            e.preventDefault();  // Empêche l'action par défaut du bouton
+        
+            const name = document.getElementById('nameInputCard').value;
+            const columnId = document.getElementById('columnIdInputCard').value;
+        
+            fetch(`/retros/data`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json',  // Indiquer que le corps est en JSON
+                },
+                body: JSON.stringify({
+                    name: name,
+                    column_id: 247,
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur réseau avec statut ' + response.status);
+                }  // Si la réponse est ok, on la parse en JSON
+            })
+            .catch(err => console.error('Erreur AJAX :', err));
+        });
+        
+
     
 });
