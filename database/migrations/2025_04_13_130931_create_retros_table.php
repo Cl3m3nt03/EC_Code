@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->foreignId('promotion_id')->nullable()->constrained('promotions')->onDelete('set null');
+            $table->foreignId('creator_id')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -24,6 +25,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('retros', function (Blueprint $table) {
+            $table->dropForeign(['creator_id']);
+            $table->dropColumn('creator_id');
+        });
+
         Schema::dropIfExists('retros');
     }
 };

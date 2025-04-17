@@ -32,21 +32,21 @@ class RetroController extends Controller
      * @param Request $request
      */
 
-     public function create(Request $request) {
-        $validated = $request->validate([
-            'promotion_id' => 'required|exists:promotions,id',
-            'name' => 'required|string|max:255',
-        ]);        
-
-        
-        $validated = Retro::create([
-            'promotion_id' => $validated['promotion_id'],
-            'name' => $validated['name'],
-        ]);
-
-    
-        return redirect()->route('retros.show', $validated->id)->with('success', 'Rétrospective créée avec succès.');
-    }
+     public function create(Request $request)
+     {
+         $validated = $request->validate([
+             'promotion_id' => 'required|exists:promotions,id',
+             'name' => 'required|string|max:255',
+         ]);        
+     
+         $retro = Retro::create([
+             'promotion_id' => $validated['promotion_id'],
+             'name' => $validated['name'],
+             'creator_id' => Auth::user()->id, 
+         ]);
+     
+         return redirect()->route('retros.show', $retro->id)->with('success', 'Rétrospective créée avec succès.');
+     }
 
     /**
      * Function to show a retro
