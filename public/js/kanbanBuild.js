@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 preConfirm: () => {
                     const title = Swal.getInput().value;
                     if (!title) {
-                        Swal.showValidationMessage('Veuillez entrer un nom pour la carte');
+                        Swal.showValidationMessage('Veuillez entrer un nom pour une carte');
                     }
                     return title;
                 }
