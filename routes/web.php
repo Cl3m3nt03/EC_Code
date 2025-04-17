@@ -81,6 +81,7 @@ Route::group(['middleware' => ['web']], function(){
     Route::post('/retros/data', [RetrosDataController::class, 'store'])->name('retros.data.store');
     Route::put('/retros/data/move', [RetroController::class, 'moveCard'])->name('card.move');    
     Route::put('/retros/data/{retrosData}', [RetrosDataController::class, 'update'])->name('retros.data.update');
+    Route::delete('/retros/data/{retrosData}', [RetrosDataController::class, 'deleteCard'])->name('retros.data.destroy');
     
 });
 

@@ -37,8 +37,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 inputValue: currentText,
                 inputLabel: 'Nom de la carte',
                 inputPlaceholder: 'Nom de la carte...',
+                showDenyButton: true,
                 showCancelButton: true,
-                confirmButtonText: 'Modifier',
+                confirmButtonText: '💾 Modifier',
+                denyButtonText: '🗑 Supprimer',
                 cancelButtonText: 'Annuler',
                 preConfirm: () => {
                     const title = Swal.getInput().value;
@@ -50,6 +52,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }).then((result) => {
                 if (result.isConfirmed) {
                     updateCardInDatabase(cardId, result.value, el);
+                } else if (result.isDenied) {
+                    deleteCardInDatabase(cardId);
                 }
             });
         },
@@ -117,6 +121,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 id: String(e.id),
                 title: e.name
             });
+        });
+
+        Echo.channel('retro-card.' + retro_id)
+        .listen('.retros-data-deleted', (e) => {
+            const cardId = e.data.id;
+
+            // Supprime la carte du DOM
+            const cardElement = document.querySelector(`[data-eid="${cardId}"]`);
+            if (cardElement) {
+                cardElement.remove();
+            }
+
+            console.log(`Carte ${cardId} supprimée via broadcast.`);
         });
         
         console.log("Je me connecte au canal : retro-card." + retro_id);
@@ -228,7 +245,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 body: JSON.stringify({ column_id: columnId, card_id: cardId })
             })
         }
-
 });
 
 function createCardInDatabase(boardId, name) {
@@ -255,6 +271,29 @@ function createCardInDatabase(boardId, name) {
     })
 }
 
+function deleteCardInDatabase(cardId) {
+    fetch(`/retros/data/${cardId}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            KanbanTest.removeElement(cardId);
+            Swal.fire('Supprimé !', 'La carte a été supprimée.', 'success');
+        } else {
+            Swal.fire('Erreur', 'Impossible de supprimer la carte.', 'error');
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        Swal.fire('Erreur', 'Une erreur est survenue.', 'error');
+    });
+}
+
 function updateCardInDatabase(cardId, newName, cardElement) {
     fetch(`/retros/data/${cardId}`, {
         method: 'PUT',
@@ -266,7 +305,13 @@ function updateCardInDatabase(cardId, newName, cardElement) {
             name: newName
         })
     })
-    .then(response => response.json())
+    .then(response => {
+        // Vérifie si la réponse est valide
+        if (!response.ok) {
+            throw new Error('Erreur serveur');
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.data) {
             cardElement.innerText = data.data.name;
@@ -276,7 +321,11 @@ function updateCardInDatabase(cardId, newName, cardElement) {
         }
     })
     .catch(error => {
-        console.error(error);
+        console.error('Erreur:', error);
         Swal.fire('Erreur', 'Une erreur est survenue.', 'error');
     });
 }
+
+
+
+

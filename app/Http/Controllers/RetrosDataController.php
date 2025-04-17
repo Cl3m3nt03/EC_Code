@@ -5,6 +5,7 @@ use App\Models\RetrosData;
 use App\Models\RetrosColumns;
 use App\Events\RetrosDataCreate;
 use App\Events\RetrosDataUpdate;
+use App\Events\RetrosDataDelete;
 
 use Illuminate\Http\Request;
 
@@ -52,6 +53,7 @@ class RetrosDataController extends Controller
         {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
+                'column_id' => 'sometimes|exists:retros_columns,id',
             ]);
 
             $retrosData->update($validated);
@@ -63,6 +65,24 @@ class RetrosDataController extends Controller
             return response()->json([
                 'message' => 'Carte mise à jour avec succès',
                 'data' => $retrosData
+            ]);
+        }
+
+        /**
+         * function to delete a card
+         * @param RetrosData $retrosData
+         */
+
+        public function deleteCard(RetrosData $retrosData)
+        {
+            $retro_id = $retrosData->column->retro_id;
+
+            $retrosData->delete();
+
+            broadcast(new RetrosDataDelete( $retrosData , $retro_id));
+
+            return response()->json([
+                'message' => 'Carte supprimée avec succès',
             ]);
         }
 }
