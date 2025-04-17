@@ -27,6 +27,32 @@ document.addEventListener('DOMContentLoaded', function () {
             const newColumnId = target.parentElement.dataset.id;
             updateCardDatabase(cardId, newColumnId);
         },
+        click: function (el) {
+            const cardId = el.getAttribute("data-eid");
+            const currentText = el.innerText;
+        
+            Swal.fire({
+                title: 'Modifier la carte',
+                input: 'text',
+                inputValue: currentText,
+                inputLabel: 'Nom de la carte',
+                inputPlaceholder: 'Nom de la carte...',
+                showCancelButton: true,
+                confirmButtonText: 'Modifier',
+                cancelButtonText: 'Annuler',
+                preConfirm: () => {
+                    const title = Swal.getInput().value;
+                    if (!title) {
+                        Swal.showValidationMessage('Veuillez entrer un nom pour la carte');
+                    }
+                    return title;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    updateCardInDatabase(cardId, result.value, el);
+                }
+            });
+        },
         buttonClick: function (el, boardId) {
             Swal.fire({
                 title: 'Ajouter une carte',
@@ -93,6 +119,31 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
         
+        console.log("Je me connecte au canal : retro-card." + retro_id);
+        Echo.channel('retro-card.' + retro_id)
+        .listen('.retros-data-updated', (e) => {
+            console.log("Carte MAJ via Pusher :", e.data);
+    
+            const cardId = String(e.data.id);
+            const newName = e.data.name;
+            const columnId = String(e.data.column_id);
+    
+            const cardEl = document.querySelector(`[data-eid="${cardId}"]`);
+    
+            if (cardEl) {
+                cardEl.innerText = newName;
+            } else {
+                const card = KanbanTest.findElement(cardId);
+                if (card) {
+                    KanbanTest.removeElement(cardId);
+                }
+    
+                KanbanTest.addElement(columnId, {
+                    id: cardId,
+                    title: newName
+                });
+            }
+        });
         
         // Gérer la création de colonne via AJAX
         document.getElementById('createColumnBtn').addEventListener('click', function () {
@@ -202,4 +253,30 @@ function createCardInDatabase(boardId, name) {
         } else {
         }
     })
+}
+
+function updateCardInDatabase(cardId, newName, cardElement) {
+    fetch(`/retros/data/${cardId}`, {
+        method: 'PUT',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: newName
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.data) {
+            cardElement.innerText = data.data.name;
+            Swal.fire('Modifié !', 'La carte a été mise à jour.', 'success');
+        } else {
+            Swal.fire('Erreur', 'Impossible de mettre à jour la carte.', 'error');
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        Swal.fire('Erreur', 'Une erreur est survenue.', 'error');
+    });
 }

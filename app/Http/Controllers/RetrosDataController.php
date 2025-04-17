@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\RetrosData;
 use App\Models\RetrosColumns;
 use App\Events\RetrosDataCreate;
+use App\Events\RetrosDataUpdate;
 
 use Illuminate\Http\Request;
 
@@ -41,4 +42,27 @@ class RetrosDataController extends Controller
              'data' => $retrosData
          ]);
      }
+
+     /**
+      * function to update a card
+      * @param Request $request
+      */
+
+        public function update(Request $request, RetrosData $retrosData)
+        {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+            ]);
+
+            $retrosData->update($validated);
+
+            $retro_id = $retrosData->column->retro_id;
+
+            broadcast(new RetrosDataUpdate( $retrosData , $retro_id));
+
+            return response()->json([
+                'message' => 'Carte mise à jour avec succès',
+                'data' => $retrosData
+            ]);
+        }
 }

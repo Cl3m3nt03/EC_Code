@@ -80,7 +80,7 @@ Route::group(['middleware' => ['web']], function(){
     Route::get('/retros/{id}/fetch', [RetroController::class, 'fetch'])->name('retros.fetch');
     Route::post('/retros/data', [RetrosDataController::class, 'store'])->name('retros.data.store');
     Route::put('/retros/data/move', [RetroController::class, 'moveCard'])->name('card.move');    
-
+    Route::put('/retros/data/{retrosData}', [RetrosDataController::class, 'update'])->name('retros.data.update');
     
 });
 

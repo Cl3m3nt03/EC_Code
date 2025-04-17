@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <meta name="csrf-token" content="{{ csrf_token() }}">   
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <label>
             <a href="{{ route('retro.index') }}" class="text-gray-500 hover:text-gray-700">
                 <i class="fas fa-arrow-left"></i> Retour à la liste des rétrospectives
@@ -22,7 +22,12 @@
 
 
 
-    <button id="createColumnBtn">➕ Créer une colonne</button>
+
+    <button class="btn btn-outline btn-info" id="createColumnBtn">
+        Créer une carte
+        <i class="ki-outline ki-plus-squared">
+        </i>
+    </button>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{{ asset('css/jkanban.css') }}">
@@ -30,6 +35,6 @@
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.3/dist/echo.iife.js"></script>
     <script src="{{ asset('js/kanbanBuild.js') }}"></script>
-    <link href="{{ asset('./css/styles.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('./css/styles.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/jkanban.min.css') }}">
 </x-app-layout>
