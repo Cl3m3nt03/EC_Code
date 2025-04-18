@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\UserSchool;
+
 
 class User extends Authenticatable
 {
@@ -85,8 +87,12 @@ class User extends Authenticatable
             ->first();
     }
 
-    public function schoolRoles(){
-        return $this -> hasMany(UserSchool::class);
+/**
+ * @return \Illuminate\Database\Eloquent\Relations\HasMany
+ */
+    public function schoolRoles()
+    {
+        return $this->hasMany(UserSchool::class, 'user_id');
     }
     
 
@@ -100,5 +106,10 @@ class User extends Authenticatable
                     ->withPivot('promotion_id') // Si tu utilises un champ supplémentaire dans la table pivot
                     ->withTimestamps();
     }
-    
+
+    public function rule_user()
+    {
+        return $this->hasMany(UserSchool::class,'role');
+    }
+
 }

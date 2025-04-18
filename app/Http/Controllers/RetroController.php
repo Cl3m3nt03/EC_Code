@@ -6,25 +6,54 @@ use App\Models\Retro;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\RetrosColumns;
 use App\Models\RetrosData;
 use Illuminate\Http\JsonResponse;
-use App\Models\RetrosColumn;
+use App\Models\User;
 use App\Events\CardMoovUpdate;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Foundation\Auth\Access\AuthorizationException;
 
 class RetroController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display the page
      *
      * @return Factory|View|Application|object
      */
-    public function index() {
-        return view('pages.retros.index');
+    public function index()
+    {
+        $user = Auth::user(); 
+        $userSchool = $user->schoolRoles()->first();
+        $role = $userSchool->role ?? 'student';
+        
+    
+        if (in_array($role,['admin'])) {
+            $retros = Retro::all();
+            return view('pages.retros.index', [
+                'retros' => $retros,
+            ]);
+        } 
+
+        if (in_array($role,['teacher'])) {
+            $retros = Retro::where('creator_id', $user->id)->get();
+            return view('pages.retros.index', compact('retros'));
+        }
+
+        if (in_array($role,['student'])) {
+            $retros = Retro::all();
+            return view('pages.retros.index', [
+                'retros' => $retros,
+            ]);
+        }        
+
     }
+    
 
     /**
      * Function to create a new retro

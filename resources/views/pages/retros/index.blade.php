@@ -53,6 +53,6 @@
             </div>
         </div>
     </div>
-@include('pages.retros.modalDataTable')
+@include('pages.retros.DataTable')
 
 </x-app-layout>

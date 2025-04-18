@@ -13,7 +13,7 @@
    </label>
   </div>
   <div class="card-body">
-   <div data-datatable="true" data-datatable-page-size="5" data-datatable-state-save="true" id="datatable_1">
+   <div data-datatable="true" data-datatable-page-size="5" data-datatable-state-save="true" id="retro" name="retro">
     <div class="scrollable-x-auto">
      <table class="table table-auto table-border" data-datatable-table="true">
       <thead>
@@ -69,13 +69,13 @@
       </thead>
       <tbody>
        <tr>
-       @foreach (\App\Models\Retro::all() as $retro)
+       @foreach ($retros as $retro)
         <tr>
         <td class="text-center">
             <span class="badge badge-dot size-2 bg-success"></span>
         </td>
         <td>
-            {{ $retro->created_at->format('d/m/Y') }}
+            {{ $retro->created_at }}
         </td>
         <td>
             {{ $retro->name }}
