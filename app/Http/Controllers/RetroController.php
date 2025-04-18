@@ -131,6 +131,11 @@ class RetroController extends Controller
         ]);
     }
 
+    /**
+     * Function for Moving a card
+     * @param Request $request
+     * @return JsonResponse
+     */
 
     public function moveCard(Request $request): JsonResponse
     {

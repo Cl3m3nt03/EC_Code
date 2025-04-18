@@ -5,8 +5,8 @@ let retro_id;
 let KanbanTest;
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Récupérer les IDs
 
+    // get user_id 
     const retroElement = document.getElementById('retro_id');
     if (retroElement) {
         retro_id = retroElement.getAttribute('data-id');
@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     
-    // Initialiser jKanban avec les colonnes existantes
+
+    //initilized kanban with columns existing
     KanbanTest = new jKanban({
         element: '#kanban',
         gutter: '15px',
@@ -89,7 +90,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     initKanban(retro_id);
 
-    console.log(retro_id);
+
+    /**
+     * Listen for Pusher events
+     * For the column creation
+     */
+
+        console.log(retro_id);
         Echo.channel('retro.' + retro_id)
         .listen('.retros-column-created', (e) => {
             console.log("Colonne reçue via event :", e);
@@ -100,6 +107,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }]);
             
         });
+
+        /**
+         * Listen for Pusher events
+         * For the card creation
+         */
         
         Echo.channel('retro.' + retro_id)
         .listen('.retros-data-created', (e) => {
@@ -109,7 +121,14 @@ document.addEventListener('DOMContentLoaded', function () {
             id: String(e.data.id),
             title: e.data.name + ' - ' + e.data.description
         });
-    });
+        });
+
+
+        /**
+         * Listen for Pusher events
+         * For the card move
+         * This event is triggered when a card is moved from one column to another
+         */
 
         Echo.channel('retro.' + retro_id)
         .listen('.card-move-update', (e) => {
@@ -123,6 +142,12 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
+        /**
+         * Listen for Pusher events
+         * For the card deletion
+         * This event is triggered when a card is deleted
+         */
+
         Echo.channel('retro-card.' + retro_id)
         .listen('.retros-data-deleted', (e) => {
             const cardId = e.data.id;
@@ -135,6 +160,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             console.log(`Carte ${cardId} supprimée via broadcast.`);
         });
+
+        /**
+         * Listen for Pusher events
+         * For the card update
+         * This event is triggered when a card is updated
+         */
         
         console.log("Je me connecte au canal : retro-card." + retro_id);
         Echo.channel('retro-card.' + retro_id)
@@ -162,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         
-        // Gérer la création de colonne via AJAX
+        // Manage the creation of column via AJAX
         document.getElementById('createColumnBtn').addEventListener('click', function () {
             Swal.fire({
                 title: 'Ajouter une colonne',
@@ -235,6 +266,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         }
 
+        /**
+         * Function to update the card in the database
+         * @param {*} cardId 
+         * @param {*} columnId 
+         */
+
         function updateCardDatabase(cardId, columnId) {
             fetch(`/retros/data/move`, {
                 method: 'PUT',
@@ -246,6 +283,12 @@ document.addEventListener('DOMContentLoaded', function () {
             })
         }
 });
+
+/**
+ * Function to create a card in the database
+ * @param {*} boardId 
+ * @param {*} name 
+ */
 
 function createCardInDatabase(boardId, name) {
     fetch(`/retros/data`, {
@@ -271,6 +314,11 @@ function createCardInDatabase(boardId, name) {
     })
 }
 
+/**
+ * Function to delete a card in the database
+ * @param {*} cardId 
+ */
+
 function deleteCardInDatabase(cardId) {
     fetch(`/retros/data/${cardId}`, {
         method: 'DELETE',
@@ -293,6 +341,13 @@ function deleteCardInDatabase(cardId) {
         Swal.fire('Erreur', 'Une erreur est survenue.', 'error');
     });
 }
+
+/**
+ * Function to update a card in the database
+ * @param {*} cardId 
+ * @param {*} newName 
+ * @param {*} cardElement 
+ */
 
 function updateCardInDatabase(cardId, newName, cardElement) {
     fetch(`/retros/data/${cardId}`, {

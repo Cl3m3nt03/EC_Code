@@ -100,10 +100,11 @@ class User extends Authenticatable
         return $this->belongsTo(Promotion::class);
     }
 
+
     public function groupes()
     {
         return $this->belongsToMany(Groupe::class)
-                    ->withPivot('promotion_id') // Si tu utilises un champ supplémentaire dans la table pivot
+                    ->withPivot('promotion_id') 
                     ->withTimestamps();
     }
 

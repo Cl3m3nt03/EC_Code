@@ -29,6 +29,7 @@
         </i>
     </button>
 
+    <!-- Insert link and script -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{{ asset('css/jkanban.css') }}">
     <script src="{{ asset('js/jkanban.min.js') }}"></script>
@@ -37,4 +38,5 @@
     <script src="{{ asset('js/kanbanBuild.js') }}"></script>
     <link href="{{ asset('./css/styles.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/jkanban.min.css') }}">
+
 </x-app-layout>
