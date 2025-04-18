@@ -3,14 +3,8 @@
  <div class="card card-grid min-w-full">
   <div class="card-header py-5 flex-wrap">
    <h3 class="card-title">
-    Static DataTable
+    Dashboard des rétrospectives
    </h3>
-   <label class="switch switch-sm">
-    <input checked="" class="order-2" name="check" type="checkbox" value="1"/>
-    <span class="switch-label order-1">
-     Push Alerts
-    </span>
-   </label>
   </div>
   <div class="card-body">
    <div data-datatable="true" data-datatable-page-size="5" data-datatable-state-save="true" id="retro" name="retro">
@@ -39,7 +33,7 @@
         <th class="w-[185px]">
          <span class="sort">
           <span class="sort-label">
-           Label
+           Id 
           </span>
           <span class="sort-icon">
           </span>

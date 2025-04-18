@@ -23,11 +23,12 @@
 
 
 
-    <button class="btn btn-outline btn-info" id="createColumnBtn">
-        Créer une carte
-        <i class="ki-outline ki-plus-squared">
-        </i>
-    </button>
+    <div class="flex justify-center my-4">
+        <button class="btn btn-outline btn-info flex items-center gap-2" id="createColumnBtn">
+            <span>Créer une carte</span>
+            <i class="ki-outline ki-plus-squared"></i>
+        </button>
+    </div>
 
     <!-- Insert link and script -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

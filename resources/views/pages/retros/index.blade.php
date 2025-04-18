@@ -24,7 +24,7 @@
             <button class="btn btn-success" data-modal-toggle="#modal_1_1">
                 <i class="ki-outline ki-plus-squared">
                 </i>
-                Créer un groupe
+                Créer une retrospective
             </button>
         </div>
     </div>
@@ -38,9 +38,10 @@
                 </button>
             </div>
             <div class="modal-body">
+                <!-- Forms for create a retro -->
             <form method="POST" id="formCreateGroup" action="{{ route('retros.create') }}">
                 @csrf
-                <label class="label">Nom du groupe</label>
+                <label class="label">Nom de la retrospective</label>
                 <input class="input" placeholder="Text input" type="text" name="name" required/>
                 <label class="label">Sélectionnez Promotion</label>
                 <select class="select" name="promotion_id" required>
